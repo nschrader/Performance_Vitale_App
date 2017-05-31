@@ -1,0 +1,177 @@
+<html>
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['gauge']});
+      google.charts.setOnLoadCallback(drawChart);
+      google.charts.setOnLoadCallback(drawChart1);
+      google.charts.setOnLoadCallback(drawChart2);
+      google.charts.setOnLoadCallback(drawChart3);
+      google.charts.setOnLoadCallback(drawChart4);
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Performance', 80],
+
+        ]);
+
+        var options = {
+          width: 2000, height: 600,
+          greenFrom: 75, greenTo:100,
+          redFrom: 0, redTo: 25,
+          yellowFrom:25, yellowTo: 75,
+          minorTicks: 5
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+
+
+        setInterval(function() {
+          data.setValue(0, 1, Android.getPerformance());
+          chart.draw(data, options);
+        }, 500);
+
+
+
+      }
+
+      function drawChart1() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Temperature', 1],
+
+        ]);
+
+        var options = {
+          width: 1000, height: 370,
+          greenFrom: 75, greenTo:100,
+          redFrom: 0, redTo: 25,
+          yellowFrom:25, yellowTo: 75,
+          minorTicks: 5
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('chart_div1'));
+
+        chart.draw(data, options);
+
+
+        setInterval(function() {
+          data.setValue(0, 1, Android.getTemperature());
+          chart.draw(data, options);
+        }, 500);
+
+
+
+      }
+      function drawChart2() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Humidité', 2],
+
+        ]);
+
+        var options = {
+          width: 1000, height: 370,
+          greenFrom: 75, greenTo:100,
+          redFrom: 0, redTo: 25,
+          yellowFrom:25, yellowTo: 75,
+          minorTicks: 5
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('chart_div2'));
+
+        chart.draw(data, options);
+
+
+        setInterval(function() {
+          data.setValue(0, 1, Android.getHumidite() );
+          chart.draw(data, options);
+        }, 500);
+
+
+
+      }
+      function drawChart3() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['CO2', 80],
+
+        ]);
+
+        var options = {
+          width: 1000, height: 370,
+          greenFrom: 75, greenTo:100,
+          redFrom: 0, redTo: 25,
+          yellowFrom:25, yellowTo: 75,
+          minorTicks: 5
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('chart_div3'));
+
+        chart.draw(data, options);
+
+
+        setInterval(function() {
+          data.setValue(0, 1, Android.getCO2() );
+          chart.draw(data, options);
+        }, 500);
+
+
+
+      }
+      function drawChart4() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Luminosité', 4],
+
+        ]);
+
+        var options = {
+          width: 1000, height: 370,
+          greenFrom: 75, greenTo:100,
+          redFrom: 0, redTo: 25,
+          yellowFrom:25, yellowTo: 75,
+          minorTicks: 5
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('chart_div4'));
+
+        chart.draw(data, options);
+
+
+        setInterval(function() {
+          data.setValue(0, 1, Android.getLuminosite() );
+          chart.draw(data, options);
+        }, 500);
+
+
+
+      }
+
+    </script>
+</head>
+<body>
+<center id="chart_div" ></center>
+
+<center>
+    <div style="display: inline-block" id="chart_div1"  ></div>
+    <span style="display:inline-block; width: 50;"></span>
+    <div style="display: inline-block" id="chart_div2"  ></div>
+</center>
+<center>
+    <div style="display: inline-block" id="chart_div3"  ></div>
+    <span style="display:inline-block; width: 50;"></span>
+    <div style="display: inline-block" id="chart_div4"  ></div>
+</center>
+
+
+</body>
+</html>

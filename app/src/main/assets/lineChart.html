@@ -1,0 +1,40 @@
+<html>
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['line']});
+      google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('date', "Moment mesure");
+        data.addColumn('number', Android.getNom());
+        data.addColumn('number', "Max");
+        data.addColumn('number', "Min");
+
+
+	for(i=0;i<Android.getSize();i++){
+    	data.addRows([[new Date(Android.getYear(i), Android.getMonth(i), Android.getDay(i),Android.getHour(i),Android.getMinute(i)),Android.getValeur(i),Android.getMax(),Android.getMin()]]);
+
+    }
+
+
+
+      var options = {
+        title: Android.getNom(),
+        width: 800,
+        height: 500,
+
+      };
+
+      var chart = new google.charts.Line(document.getElementById('line_top_x'));
+
+      chart.draw(data, google.charts.Line.convertOptions(options));
+    }
+  </script>
+</head>
+<body>
+<div id="line_top_x"></div>
+</body>
+</html>
