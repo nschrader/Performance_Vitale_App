@@ -2,10 +2,13 @@ package davidfdez.capteuratmospherique;
 
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -13,11 +16,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
-    android.support.v7.app.ActionBarDrawerToggle mDrawerToggle;
+    private Toolbar toolbar;
+    private ActionBarDrawerToggle mDrawerToggle;
     private String[] mNavigationDrawerItemTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -37,17 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         user = bundle.getString("user");
-
-        /////BORRAR
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administracion", null, 1);
-        admin.introduireDesMesures("" + 1, user, 1, 2.0, 2.0, 1, 1, "45.7850308", "4.8772527");
-        admin.introduireDesMesures("" + 2, user, 2, 2.0, 2.0, 1, 1, "45.7850308", "4.8772527");
-        admin.introduireDesMesures("" + 3, user, 3, 2.0, 2.0, 1, 1, "45.7850308", "4.8772527");
-        admin.introduireDesMesures("" + 4, user, 4, 2.0, 2.0, 1, 1, "45.7850300", "4.8772527");
-        admin.introduireDesMesures("" + 5, user, 2, 2.0, 2.0, 1, 1, "45.7850328", "4.8772527");
-        admin.introduireDesMesures("" + 6, user, 3, 2.0, 2.0, 1, 1, "45.7850338", "4.8772527");
-
-        /////
         setupToolbar();
 
         DataModel[] drawerItem = new DataModel[6];
@@ -68,12 +61,23 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         setupDrawerToggle();
+    }
 
-
+    private void insertSQLTestData() {
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administracion", null, 1);
+        admin.introduireDesMesures(1, user, 1, 2.0, 2.0, 1, 1, "holo", "hey");
+        admin.introduireDesMesures(2, user, 2, 2.0, 2.0, 1, 1, "holo", "hey");
+        admin.introduireDesMesures(3, user, 3, 2.0, 2.0, 1, 1, "holo", "hey");
+        SQLiteDatabase bd = admin.getWritableDatabase();
+        Cursor fila = bd.rawQuery("select * from Mesure", null);
+        Toast.makeText(getApplicationContext(), "Ahora también! :D", Toast.LENGTH_LONG).show();
+        if (fila.moveToFirst()) {
+            String contenido = fila.getString(0) + ";" + fila.getString(1) + ";" + fila.getInt(2) + ";" + fila.getInt(3) + ";" + fila.getString(4) + ";" + fila.getString(5) + ";" + fila.getDouble(6) + ";" + fila.getDouble(7) + ";" + fila.getInt(8) + "\n";
+            Toast.makeText(this, contenido, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void selectItem(int position) {
-
         Fragment fragment = null;
 
         switch (position) {
@@ -129,11 +133,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -167,7 +169,6 @@ public class MainActivity extends AppCompatActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectItem(position);
         }
-
     }
 
 }

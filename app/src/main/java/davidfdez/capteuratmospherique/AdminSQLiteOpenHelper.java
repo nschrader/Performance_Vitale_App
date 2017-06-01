@@ -9,27 +9,27 @@ import android.view.View;
 
 
 public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
+
     public AdminSQLiteOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
-        db.execSQL("create table Mesure ( idMesure Varchar(25) Primary Key,idUser Varchar(15),Performance INTEGER,CO2messure INTEGER,Luminosite INTEGER, Latitude varchar(15), Longitude varchar(15), Temperature double, Humidite double, TempLum INTEGER, date Timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL)");
         db.execSQL("create table User (id Varchar(15) Primary Key, password Varchar(15))");
+        db.execSQL("create table Mesure ( idMesure INTEGER Primary Key,idUser Varchar(15),Performance double, CO2Mesure double,Luminosite double, Latitude varchar(15), Longitude varchar(15), Temperature double, Humidite double, TempLum double)");
     }
 
-    public boolean introduireDesMesures(String idMesure, String idUser, int CO2Mesure, double Humidite, double Temperature, int Luminosite, int TempLum, String Latitude, String Longitud) {
+    public boolean introduireDesMesures(long idMesure, String idUser, double CO2Mesure, double Humidite, double Temperature, double Luminosite, double TempLum, String Latitude, String Longitude) {
         SQLiteDatabase bd = this.getWritableDatabase();
         ContentValues registro = new ContentValues();
         registro.put("idMesure", idMesure);
         registro.put("idUser", idUser);
-        registro.put("Performance", 100); ////Formula Performance a hacer
+        registro.put("Performance", 50);
         registro.put("CO2Mesure", CO2Mesure);
         registro.put("Luminosite", Luminosite);
-        registro.put("Longitud", Longitud);
         registro.put("Latitude", Latitude);
+        registro.put("Longitude", Longitude);
         registro.put("Temperature", Temperature);
         registro.put("Humidite", Humidite);
         registro.put("TempLum", TempLum);
@@ -42,13 +42,13 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean checkMessure(String idMesure) {
+    public boolean checkMessure(long idMesure) {
         SQLiteDatabase bd = this.getWritableDatabase();
         boolean exists = false;
         Cursor fila = bd.rawQuery(
                 "select idMesure from Mesure where idMesure = '" + idMesure + "'", null);
         if (fila.moveToFirst()) {
-            if (fila.getString(0).equals(idMesure)) {
+            if (fila.getLong(0) == idMesure) {
                 exists = true;
             }
         } else {
@@ -73,7 +73,6 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
     }
 
     public boolean checkIfUserExists(String User) {
-
         SQLiteDatabase bd = this.getWritableDatabase();
         boolean exists = false;
         Cursor fila = bd.rawQuery(

@@ -8,7 +8,6 @@ public class DataModel {
 
     // Constructor.
     public DataModel(int icon, String name) {
-
         this.icon = icon;
         this.name = name;
     }

@@ -12,11 +12,11 @@ import java.util.List;
 
 
 public class Heatmap extends AppCompatActivity {
-    WebView webView;
-    List<Double> latitudesComfort = new ArrayList<>();
-    List<Double> longitudesComfort = new ArrayList<>();
-    List<Double> latitudesDiscomfort = new ArrayList<>();
-    List<Double> longitudesDiscomfort = new ArrayList<>();
+    private WebView webView;
+    private List<Double> latitudesComfort = new ArrayList<>();
+    private List<Double> longitudesComfort = new ArrayList<>();
+    private List<Double> latitudesDiscomfort = new ArrayList<>();
+    private List<Double> longitudesDiscomfort = new ArrayList<>();
     private String user = "";
 
     @Override
@@ -25,13 +25,10 @@ public class Heatmap extends AppCompatActivity {
         setContentView(R.layout.activity_heatmap);
 
         getOver50();
-        //getUnder50();
-
+        getUnder50();
 
         webView = (WebView) findViewById(R.id.heatmap);
-        //setContentView(webView);
         webView.addJavascriptInterface(new WebAppInterface(), "Android");
-
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
@@ -44,20 +41,23 @@ public class Heatmap extends AppCompatActivity {
                 "administracion", null, 1);
         SQLiteDatabase bd = admin.getWritableDatabase();
         Cursor fila = bd.rawQuery(
-                "select Latitude, Longitude from Mesure where idUser = '" + user + "' AND Performance > 50", null);
-/*
+                "select Latitude, Longitude from Mesure where Performance > 50", null);
+
         if (fila.moveToFirst()) {
-            String []  splittedLat = fila.getString(0).split(",");
-            String []  splittedLong = fila.getString(1).split(",");
+            String[] splittedLat = fila.getString(0).split(",");
+            String[] splittedLong = fila.getString(1).split(",");
             latitudesComfort.add(Double.parseDouble(splittedLat[0]));
             longitudesComfort.add(Double.parseDouble(splittedLong[0]));
-            while(fila.moveToNext()){
+
+
+            while (fila.moveToNext()) {
                 splittedLat = fila.getString(0).split(",");
                 splittedLong = fila.getString(1).split(",");
                 latitudesComfort.add(Double.parseDouble(splittedLat[0]));
                 longitudesComfort.add(Double.parseDouble(splittedLong[0]));
+
             }
-        }*/
+        }
     }
 
     public void getUnder50() {
@@ -65,54 +65,50 @@ public class Heatmap extends AppCompatActivity {
                 "administracion", null, 1);
         SQLiteDatabase bd = admin.getWritableDatabase();
         Cursor fila = bd.rawQuery(
-                "select Latitude, Longitude from Mesure where id = '" + user + "' and Performance < 50", null);
+                "select Latitude, Longitude from Mesure where Performance <= 50", null);
 
         if (fila.moveToFirst()) {
             String[] splittedLat = fila.getString(0).split(",");
             String[] splittedLong = fila.getString(1).split(",");
             latitudesDiscomfort.add(Double.parseDouble(splittedLat[0]));
-            latitudesDiscomfort.add(Double.parseDouble(splittedLong[0]));
+            longitudesDiscomfort.add(Double.parseDouble(splittedLong[0]));
+
+
             while (fila.moveToNext()) {
                 splittedLat = fila.getString(0).split(",");
                 splittedLong = fila.getString(1).split(",");
                 latitudesDiscomfort.add(Double.parseDouble(splittedLat[0]));
-                latitudesDiscomfort.add(Double.parseDouble(splittedLong[0]));
+                longitudesDiscomfort.add(Double.parseDouble(splittedLong[0]));
+
             }
         }
     }
 
     public class WebAppInterface {
+
         @JavascriptInterface
         public double getLatitude(int i) {
             return latitudesComfort.get(i);
-
-
         }
 
         @JavascriptInterface
         public double getLongitude(int i) {
             return longitudesComfort.get(i);
-
-
         }
 
         @JavascriptInterface
         public int getSize() {
-            return longitudesDiscomfort.size();
+            return longitudesComfort.size();
         }
 
         @JavascriptInterface
         public double getLatitudeDis(int i) {
             return latitudesDiscomfort.get(i);
-
-
         }
 
         @JavascriptInterface
         public double getLongitudeDis(int i) {
             return longitudesDiscomfort.get(i);
-
-
         }
 
         @JavascriptInterface

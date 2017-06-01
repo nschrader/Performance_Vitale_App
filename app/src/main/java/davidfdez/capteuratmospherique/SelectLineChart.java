@@ -20,45 +20,41 @@ public class SelectLineChart extends AppCompatActivity {
     private Button buttonDateTo;
     private Date dateFrom;
     private Date dateTo;
-    private RadioButton temperature, humidite, co2, chaleur, eclairage;
+    private RadioButton temperature, co2, humidite, chaleur, eclairage, performance;
+
     @SuppressWarnings("deprecation")
     private DatePickerDialog.OnDateSetListener myDateListener = new
             DatePickerDialog.OnDateSetListener() {
                 @Override
-                public void onDateSet(DatePicker arg0,
-                                      int arg1, int arg2, int arg3) {
-                    // TODO Auto-generated method stub
-
-                    dateFrom = new Date(arg1, arg2 + 1, arg3);
+                public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
+                    dateFrom = new Date(arg1, arg2, arg3);
                     buttonDateFrom.setText("From: " + String.valueOf(dateFrom.getDate()) + "/" + String.valueOf(dateFrom.getMonth()) + "/" + String.valueOf(dateFrom.getYear()));
                 }
             };
+
     @SuppressWarnings("deprecation")
     private DatePickerDialog.OnDateSetListener myDateListener2 = new
             DatePickerDialog.OnDateSetListener() {
                 @Override
-                public void onDateSet(DatePicker arg0,
-                                      int arg1, int arg2, int arg3) {
-                    // TODO Auto-generated method stub
-
-                    dateTo = new Date(arg1, arg2 + 1, arg3);
+                public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
+                    dateTo = new Date(arg1, arg2, arg3);
                     buttonDateTo.setText("To: " + String.valueOf(dateTo.getDate()) + "/" + String.valueOf(dateTo.getMonth()) + "/" + String.valueOf(dateTo.getYear()));
                 }
             };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
-
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
-        dateFrom = null;
-        dateTo = null;
+
+        dateFrom = new Date(2016, 10, 10);
+        dateTo = new Date(2020, 11, 11);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_line_chart);
+
         buttonDateFrom = (Button) findViewById(R.id.date1);
         buttonDateTo = (Button) findViewById(R.id.date2);
         temperature = (RadioButton) findViewById(R.id.temperature);
@@ -66,7 +62,8 @@ public class SelectLineChart extends AppCompatActivity {
         co2 = (RadioButton) findViewById(R.id.co2);
         chaleur = (RadioButton) findViewById(R.id.chaleur);
         eclairage = (RadioButton) findViewById(R.id.eclairage);
-
+        performance = (RadioButton) findViewById(R.id.performance);
+        temperature.setChecked(true);
         buttonDateFrom.setText("Select Date From");
         buttonDateTo.setText("Select Date To");
 
@@ -85,7 +82,6 @@ public class SelectLineChart extends AppCompatActivity {
 
     @Override
     protected Dialog onCreateDialog(int id) {
-        // TODO Auto-generated method stub
         if (id == 999) {
             return new DatePickerDialog(this,
                     myDateListener, year, month, day);
@@ -103,27 +99,27 @@ public class SelectLineChart extends AppCompatActivity {
         if (temperature.isChecked() == true) {
             capteur = "Temperature";
         } else if (co2.isChecked() == true) {
-            capteur = "CO2";
+            capteur = "CO2Mesure";
         } else if (eclairage.isChecked() == true) {
-            capteur = "Eclairage";
+            capteur = "Luminosite";
         } else if (chaleur.isChecked() == true) {
-            capteur = "Chaleur lumiere";
+            capteur = "TempLum";
+        } else if (performance.isChecked() == true) {
+            capteur = "Performance";
         } else {
             capteur = "Humidite";
         }
 
         Intent i = new Intent(this, ShowLineChart.class);
         i.putExtra("capteur", capteur);
-        i.putExtra("yearFrom", dateFrom.getYear());
+        i.putExtra("yearFrom", dateFrom.getYear() - 1900);
         i.putExtra("monthFrom", dateFrom.getMonth());
         i.putExtra("dayFrom", dateFrom.getDate());
-        i.putExtra("yearTo", dateTo.getYear());
+        i.putExtra("yearTo", dateTo.getYear() - 1900);
         i.putExtra("monthTo", dateTo.getMonth());
-        i.putExtra("dayTo", dateTo.getDate());
+        i.putExtra("dayTo", dateTo.getDate() + 1);
 
         startActivity(i);
-
-
     }
 
 }

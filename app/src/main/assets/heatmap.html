@@ -37,16 +37,18 @@
         top: 10px;
         z-index: 5;
       }
-
     </style>
 </head>
 
 <body>
 <div id="floating-panel">
-    <button onclick="toggleHeatmap()">Comfort</button>
-    <button onclick="discomfort()">Discomfort</button>
-    <button onclick="changeRadius()">Change radius</button>
-    <button onclick="changeOpacity()">Change opacity</button>
+    <button onclick="toggleHeatmap()" style="width:190px;height:60px;font-size : 25px;">Comfort
+    </button>
+    <button onclick="discomfort()" style="width:190px;height:60px;font-size : 25px;">Discomfort
+    </button>
+    <button onclick="changeRadius()" style="width:190px;height:60px;font-size : 25px;">Change
+        radius
+    </button>
 </div>
 <div id="map"></div>
 <script>
@@ -71,13 +73,18 @@
       }
 
       function toggleHeatmap() {
-        comfort = true;
-        changeGradient()
-        heatmap.setData(getPoints());
+        if(comfort==false){
+            comfort = true;
+            changeGradient();
+            heatmap.setData(getPoints());
+        }
       }
 	  function discomfort(){
-      		comfort=false;
-            heatmap.setData(getPoints());
+      		if(comfort==true){
+                comfort=false;
+                changeGradient();
+                heatmap.setData(getPoints());
+            }
 
       }
       function changeGradient() {

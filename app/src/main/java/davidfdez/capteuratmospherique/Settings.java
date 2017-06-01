@@ -3,7 +3,10 @@ package davidfdez.capteuratmospherique;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,18 +16,28 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Set;
 
 public class Settings extends AppCompatActivity {
     public static String EXTRA_ADDRESS = "device_address";
-    Button btnPaired;
-    Button btnExport;
-    ListView devicelist;
+
+    private Button btnPaired;
+    private Button btnExport;
+    private ListView devicelist;
     private String user = null;
+
     //Bluetooth
     private BluetoothAdapter myBluetooth = null;
     private Set<BluetoothDevice> pairedDevices;
+    private AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administracion", null, 1);
     private AdapterView.OnItemClickListener myListClickListener = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3) {
             // Get the device MAC address, the last 17 chars in the View
@@ -36,7 +49,6 @@ public class Settings extends AppCompatActivity {
             serviceIntent.putExtra(EXTRA_ADDRESS, address);
             serviceIntent.putExtra("user", user);
 
-            //startService(serviceIntent);
             startService(serviceIntent);
 
         }
@@ -92,7 +104,69 @@ public class Settings extends AppCompatActivity {
 
     }
 
-    public void enregistrer(View v) {
+    private boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        return Environment.MEDIA_MOUNTED.equals(state);
+    }
+
+    private void writeDBToFile(PrintWriter printWriter) {
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administracion", null, 1);
+        SQLiteDatabase bd = admin.getWritableDatabase();
+        Cursor fila = bd.rawQuery("select * from Mesure", null);
+        if (fila.moveToFirst()) {
+            do {
+                printWriter.format("%s, %s, %s, %s, %s, %s, %s, %s, %s, %s\n",
+                        fila.getString(0),
+                        fila.getString(1),
+                        String.valueOf(fila.getDouble(2)),
+                        String.valueOf(fila.getDouble(3)),
+                        String.valueOf(fila.getDouble(4)),
+                        fila.getString(5),
+                        fila.getString(6),
+                        String.valueOf(fila.getDouble(7)),
+                        String.valueOf(fila.getDouble(8)),
+                        String.valueOf(fila.getDouble(9)));
+            } while (fila.moveToNext());
+        }
+        fila.close();
+    }
+
+    public void grabar(View v) {
+        String nomarchivo = "db.csv";
+        if (!isExternalStorageWritable())
+            Toast.makeText(this, "External storage not writable", Toast.LENGTH_SHORT).show();
+        File path = getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+        File file = new File(path, nomarchivo);
+        Toast.makeText(this, "Saved to" + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+        if (!file.canWrite())
+            Toast.makeText(this, "File not writable", Toast.LENGTH_SHORT).show();
+        try {
+            PrintWriter printWriter = new PrintWriter(file);
+            writeDBToFile(printWriter);
+            printWriter.close();
+        } catch (FileNotFoundException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
+    public void importData(View v) {
+        String nomarchivo = "db.csv";
+        File path = getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+        File file = new File(path, nomarchivo);
+        try {
+            BufferedReader stream = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+            String line;
+            while ((line = stream.readLine()) != null) {
+                String[] splitted = line.split(",");
+                if (admin.introduireDesMesures(Long.parseLong(splitted[0]), splitted[1], Integer.parseInt(splitted[3]), Double.parseDouble(splitted[4]), Double.parseDouble(splitted[5]), Integer.parseInt(splitted[6]), Integer.parseInt(splitted[7]), splitted[8], splitted[9])) {
+                    Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Fail", Toast.LENGTH_SHORT).show();
+                }
+            }
+        } catch (IOException e) {
+            Toast.makeText(this, "File not found", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

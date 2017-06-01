@@ -20,24 +20,17 @@ import java.util.Date;
 import java.util.UUID;
 
 public class BluetoothService extends Service {
-    static final UUID myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-    String address = null;
-    BluetoothAdapter myBluetooth = null;
-    BluetoothSocket btSocket = null;
-    AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administracion", null, 1);
+    private static final UUID myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+
     private String user = null;
     private Handler handler;
     private ProgressDialog progress;
+    private String address = null;
+    private BluetoothAdapter myBluetooth = null;
+    private BluetoothSocket btSocket = null;
     private boolean isBtConnected = false;
     private BufferedReader reader;
-    private int mesure = 0;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-
-    }
+    private AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administracion", null, 1);
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -50,41 +43,37 @@ public class BluetoothService extends Service {
             public void run() {
                 if (isBtConnected) {
                     try {
+
                         InputStream in = btSocket.getInputStream();
                         reader = new BufferedReader(new InputStreamReader(in));
-
                         String line;
                         line = reader.readLine();
                         if (line != null) {
-                            //Toast.makeText(getApplicationContext(), line, Toast.LENGTH_SHORT).show();
+                            // msg(line);
                             if (!line.equals("Heating")) {
                                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                                 Date date = new Date();
+                                long dateLong = date.getTime();
                                 String[] splitted = line.split(",");
-                                if (admin.introduireDesMesures("" + date, user, Integer.parseInt(splitted[0]), Double.parseDouble(splitted[1]), Double.parseDouble(splitted[2]), Integer.parseInt(splitted[3]), Integer.parseInt(splitted[4]), splitted[5] + "," + splitted[6], splitted[7] + "," + splitted[8])) {
-                                    //Toast.makeText(getApplicationContext(), "True" , Toast.LENGTH_SHORT).show();
-                                    mesure++;
+                                if (admin.introduireDesMesures(dateLong, user, Integer.parseInt(splitted[0]), Double.parseDouble(splitted[1]), Double.parseDouble(splitted[2]), Integer.parseInt(splitted[3]), Integer.parseInt(splitted[4]), splitted[5], splitted[7])) {
+                                    // msg("Succeed");
                                 } else {
-                                    //Toast.makeText(getApplicationContext(), "False" , Toast.LENGTH_SHORT).show();
+                                    // msg("Error");
                                 }
+                            } else {
+                                msg(line);
+                                Disconnect();
+                                handler.removeCallbacks(this);
                             }
-                            //
-                            //admin.introduireDesMesures("a","a");
-
                         }
-
-
                     } catch (IOException e) {
                         msg("Error");
                     }
                 }
-
-                handler.postDelayed(this, 1000);
-
+                handler.postDelayed(this, 30000);
             }
         };
-
-        handler.postDelayed(r, 1000);
+        handler.postDelayed(r, 30000);
         return Service.START_STICKY;
     }
 
@@ -95,21 +84,26 @@ public class BluetoothService extends Service {
     }
 
     private void msg(String s) {
-        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
     }
 
-    private class ConnectBT extends AsyncTask<Void, Void, Void>  // UI thread
-    {
+    private void Disconnect() {
+        if (btSocket != null) { //If the btSocket is busy
+            try {
+                btSocket.close(); //close connection
+                isBtConnected = false;
+            } catch (IOException e) {
+                msg("Error");
+            }
+        }
+
+    }
+
+    private class ConnectBT extends AsyncTask<Void, Void, Void> {
         private boolean ConnectSuccess = true; //if it's here, it's almost connected
 
         @Override
-        protected void onPreExecute() {
-            //progress = ProgressDialog.show(BluetoothService.this, "Connecting...", "Please wait!!!");  //show a progress dialog
-        }
-
-        @Override
-        protected Void doInBackground(Void... devices) //while the progress dialog is shown, the connection is done in background
-        {
+        protected Void doInBackground(Void... devices) { //while the progress dialog is shown, the connection is done in background
             try {
                 if (btSocket == null || !isBtConnected) {
                     myBluetooth = BluetoothAdapter.getDefaultAdapter();//get the mobile bluetooth device
@@ -125,8 +119,7 @@ public class BluetoothService extends Service {
         }
 
         @Override
-        protected void onPostExecute(Void result) //after the doInBackground, it checks if everything went fine
-        {
+        protected void onPostExecute(Void result) { //after the doInBackground, it checks if everything went fine
             super.onPostExecute(result);
 
             if (!ConnectSuccess) {
@@ -140,7 +133,6 @@ public class BluetoothService extends Service {
                         Toast.LENGTH_SHORT).show();
                 isBtConnected = true;
             }
-            //progress.dismiss();
         }
 
     }

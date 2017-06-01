@@ -29,11 +29,10 @@
         <activity android:name=".Heatmap" />
         <activity android:name=".Settings" />
         <activity android:name=".AboutUs" />
-
-        <service android:name=".BluetoothService" />
-
         <activity android:name=".SelectLineChart" />
         <activity android:name=".ShowLineChart" />
+
+        <service android:name=".BluetoothService" />
     </application>
 
 </manifest>

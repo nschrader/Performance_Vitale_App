@@ -7,6 +7,7 @@
     tools:context="davidfdez.capteuratmospherique.AboutUs">
 
 
+
     <Button
         android:id="@+id/date1"
         android:layout_width="263dp"
@@ -96,6 +97,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Chaleur lumiere" />
+
+        <RadioButton
+            android:id="@+id/performance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Performance" />
     </RadioGroup>
 
 </android.support.constraint.ConstraintLayout>

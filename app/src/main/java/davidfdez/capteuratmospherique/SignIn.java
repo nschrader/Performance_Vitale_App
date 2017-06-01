@@ -92,7 +92,6 @@ public class SignIn extends AppCompatActivity {
         bd.close();
     }
 
-
     public void reset(View v) {
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,
                 "administracion", null, 1);

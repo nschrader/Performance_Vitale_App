@@ -1,6 +1,8 @@
 package davidfdez.capteuratmospherique;
 
 import android.annotation.SuppressLint;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.webkit.JavascriptInterface;
@@ -11,11 +13,12 @@ import java.util.LinkedList;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class ShowLineChart extends ActionBarActivity {
+    public String user = "";
     public double max;
     public double min;
-    WebView webView;
-    LinkedList<Date> dates;
-    LinkedList<Double> valeurs;
+    private WebView webView;
+    private LinkedList<Date> dates;
+    private LinkedList<Double> valeurs;
     private Date dateTo;
     private Date dateFrom;
     private String capteur;
@@ -27,8 +30,6 @@ public class ShowLineChart extends ActionBarActivity {
         setContentView(R.layout.activity_show_line_chart);
 
         Bundle bundle = getIntent().getExtras();
-        //dateTo =new Date(bundle.getString("dateTo"));
-        //dateFrom=new Date(bundle.getString("dateFrom"));
         capteur = bundle.getString("capteur");
         int yearTo = bundle.getInt("yearTo");
         int monthTo = bundle.getInt("monthTo");
@@ -41,124 +42,130 @@ public class ShowLineChart extends ActionBarActivity {
 
         dates = new LinkedList();
         valeurs = new LinkedList();
+
+        getDataSql();
+
         /*
-        valeurs.add(600.0);
-        valeurs.add(100.0);
-        dates.add(dateFrom);
-        dates.add(dateTo);
-        valeurs.add(600.0);
-        valeurs.add(100.0);
-        */
-        //introducir sql
-        //datos de tipo capteur(string)
-        //entre dateFrom y dateTo
+         * introducir sql
+         * datos de tipo capteur(string)
+         * entre dateFrom y dateTo
+         */
         for (int i = 0; i < 0; i++) {
             valeurs.add(0.0);
             dates.add(dateTo);
         }
         max = 0;
-        min = 100;
-        if (capteur == "Temperature") {
-            max = 0;
-            min = 100;
-        } else if (capteur == "Eclairage") {
-            max = 0;
-            min = 100;
-        } else if (capteur == "CO2") {
-            max = 0;
-            min = 100;
-        } else if (capteur == "Chaleur lumiere") {
-            max = 0;
-            min = 100;
-        } else if (capteur == "Humidite") {
+        min = 0;
+        if (capteur.equals("Temperature")) {
+            max = 26;
+            min = 20;
+        } else if (capteur.equals("Luminosite")) {
+            max = 800;
+            min = 300;
+        } else if (capteur.equals("CO2Mesure")) {
+            max = 400;
+            min = 1500;
+        } else if (capteur.equals("TempLum")) {
+            max = 2919;
+            min = 7016;
+        } else if (capteur.equals("Humidite")) {
+            max = 30;
+            min = 70;
+        } else if (capteur.equals("Performance")) {
             max = 0;
             min = 100;
         }
 
-
         webView = (WebView) findViewById(R.id.webLines);
         webView.addJavascriptInterface(new WebAppInterface(), "Android");
-
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.loadUrl("file:///android_asset/lineChart.html");
+    }
+
+    public void getDataSql() {
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,
+                "administracion", null, 1);
+        SQLiteDatabase bd = admin.getWritableDatabase();
+        Cursor fila = bd.rawQuery(
+                "select idMesure," + capteur + " from Mesure where idUser ='" + user + "'", null);
+
+        if (fila.moveToFirst()) {
+            long stringDateSql = fila.getLong(0);
+            Date dateSql = new Date(stringDateSql);
+            double aux = fila.getDouble(1);
+            if (dateSql.before(dateTo) && dateSql.after(dateFrom)) {
+                valeurs.add(aux);
+                dates.add(dateSql);
+
+            }
+
+            while (fila.moveToNext()) {
+                stringDateSql = fila.getLong(0);
+                dateSql = new Date(stringDateSql);
+                aux = fila.getDouble(1);
+                if (dateSql.before(dateTo) && dateSql.after(dateFrom)) {
+                    valeurs.add(aux);
+                    dates.add(dateSql);
+
+                }
 
 
+            }
+        }
     }
 
     public class WebAppInterface {
 
-
         @JavascriptInterface
         public String getNom() {
-
             return capteur;
-
         }
 
         @JavascriptInterface
         public double getMax() {
-
-            return 0;
-
+            return max;
         }
 
         @JavascriptInterface
         public double getMin() {
-
-            return 100;
-
+            return min;
         }
 
         @JavascriptInterface
         public int getSize() {
-
             return dates.size();
-
         }
 
         @JavascriptInterface
         public double getValeur(int a) {
-
             return valeurs.get(a);
-
         }
 
         @JavascriptInterface
         public int getYear(int a) {
-
             return dates.get(a).getYear();
-
         }
 
         @JavascriptInterface
         public int getMonth(int a) {
-
             return dates.get(a).getMonth();
-
         }
 
         @JavascriptInterface
         public int getDay(int a) {
-
             return dates.get(a).getDate();
-
         }
 
         @JavascriptInterface
         public int getHour(int a) {
-
             return dates.get(a).getHours();
-
         }
 
         @JavascriptInterface
         public int getMinute(int a) {
-
             return dates.get(a).getMinutes();
-
         }
-
 
     }
 

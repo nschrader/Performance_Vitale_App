@@ -21,5 +21,20 @@ public class Charts extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void openCalendar(View view) {
+        Intent intent = new Intent(Charts.this, SelectLineChart.class);
+        startActivity(intent);
+    }
+
+    public void openHistogram(View view) {
+        Intent intent = new Intent(Charts.this, SelectLineChart.class);
+        startActivity(intent);
+    }
+
+    public void openClustering(View view) {
+        Intent intent = new Intent(Charts.this, SelectLineChart.class);
+        startActivity(intent);
+    }
+
 
 }

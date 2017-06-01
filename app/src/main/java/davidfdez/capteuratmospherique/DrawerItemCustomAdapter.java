@@ -9,17 +9,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-/**
- * Created by anupamchugh on 10/12/15.
- */
 public class DrawerItemCustomAdapter extends ArrayAdapter<DataModel> {
 
-    Context mContext;
-    int layoutResourceId;
-    DataModel data[] = null;
+    private Context mContext;
+    private int layoutResourceId;
+    private DataModel data[] = null;
 
     public DrawerItemCustomAdapter(Context mContext, int layoutResourceId, DataModel[] data) {
-
         super(mContext, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.mContext = mContext;
@@ -28,7 +24,6 @@ public class DrawerItemCustomAdapter extends ArrayAdapter<DataModel> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         View listItem = convertView;
 
         LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
