@@ -12,14 +12,15 @@ import android.widget.Toast;
 
 public class SignIn extends AppCompatActivity {
 
-    private EditText et1,et2;
+    private EditText et1, et2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        et1=(EditText)findViewById(R.id.etUser);
-        et2=(EditText)findViewById(R.id.etPass);
+        et1 = (EditText) findViewById(R.id.etUser);
+        et2 = (EditText) findViewById(R.id.etPass);
 
     }
 
@@ -34,20 +35,20 @@ public class SignIn extends AppCompatActivity {
         registro.put("id", cod);
         registro.put("password", pass);
 
-        if(!checkIfUserExists(cod)) {
+        if (!checkIfUserExists(cod)) {
             bd.insert("User", null, registro);
             bd.close();
             et1.setText("");
             et2.setText("");
             Toast.makeText(this, "User Signed In",
                     Toast.LENGTH_SHORT).show();
-        }
-        else{
+        } else {
             Toast.makeText(this, "User already exists",
                     Toast.LENGTH_SHORT).show();
 
         }
     }
+
     public boolean checkIfUserExists(String User) {
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,
                 "administracion", null, 1);
@@ -56,14 +57,15 @@ public class SignIn extends AppCompatActivity {
         Cursor fila = bd.rawQuery(
                 "select id from User where id = '" + User + "'", null);
         if (fila.moveToFirst()) {
-            if(fila.getString(0).equals(User) ){
-                exists =  true;
+            if (fila.getString(0).equals(User)) {
+                exists = true;
             }
         } else {
             exists = false;
         }
         return exists;
     }
+
     public void logIn(View v) {
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,
                 "administracion", null, 1);
@@ -76,15 +78,14 @@ public class SignIn extends AppCompatActivity {
             if (fila.getString(0).equals(user) && fila.getString(1).equals(pass)) {
                 Toast.makeText(this, "Password matchs the user",
                         Toast.LENGTH_SHORT).show();
-                Intent i=new Intent(this,MainActivity.class);
+                Intent i = new Intent(this, MainActivity.class);
                 i.putExtra("user", et1.getText().toString());
                 startActivity(i);
 
             } else
                 Toast.makeText(this, "Error",
                         Toast.LENGTH_SHORT).show();
-        }
-        else
+        } else
             Toast.makeText(this, "Error",
                     Toast.LENGTH_SHORT).show();
 
@@ -92,11 +93,11 @@ public class SignIn extends AppCompatActivity {
     }
 
 
-    public void reset(View v){
+    public void reset(View v) {
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,
                 "administracion", null, 1);
         SQLiteDatabase bd = admin.getWritableDatabase();
-        bd.execSQL("delete from User" );
+        bd.execSQL("delete from User");
         bd.close();
 
     }

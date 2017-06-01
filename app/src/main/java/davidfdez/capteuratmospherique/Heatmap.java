@@ -2,36 +2,22 @@ package davidfdez.capteuratmospherique;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.webkit.WebView;
-import android.webkit.WebChromeClient;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.content.Context;
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.view.MenuItem;
 import android.webkit.JavascriptInterface;
-
+import android.webkit.WebView;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 
 public class Heatmap extends AppCompatActivity {
     WebView webView;
-    private String user = "";
     List<Double> latitudesComfort = new ArrayList<>();
     List<Double> longitudesComfort = new ArrayList<>();
     List<Double> latitudesDiscomfort = new ArrayList<>();
     List<Double> longitudesDiscomfort = new ArrayList<>();
+    private String user = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +38,8 @@ public class Heatmap extends AppCompatActivity {
         webView.loadUrl("file:///android_asset/heatmap.html");
 
     }
-    public void getOver50(){
+
+    public void getOver50() {
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,
                 "administracion", null, 1);
         SQLiteDatabase bd = admin.getWritableDatabase();
@@ -72,7 +59,8 @@ public class Heatmap extends AppCompatActivity {
             }
         }*/
     }
-    public void getUnder50(){
+
+    public void getUnder50() {
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,
                 "administracion", null, 1);
         SQLiteDatabase bd = admin.getWritableDatabase();
@@ -80,11 +68,11 @@ public class Heatmap extends AppCompatActivity {
                 "select Latitude, Longitude from Mesure where id = '" + user + "' and Performance < 50", null);
 
         if (fila.moveToFirst()) {
-            String []  splittedLat = fila.getString(0).split(",");
-            String []  splittedLong = fila.getString(1).split(",");
+            String[] splittedLat = fila.getString(0).split(",");
+            String[] splittedLong = fila.getString(1).split(",");
             latitudesDiscomfort.add(Double.parseDouble(splittedLat[0]));
             latitudesDiscomfort.add(Double.parseDouble(splittedLong[0]));
-            while(fila.moveToNext()){
+            while (fila.moveToNext()) {
                 splittedLat = fila.getString(0).split(",");
                 splittedLong = fila.getString(1).split(",");
                 latitudesDiscomfort.add(Double.parseDouble(splittedLat[0]));
@@ -92,6 +80,7 @@ public class Heatmap extends AppCompatActivity {
             }
         }
     }
+
     public class WebAppInterface {
         @JavascriptInterface
         public double getLatitude(int i) {
@@ -99,30 +88,35 @@ public class Heatmap extends AppCompatActivity {
 
 
         }
+
         @JavascriptInterface
         public double getLongitude(int i) {
             return longitudesComfort.get(i);
 
 
         }
+
         @JavascriptInterface
-        public int getSize(){
+        public int getSize() {
             return longitudesDiscomfort.size();
         }
+
         @JavascriptInterface
         public double getLatitudeDis(int i) {
             return latitudesDiscomfort.get(i);
 
 
         }
+
         @JavascriptInterface
         public double getLongitudeDis(int i) {
             return longitudesDiscomfort.get(i);
 
 
         }
+
         @JavascriptInterface
-        public int getSizeDis(){
+        public int getSizeDis() {
             return longitudesDiscomfort.size();
         }
     }

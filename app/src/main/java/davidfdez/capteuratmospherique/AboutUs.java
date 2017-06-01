@@ -1,7 +1,7 @@
 package davidfdez.capteuratmospherique;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 public class AboutUs extends AppCompatActivity {
@@ -11,6 +11,7 @@ public class AboutUs extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

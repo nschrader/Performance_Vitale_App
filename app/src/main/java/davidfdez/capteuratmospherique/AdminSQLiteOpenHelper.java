@@ -2,19 +2,13 @@ package davidfdez.capteuratmospherique;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.os.StrictMode;
 import android.view.View;
-import android.widget.Toast;
 
 
-public class AdminSQLiteOpenHelper  extends SQLiteOpenHelper {
+public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
     public AdminSQLiteOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
@@ -26,7 +20,7 @@ public class AdminSQLiteOpenHelper  extends SQLiteOpenHelper {
         db.execSQL("create table User (id Varchar(15) Primary Key, password Varchar(15))");
     }
 
-    public boolean introduireDesMesures(String idMesure, String idUser, int CO2Mesure,double Humidite,  double Temperature , int Luminosite,int TempLum , String Latitude, String  Longitud){
+    public boolean introduireDesMesures(String idMesure, String idUser, int CO2Mesure, double Humidite, double Temperature, int Luminosite, int TempLum, String Latitude, String Longitud) {
         SQLiteDatabase bd = this.getWritableDatabase();
         ContentValues registro = new ContentValues();
         registro.put("idMesure", idMesure);
@@ -39,24 +33,23 @@ public class AdminSQLiteOpenHelper  extends SQLiteOpenHelper {
         registro.put("Temperature", Temperature);
         registro.put("Humidite", Humidite);
         registro.put("TempLum", TempLum);
-        if(!checkMessure(idMesure)) {
+        if (!checkMessure(idMesure)) {
             bd.insert("Mesure", null, registro);
             bd.close();
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
 
-    public boolean checkMessure(String idMesure){
+    public boolean checkMessure(String idMesure) {
         SQLiteDatabase bd = this.getWritableDatabase();
         boolean exists = false;
         Cursor fila = bd.rawQuery(
                 "select idMesure from Mesure where idMesure = '" + idMesure + "'", null);
         if (fila.moveToFirst()) {
-            if(fila.getString(0).equals(idMesure) ){
-                exists =  true;
+            if (fila.getString(0).equals(idMesure)) {
+                exists = true;
             }
         } else {
             exists = false;
@@ -70,12 +63,11 @@ public class AdminSQLiteOpenHelper  extends SQLiteOpenHelper {
         registro.put("id", User);
         registro.put("password", Password);
 
-        if(!checkIfUserExists(User)) {
+        if (!checkIfUserExists(User)) {
             bd.insert("User", null, registro);
             bd.close();
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -87,8 +79,8 @@ public class AdminSQLiteOpenHelper  extends SQLiteOpenHelper {
         Cursor fila = bd.rawQuery(
                 "select id from User where id = '" + User + "'", null);
         if (fila.moveToFirst()) {
-            if(fila.getString(0).equals(User) ){
-                exists =  true;
+            if (fila.getString(0).equals(User)) {
+                exists = true;
             }
         } else {
             exists = false;
@@ -96,25 +88,25 @@ public class AdminSQLiteOpenHelper  extends SQLiteOpenHelper {
         return exists;
     }
 
-    public boolean logIn(View v, String User,String Password) {
+    public boolean logIn(View v, String User, String Password) {
 
         SQLiteDatabase bd = this.getWritableDatabase();
         Cursor fila = bd.rawQuery(
                 "select id,password from User where id = '" + User + "'", null);
         if (fila.moveToFirst()) {
             if (fila.getString(0).equals(User) && fila.getString(1).equals(Password)) {
-               bd.close();
-               return true;
+                bd.close();
+                return true;
 
             } else
                 bd.close();
-                return false;
-        }
-        else {
+            return false;
+        } else {
             bd.close();
             return false;
-            }
+        }
     }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 

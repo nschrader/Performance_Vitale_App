@@ -3,7 +3,6 @@
     <string name="app_name">Ambience Sensor</string>
 
     //String for the top menu
-    <string name="log_out">Log Out</string>
 
     //Strings From the Navigation Drawer
     <string-array name="navigation_drawer_items_array">

@@ -2,11 +2,11 @@ package davidfdez.capteuratmospherique;
 
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -16,14 +16,14 @@ import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
 
+    Toolbar toolbar;
+    android.support.v7.app.ActionBarDrawerToggle mDrawerToggle;
     private String[] mNavigationDrawerItemTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
-    Toolbar toolbar;
     private CharSequence mDrawerTitle;
     private String user = null;
     private CharSequence mTitle;
-    android.support.v7.app.ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mTitle = mDrawerTitle = getTitle();
-        mNavigationDrawerItemTitles= getResources().getStringArray(R.array.navigation_drawer_items_array);
+        mNavigationDrawerItemTitles = getResources().getStringArray(R.array.navigation_drawer_items_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -40,12 +40,12 @@ public class MainActivity extends AppCompatActivity {
 
         /////BORRAR
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administracion", null, 1);
-        admin.introduireDesMesures("" + 1 ,user ,1, 2.0, 2.0,1,1, "45.7850308", "4.8772527");
-        admin.introduireDesMesures("" + 2 ,user ,2, 2.0, 2.0,1,1, "45.7850308", "4.8772527");
-        admin.introduireDesMesures("" + 3 ,user ,3, 2.0, 2.0,1,1, "45.7850308", "4.8772527");
-        admin.introduireDesMesures("" + 4 ,user ,4, 2.0, 2.0,1,1, "45.7850300", "4.8772527");
-        admin.introduireDesMesures("" + 5 ,user ,2, 2.0, 2.0,1,1, "45.7850328", "4.8772527");
-        admin.introduireDesMesures("" + 6 ,user ,3, 2.0, 2.0,1,1, "45.7850338", "4.8772527");
+        admin.introduireDesMesures("" + 1, user, 1, 2.0, 2.0, 1, 1, "45.7850308", "4.8772527");
+        admin.introduireDesMesures("" + 2, user, 2, 2.0, 2.0, 1, 1, "45.7850308", "4.8772527");
+        admin.introduireDesMesures("" + 3, user, 3, 2.0, 2.0, 1, 1, "45.7850308", "4.8772527");
+        admin.introduireDesMesures("" + 4, user, 4, 2.0, 2.0, 1, 1, "45.7850300", "4.8772527");
+        admin.introduireDesMesures("" + 5, user, 2, 2.0, 2.0, 1, 1, "45.7850328", "4.8772527");
+        admin.introduireDesMesures("" + 6, user, 3, 2.0, 2.0, 1, 1, "45.7850338", "4.8772527");
 
         /////
         setupToolbar();
@@ -69,15 +69,6 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         setupDrawerToggle();
 
-
-    }
-
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
-        }
 
     }
 
@@ -107,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 4:
                 Intent iAS = new Intent(MainActivity.this, Settings.class);
-                iAS.putExtra("user",user);
+                iAS.putExtra("user", user);
                 startActivity(iAS);
                 mDrawerLayout.closeDrawers();
                 break;
@@ -158,16 +149,25 @@ public class MainActivity extends AppCompatActivity {
         mDrawerToggle.syncState();
     }
 
-    void setupToolbar(){
+    void setupToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
-    void setupDrawerToggle(){
-        mDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this,mDrawerLayout,toolbar,R.string.app_name, R.string.app_name);
+    void setupDrawerToggle() {
+        mDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name, R.string.app_name);
         //This is necessary to change the icon of the Drawer Toggle upon state change.
         mDrawerToggle.syncState();
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
+
     }
 
 }
