@@ -63,17 +63,17 @@ public class ShowLineChart extends ActionBarActivity {
             max = 800;
             min = 300;
         } else if (capteur.equals("CO2Mesure")) {
-            max = 400;
-            min = 1500;
+            max = 1500;
+            min = 400;
         } else if (capteur.equals("TempLum")) {
-            max = 2919;
-            min = 7016;
+            max = 7016;
+            min = 2919;
         } else if (capteur.equals("Humidite")) {
-            max = 30;
-            min = 70;
+            max = 70;
+            min = 30;
         } else if (capteur.equals("Performance")) {
-            max = 0;
-            min = 100;
+            max = 100;
+            min = 0;
         }
 
         webView = (WebView) findViewById(R.id.webLines);
