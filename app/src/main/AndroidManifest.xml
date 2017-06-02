@@ -49,7 +49,8 @@
 
         <service android:name=".BluetoothService" />
 
-        <activity android:name=".Clustering"></activity>
+        <activity android:name=".Clustering" />
+        <activity android:name=".Calendar"></activity>
     </application>
 
 </manifest>

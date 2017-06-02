@@ -22,7 +22,7 @@ public class Charts extends AppCompatActivity {
     }
 
     public void openCalendar(View view) {
-        Intent intent = new Intent(Charts.this, SelectLineChart.class);
+        Intent intent = new Intent(Charts.this, Calendar.class);
         startActivity(intent);
     }
 
