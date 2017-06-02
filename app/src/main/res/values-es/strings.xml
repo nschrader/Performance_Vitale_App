@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sensor Ambiental</string>
+    <string name="CO2">CO2</string>
+    <string name="Charts">Graficos</string>
+    <string name="Heatmaps">Heatmaps</string>
+    <string name="Humidity">Humedad</string>
+    <string name="LightColor">Luminosidad</string>
+    <string name="LiveCharts">Graficas en vivo</string>
+    <string name="Performance">Eficiencia</string>
+    <string name="Settings">Ajustes</string>
+    <string name="Temperature">Temperatura</string>
+    <string name="aboutUsActivity">Sobre Nosotros</string>
+    <string name="calendarButton">Calendario</string>
+    <string name="clusteringButton">Clustering</string>
+    <string name="histogramButton">Histograma</string>
+    <string name="home">Inicio</string>
+    <string name="lightIntensity">Luminosidad</string>
+    <string name="lineChartsButton">Graficos Lineares</string>
+    <string name="selectDateFrom">Seleccionar desde</string>
+    <string name="selectDateTo">Seleccionar hasta</string>
+    <string name="showChart">Mostrar Grafico</string>
+    <string name="title">Descripcion del Proyecto+</string>
+    <string name="title_activity_main">Sensor Ambiental</string>
+</resources>

@@ -19,10 +19,9 @@
         <item>About Us</item>
 
     </string-array>
-    <string name="descrip">Nous avons comme objectif mesurer l\'atmosphère ambiante afin d’améliorer la performance vitale pour travailler, faire du sport etc, grâce à un analyse des donnés. Pour le projet, il s’agit d’une boite contenant plusieurs capteurs, un GPS et un module Bluetooth HC-05, tous connectés à un Arduino Uno. Le module Bluetooth sert à pouvoir communiquer avec un portable Android, sur lequel une application que nous allons aussi développer sera installée. Cette application donne la possibilité de se connecter pour avoir différents profils pour chaque utilisateur. Ce projet a été développé par Joan Capell, Daniel Del Pozo, David Fernández et Nick Schrader</string>
     <string name="home">Home</string>
     <string name="title_activity_main">Ambience Sensor</string>
-    <string name="title">Description du projet</string>
+    <string name="title">Proyect\'s description</string>
     <string name="lineChartsButton" >LineCharts</string>
     <string name="calendarButton" >Calendar</string>
     <string name="histogramButton">Histogram</string>
@@ -36,5 +35,6 @@
     <string name="showChart">Show Charts</string>
     <string name="selectDateFrom">Select Date From</string>
     <string name="selectDateTo">Select Date To</string>
+    <string name="descrip">Our goal is to measure the surrounding environment in order to improve the general performance in activities such as working or sport, thanks to a data collection and analysis. Regarding the project, it consists of a box containing several sensors, a GPS and a HC-05 Bluetooth module, all of them connected to an Arduino Uno.The Bluetooth communicates with an Android smartphone with our app installed. Each user has their own account on this app.This project has been developed by:Joan Capell, Daniel del Pozo, David Fernández, Nick Schrader.</string>
 
 </resources>
