@@ -27,7 +27,7 @@ public class Charts extends AppCompatActivity {
     }
 
     public void openHistogram(View view) {
-        Intent intent = new Intent(Charts.this, SelectLineChart.class);
+        Intent intent = new Intent(Charts.this, SelectHistogram.class);
         startActivity(intent);
     }
 

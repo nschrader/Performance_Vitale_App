@@ -50,7 +50,9 @@
         <service android:name=".BluetoothService" />
 
         <activity android:name=".Clustering" />
-        <activity android:name=".Calendar"></activity>
+        <activity android:name=".Calendar" />
+        <activity android:name=".SelectHistogram" />
+        <activity android:name=".ShowHistogram"></activity>
     </application>
 
 </manifest>

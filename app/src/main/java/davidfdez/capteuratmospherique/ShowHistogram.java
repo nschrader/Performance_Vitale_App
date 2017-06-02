@@ -7,55 +7,50 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
-import android.widget.Toast;
 
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.TimeZone;
 
 @SuppressLint("SetJavaScriptEnabled")
-public class Calendar extends ActionBarActivity {
+public class ShowHistogram extends ActionBarActivity {
     public String user = "";
-
     private WebView webView;
-    private LinkedList<Date> dates=new LinkedList();
-    private LinkedList<Double> valeurs=new LinkedList();
-
+    private LinkedList<Date> dates;
+    private LinkedList<Double> valeurs;
+    private Date dateTo;
+    private Date dateFrom;
+    private String capteur;
 
     @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calendar);
+        setContentView(R.layout.activity_show_histogram);
+        Bundle bundle = getIntent().getExtras();
+        capteur = bundle.getString("capteur");
+        int yearTo = bundle.getInt("yearTo");
+        int monthTo = bundle.getInt("monthTo");
+        int dayTo = bundle.getInt("dayTo");
+        dateTo = new Date(yearTo, monthTo, dayTo);
+        int yearFrom = bundle.getInt("yearFrom");
+        int monthFrom = bundle.getInt("monthFrom");
+        int dayFrom = bundle.getInt("dayFrom");
+        dateFrom = new Date(yearFrom, monthFrom, dayFrom);
 
+        dates = new LinkedList();
+        valeurs = new LinkedList();
 
         getDataSql();
-        average();
-        webView = (WebView) findViewById(R.id.calendar);
+
+
+
+
+        webView = (WebView) findViewById(R.id.webLines);
         webView.addJavascriptInterface(new WebAppInterface(), "Android");
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
-        webView.loadUrl("file:///android_asset/calendar.html");
-    }
-
-    public void average(){
-        LinkedList<Double> v=new LinkedList();
-        LinkedList<Date> d=new LinkedList();
-        double cont=1;
-        for(int i=0;i<valeurs.size();i++){
-            if(i+1!= valeurs.size() && sameDay(dates.get(i),dates.get(i+1))) {
-                valeurs.set(i + 1, valeurs.get(i) + valeurs.get(i + 1));
-                cont++;
-
-            }
-            else{
-
-                v.add(valeurs.get(i)/cont);
-                d.add(dates.get(i));
-                cont=1;
-            }
-        }
-        valeurs=v;
-        dates=d;
+        webView.loadUrl("file:///android_asset/histogram.html");
     }
 
     public void getDataSql() {
@@ -63,39 +58,39 @@ public class Calendar extends ActionBarActivity {
                 "administracion", null, 1);
         SQLiteDatabase bd = admin.getWritableDatabase();
         Cursor raw = bd.rawQuery(
-                "select idMesure, Performance from Mesure where idUser ='" + user + "' ORDER BY idMesure DESC", null);
+                "select idMesure," + capteur + " from Mesure where idUser ='" + user + "'", null);
 
         if (raw.moveToFirst()) {
             long stringDateSql = raw.getLong(0);
             Date dateSql = new Date(stringDateSql);
             double aux = raw.getDouble(1);
+            if (dateSql.before(dateTo) && dateSql.after(dateFrom)) {
+                valeurs.add(aux);
+                dates.add(dateSql);
 
-            valeurs.add(aux-50);
-            dates.add(dateSql);
-
-
+            }
 
             while (raw.moveToNext()) {
                 stringDateSql = raw.getLong(0);
                 dateSql = new Date(stringDateSql);
                 aux = raw.getDouble(1);
+                if (dateSql.before(dateTo) && dateSql.after(dateFrom)) {
+                    valeurs.add(aux);
+                    dates.add(dateSql);
 
-                valeurs.add(aux-50);
-                dates.add(dateSql);
-
-
+                }
 
 
             }
         }
     }
 
-    public boolean sameDay(Date a,Date b){
-        return a.getDate()==b.getDate() && a.getMonth()==b.getMonth() && a.getYear()==b.getYear();
-
-    }
-
     public class WebAppInterface {
+
+        @JavascriptInterface
+        public String getNom() {
+            return capteur;
+        }
 
 
 
@@ -105,25 +100,14 @@ public class Calendar extends ActionBarActivity {
         }
 
         @JavascriptInterface
-        public double getValue(int a) {
+        public double getValeur(int a) {
             return valeurs.get(a);
         }
 
         @JavascriptInterface
-        public int getYear(int a) {
-            return dates.get(a).getYear();
+        public String getTimeMesure(int a) {
+            return dates.get(a).toString();
         }
-
-        @JavascriptInterface
-        public int getMonth(int a) {
-            return dates.get(a).getMonth();
-        }
-
-        @JavascriptInterface
-        public int getDay(int a) {
-            return dates.get(a).getDate();
-        }
-
 
 
     }
