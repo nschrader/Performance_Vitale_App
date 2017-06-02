@@ -36,6 +36,12 @@ public class Heatmap extends AppCompatActivity {
 
     }
 
+    public double convertLatLong(double value){
+        double r=(int)(value/100);
+        r+=(double)(((int)(value-r*100)))/60.0;
+        return r;
+    }
+
     public void getOver50() {
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,
                 "administracion", null, 1);
@@ -46,15 +52,15 @@ public class Heatmap extends AppCompatActivity {
         if (fila.moveToFirst()) {
             String[] splittedLat = fila.getString(0).split(",");
             String[] splittedLong = fila.getString(1).split(",");
-            comfortLatitudes.add(Double.parseDouble(splittedLat[0]));
-            comfortLongitudes.add(Double.parseDouble(splittedLong[0]));
+            comfortLatitudes.add(convertLatLong(Double.parseDouble(splittedLat[0])));
+            comfortLongitudes.add(convertLatLong(Double.parseDouble(splittedLong[0])));
 
 
             while (fila.moveToNext()) {
                 splittedLat = fila.getString(0).split(",");
                 splittedLong = fila.getString(1).split(",");
-                comfortLatitudes.add(Double.parseDouble(splittedLat[0]));
-                comfortLongitudes.add(Double.parseDouble(splittedLong[0]));
+                comfortLatitudes.add(convertLatLong(Double.parseDouble(splittedLat[0])));
+                comfortLongitudes.add(convertLatLong(Double.parseDouble(splittedLong[0])));
 
             }
         }
@@ -70,15 +76,15 @@ public class Heatmap extends AppCompatActivity {
         if (fila.moveToFirst()) {
             String[] splittedLat = fila.getString(0).split(",");
             String[] splittedLong = fila.getString(1).split(",");
-            discomfortLatitudes.add(Double.parseDouble(splittedLat[0]));
-            discomforLongitudes.add(Double.parseDouble(splittedLong[0]));
+            discomfortLatitudes.add(convertLatLong(Double.parseDouble(splittedLat[0])));
+            discomforLongitudes.add(convertLatLong(Double.parseDouble(splittedLong[0])));
 
 
             while (fila.moveToNext()) {
                 splittedLat = fila.getString(0).split(",");
                 splittedLong = fila.getString(1).split(",");
-                discomfortLatitudes.add(Double.parseDouble(splittedLat[0]));
-                discomforLongitudes.add(Double.parseDouble(splittedLong[0]));
+                discomfortLatitudes.add(convertLatLong(Double.parseDouble(splittedLat[0])));
+                discomforLongitudes.add(convertLatLong(Double.parseDouble(splittedLong[0])));
 
             }
         }
