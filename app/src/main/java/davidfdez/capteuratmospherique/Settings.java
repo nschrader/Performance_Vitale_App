@@ -158,10 +158,11 @@ public class Settings extends AppCompatActivity {
             String line;
             while ((line = stream.readLine()) != null) {
                 String[] splitted = line.split(",");
-                if (admin.introduireDesMesures(Long.parseLong(splitted[0]), splitted[1], Integer.parseInt(splitted[3]), Double.parseDouble(splitted[4]), Double.parseDouble(splitted[5]), Integer.parseInt(splitted[6]), Integer.parseInt(splitted[7]), splitted[8], splitted[9])) {
-                    Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                if (admin.introduireDesMesures(Long.parseLong(splitted[0]), splitted[1], Double.parseDouble(splitted[3]), Double.parseDouble(splitted[4]), Double.parseDouble(splitted[5]), Double.parseDouble(splitted[6]), Double.parseDouble(splitted[7]), splitted[8], splitted[9])) {
+                    //Toast.makeText(this, "succeed", Toast.LENGTH_SHORT).show();
+
                 } else {
-                    Toast.makeText(this, "Fail", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
                 }
             }
         } catch (IOException e) {
