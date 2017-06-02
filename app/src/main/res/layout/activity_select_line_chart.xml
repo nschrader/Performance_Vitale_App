@@ -49,7 +49,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:onClick="showChart"
-        android:text="Show Chart"
+        android:text="@string/showChart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
@@ -68,42 +68,42 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Temperature" />
+            android:text="@string/Temperature" />
 
         <RadioButton
             android:id="@+id/humidite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Humidité" />
+            android:text="@string/Humidity" />
 
         <RadioButton
             android:id="@+id/co2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="CO2" />
+            android:text="@string/CO2" />
 
         <RadioButton
             android:id="@+id/eclairage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Eclairage" />
+            android:text="@string/lightIntensity" />
 
         <RadioButton
             android:id="@+id/chaleur"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Chaleur lumiere" />
+            android:text="@string/LightColor" />
 
         <RadioButton
             android:id="@+id/performance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Performance" />
+            android:text="@string/Performance" />
     </RadioGroup>
 
 </android.support.constraint.ConstraintLayout>

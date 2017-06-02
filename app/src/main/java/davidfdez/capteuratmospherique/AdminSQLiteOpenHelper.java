@@ -102,7 +102,10 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
         }
     }
     public double ecCo2(double CO2){
-        return (CO2-400)*(CO2-400) /300000;
+        if(CO2!= -1) {
+            return (CO2 - 400) * (CO2 - 400) / 300000;
+        }
+        return 0;
     }
     public double ecHumidite(double Temp, double humidite){
         double Hmin = - 20*Temp +430;
