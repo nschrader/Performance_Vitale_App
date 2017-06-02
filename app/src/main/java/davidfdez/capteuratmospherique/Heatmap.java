@@ -13,10 +13,10 @@ import java.util.List;
 
 public class Heatmap extends AppCompatActivity {
     private WebView webView;
-    private List<Double> latitudesComfort = new ArrayList<>();
-    private List<Double> longitudesComfort = new ArrayList<>();
-    private List<Double> latitudesDiscomfort = new ArrayList<>();
-    private List<Double> longitudesDiscomfort = new ArrayList<>();
+    private List<Double> comfortLatitudes = new ArrayList<>();
+    private List<Double> comfortLongitudes = new ArrayList<>();
+    private List<Double> discomfortLatitudes = new ArrayList<>();
+    private List<Double> discomforLongitudes = new ArrayList<>();
     private String user = "";
 
     @Override
@@ -46,15 +46,15 @@ public class Heatmap extends AppCompatActivity {
         if (fila.moveToFirst()) {
             String[] splittedLat = fila.getString(0).split(",");
             String[] splittedLong = fila.getString(1).split(",");
-            latitudesComfort.add(Double.parseDouble(splittedLat[0]));
-            longitudesComfort.add(Double.parseDouble(splittedLong[0]));
+            comfortLatitudes.add(Double.parseDouble(splittedLat[0]));
+            comfortLongitudes.add(Double.parseDouble(splittedLong[0]));
 
 
             while (fila.moveToNext()) {
                 splittedLat = fila.getString(0).split(",");
                 splittedLong = fila.getString(1).split(",");
-                latitudesComfort.add(Double.parseDouble(splittedLat[0]));
-                longitudesComfort.add(Double.parseDouble(splittedLong[0]));
+                comfortLatitudes.add(Double.parseDouble(splittedLat[0]));
+                comfortLongitudes.add(Double.parseDouble(splittedLong[0]));
 
             }
         }
@@ -70,15 +70,15 @@ public class Heatmap extends AppCompatActivity {
         if (fila.moveToFirst()) {
             String[] splittedLat = fila.getString(0).split(",");
             String[] splittedLong = fila.getString(1).split(",");
-            latitudesDiscomfort.add(Double.parseDouble(splittedLat[0]));
-            longitudesDiscomfort.add(Double.parseDouble(splittedLong[0]));
+            discomfortLatitudes.add(Double.parseDouble(splittedLat[0]));
+            discomforLongitudes.add(Double.parseDouble(splittedLong[0]));
 
 
             while (fila.moveToNext()) {
                 splittedLat = fila.getString(0).split(",");
                 splittedLong = fila.getString(1).split(",");
-                latitudesDiscomfort.add(Double.parseDouble(splittedLat[0]));
-                longitudesDiscomfort.add(Double.parseDouble(splittedLong[0]));
+                discomfortLatitudes.add(Double.parseDouble(splittedLat[0]));
+                discomforLongitudes.add(Double.parseDouble(splittedLong[0]));
 
             }
         }
@@ -88,32 +88,32 @@ public class Heatmap extends AppCompatActivity {
 
         @JavascriptInterface
         public double getLatitude(int i) {
-            return latitudesComfort.get(i);
+            return comfortLatitudes.get(i);
         }
 
         @JavascriptInterface
         public double getLongitude(int i) {
-            return longitudesComfort.get(i);
+            return comfortLongitudes.get(i);
         }
 
         @JavascriptInterface
         public int getSize() {
-            return longitudesComfort.size();
+            return comfortLongitudes.size();
         }
 
         @JavascriptInterface
         public double getLatitudeDis(int i) {
-            return latitudesDiscomfort.get(i);
+            return discomfortLatitudes.get(i);
         }
 
         @JavascriptInterface
         public double getLongitudeDis(int i) {
-            return longitudesDiscomfort.get(i);
+            return discomforLongitudes.get(i);
         }
 
         @JavascriptInterface
         public int getSizeDis() {
-            return longitudesDiscomfort.size();
+            return discomforLongitudes.size();
         }
     }
 }

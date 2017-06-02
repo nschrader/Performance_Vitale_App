@@ -45,12 +45,12 @@ public class MainActivity extends AppCompatActivity {
 
         DataModel[] drawerItem = new DataModel[6];
 
-        drawerItem[0] = new DataModel(R.drawable.home_icon, "Home");
-        drawerItem[1] = new DataModel(R.drawable.livecharts_icon, "Live Charts");
-        drawerItem[2] = new DataModel(R.drawable.charts_icon, "Charts");
-        drawerItem[3] = new DataModel(R.drawable.heatmap_icon, "Heatmap");
-        drawerItem[4] = new DataModel(R.drawable.settings_icon, "Settings");
-        drawerItem[5] = new DataModel(R.drawable.aboutus_icon, "About Us");
+        drawerItem[0] = new DataModel(R.drawable.home_icon, R.string.home);
+        drawerItem[1] = new DataModel(R.drawable.livecharts_icon, R.string.LiveCharts);
+        drawerItem[2] = new DataModel(R.drawable.charts_icon, R.string.Charts);
+        drawerItem[3] = new DataModel(R.drawable.heatmap_icon, R.string.Heatmaps);
+        drawerItem[4] = new DataModel(R.drawable.settings_icon, R.string.Settings);
+        drawerItem[5] = new DataModel(R.drawable.aboutus_icon,R.string.aboutUsActivity);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -69,10 +69,10 @@ public class MainActivity extends AppCompatActivity {
         admin.introduireDesMesures(2, user, 2, 2.0, 2.0, 1, 1, "holo", "hey");
         admin.introduireDesMesures(3, user, 3, 2.0, 2.0, 1, 1, "holo", "hey");
         SQLiteDatabase bd = admin.getWritableDatabase();
-        Cursor fila = bd.rawQuery("select * from Mesure", null);
+        Cursor raw = bd.rawQuery("select * from Mesure", null);
         Toast.makeText(getApplicationContext(), "Ahora también! :D", Toast.LENGTH_LONG).show();
-        if (fila.moveToFirst()) {
-            String contenido = fila.getString(0) + ";" + fila.getString(1) + ";" + fila.getInt(2) + ";" + fila.getInt(3) + ";" + fila.getString(4) + ";" + fila.getString(5) + ";" + fila.getDouble(6) + ";" + fila.getDouble(7) + ";" + fila.getInt(8) + "\n";
+        if (raw.moveToFirst()) {
+            String contenido = raw.getString(0) + ";" + raw.getString(1) + ";" + raw.getInt(2) + ";" + raw.getInt(3) + ";" + raw.getString(4) + ";" + raw.getString(5) + ";" + raw.getDouble(6) + ";" + raw.getDouble(7) + ";" + raw.getInt(8) + "\n";
             Toast.makeText(this, contenido, Toast.LENGTH_SHORT).show();
         }
     }

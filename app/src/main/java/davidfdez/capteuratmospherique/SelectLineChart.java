@@ -64,8 +64,8 @@ public class SelectLineChart extends AppCompatActivity {
         eclairage = (RadioButton) findViewById(R.id.eclairage);
         performance = (RadioButton) findViewById(R.id.performance);
         temperature.setChecked(true);
-        buttonDateFrom.setText("Select Date From");
-        buttonDateTo.setText("Select Date To");
+        buttonDateFrom.setText(R.string.selectDateFrom);
+        buttonDateTo.setText(R.string.selectDateTo);
 
     }
 

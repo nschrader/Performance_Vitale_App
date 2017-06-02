@@ -22,19 +22,19 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
 
     public boolean introduireDesMesures(long idMesure, String idUser, double CO2Mesure, double Humidite, double Temperature, double Luminosite, double TempLum, String Latitude, String Longitude) {
         SQLiteDatabase bd = this.getWritableDatabase();
-        ContentValues registro = new ContentValues();
-        registro.put("idMesure", idMesure);
-        registro.put("idUser", idUser);
-        registro.put("Performance", getPerformance(CO2Mesure,Temperature,Humidite,Luminosite,TempLum));
-        registro.put("CO2Mesure", CO2Mesure);
-        registro.put("Luminosite", Luminosite);
-        registro.put("Latitude", Latitude);
-        registro.put("Longitude", Longitude);
-        registro.put("Temperature", Temperature);
-        registro.put("Humidite", Humidite);
-        registro.put("TempLum", TempLum);
+        ContentValues valuesToAdd = new ContentValues();
+        valuesToAdd.put("idMesure", idMesure);
+        valuesToAdd.put("idUser", idUser);
+        valuesToAdd.put("Performance", getPerformance(CO2Mesure,Temperature,Humidite,Luminosite,TempLum));
+        valuesToAdd.put("CO2Mesure", CO2Mesure);
+        valuesToAdd.put("Luminosite", Luminosite);
+        valuesToAdd.put("Latitude", Latitude);
+        valuesToAdd.put("Longitude", Longitude);
+        valuesToAdd.put("Temperature", Temperature);
+        valuesToAdd.put("Humidite", Humidite);
+        valuesToAdd.put("TempLum", TempLum);
         if (!checkMessure(idMesure)) {
-            bd.insert("Mesure", null, registro);
+            bd.insert("Mesure", null, valuesToAdd);
             bd.close();
             return true;
         } else {
@@ -59,43 +59,51 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
 
     public boolean signIn(View v, String User, String Password) {
         SQLiteDatabase bd = this.getWritableDatabase();
-        ContentValues registro = new ContentValues();
-        registro.put("id", User);
-        registro.put("password", Password);
+        ContentValues valuesToAdd = new ContentValues();
+        valuesToAdd.put("id", User);
+        valuesToAdd.put("password", Password);
 
         if (!checkIfUserExists(User)) {
-            bd.insert("User", null, registro);
+            bd.insert("User", null, valuesToAdd);
             bd.close();
             return true;
         } else {
             return false;
         }
     }
-    public double getPerformance(double CO2, double Temp, double humidite, double Luminosite, double Couleur){
-        return 100 - this.ecHumidite(Temp, humidite) - this.ecCo2(CO2) - this.ecTemp(Temp, humidite) - this.ecLuminosite(Luminosite) - this.ecCouleur(Couleur,Luminosite);
+    public double getPerformance(double CO2, double temp, double humidity, double lightIntensity, double Color){
+
+        double perf = 100 - this.ecHumidite(temp, humidity) - this.ecCo2(CO2) - this.ecTemp(temp, humidity) - this.ecLuminosite(lightIntensity) - this.ecColor(Color,lightIntensity);
+    if(perf>100){
+        return 100;
+            }else if(perf<0){
+                return 0;
+            }else{
+                    return perf;
+                }
     }
-    public double ecCouleur(double Couleur,double Luminosite){
-        double Coulmin = 1313.06* Math.exp(-248.36/Luminosite) + 2338.54;
-        double Coulmax = 5.71*Luminosite + 2448.42;
+    public double ecColor(double color, double lightIntensity){
+        double colorMin = 1313.06* Math.exp(-248.36/lightIntensity) + 2338.54;
+        double colorMax = 5.71*lightIntensity + 2448.42;
 
 
-        if(Couleur>Coulmax){
-            return (Couleur - Coulmax) * (Couleur - Coulmax)*2/10000;
+        if(color>colorMax){
+            return (color - colorMax) * (color - colorMax)*2/10000;
         }
-        else if(Couleur<Coulmin){
-            return (Couleur - Coulmin) * (Couleur - Coulmin)*2/10000;
+        else if(color<colorMin){
+            return (color - colorMin) * (color - colorMin)*2/10000;
         }
         else return 0;
     }
 
-    public double ecTemp(double Temp, double Humid){
-        double Tmax = -0.075*Humid + 25.25;
-        double Tmin = -0.05*Humid +27.5;
-        if(Temp<Tmin){
-            return (Temp-Tmin)*(Temp - Tmin)/2;
+    public double ecTemp(double temp, double humid){
+        double tMax = -0.075*humid + 25.25;
+        double tMin = -0.05*humid +27.5;
+        if(temp<tMin){
+            return (temp-tMin)*(temp - tMin)/2;
         }
-        else if(Temp>Tmax){
-            return (Temp-Tmax)*(Temp - Tmax)/2;
+        else if(temp>tMax){
+            return (temp-tMax)*(temp - tMax)/2;
         }
         else{
             return 0;
@@ -107,33 +115,33 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
         }
         return 0;
     }
-    public double ecHumidite(double Temp, double humidite){
-        double Hmin = - 20*Temp +430;
-        double Hmax = -10*Temp+330;
+    public double ecHumidite(double temp, double humidity){
+        double hMin = - 20*temp +430;
+        double hMax = -10*temp+330;
 
-        if(Hmin<30){
-            //System.out.println("UNO" + Hmin);
-            Hmin = 30;
-            //System.out.println("UNO" + Hmin);
+        if(hMin<30){
+            //System.out.println("UNO" + hMin);
+            hMin = 30;
+            //System.out.println("UNO" + hMin);
         }
 
-        if(Hmax >= 70){
+        if(hMax >= 70){
             //System.out.println("Dos");
-            Hmax = 70;
+            hMax = 70;
         }
-        if(humidite<Hmin){
-            //System.out.println("1."+ Hmin);
-            return (humidite-Hmax)*(humidite-Hmax)/100;
+        if(humidity<hMin){
+            //System.out.println("1."+ hMin);
+            return (humidity-hMax)*(humidity-hMax)/100;
         }
-        else if(humidite>Hmax){
-            //System.out.println("2."+ Hmax);
-            return (humidite-Hmax)*(humidite-Hmax)/100 ;
+        else if(humidity>hMax){
+            //System.out.println("2."+ hMax);
+            return (humidity-hMax)*(humidity-hMax)/100 ;
         }else{
             return 0;
         }
     }
-    public double ecLuminosite(double Luminosite){
-        return (Luminosite - 500)*(Luminosite - 500)*6/10000;
+    public double ecLuminosite(double lightIntensity){
+        return (lightIntensity - 500)*(lightIntensity - 500)*6/10000;
     }
     public boolean checkIfUserExists(String User) {
         SQLiteDatabase bd = this.getWritableDatabase();
@@ -153,10 +161,10 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
     public boolean logIn(View v, String User, String Password) {
 
         SQLiteDatabase bd = this.getWritableDatabase();
-        Cursor fila = bd.rawQuery(
+        Cursor raw = bd.rawQuery(
                 "select id,password from User where id = '" + User + "'", null);
-        if (fila.moveToFirst()) {
-            if (fila.getString(0).equals(User) && fila.getString(1).equals(Password)) {
+        if (raw.moveToFirst()) {
+            if (raw.getString(0).equals(User) && raw.getString(1).equals(Password)) {
                 bd.close();
                 return true;
 

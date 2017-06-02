@@ -37,7 +37,7 @@
                   android:label="@string/Settings"
             />
         <activity android:name=".AboutUs"
-                  android:label="@string/abourUsActivity"
+                  android:label="@string/aboutUsActivity"
             />
         <activity android:name=".SelectLineChart"
                   android:label="@string/Charts"
