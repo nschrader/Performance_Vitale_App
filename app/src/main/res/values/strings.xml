@@ -1,6 +1,11 @@
 <resources>
     //App name
     <string name="app_name">Ambience Sensor</string>
+    <string name="Settings">Settings</string>
+    <string name="abourUsActivity">About Us</string>
+    <string name="Charts">Charts</string>
+    <string name="LiveCharts">Live Charts</string>
+    <string name="Heatmaps">Heatmaps</string>
 
     //String for the top menu
 
@@ -14,7 +19,7 @@
         <item>About Us</item>
 
     </string-array>
-    <string name="descrip">Nous avons comme objectif mesurer l\'atmosphère ambiante afin d’améliorer la performance vitale pour travailler, faire du sport etc, grâce à un analyse des donnés. Pour le projet, il s’agit d’une boite contenant plusieurs capteurs, un GPS et un module Bluetooth HC-05, tous connectés à un Arduino Uno. Le module Bluetooth sert à pouvoir communiquer avec un portable Android, sur lequel une application que nous allons aussi développer sera installée. Cette application donne la possibilité de se connecter pour avoir différents profils pour chaque utilisateur.</string>
+    <string name="descrip">Nous avons comme objectif mesurer l\'atmosphère ambiante afin d’améliorer la performance vitale pour travailler, faire du sport etc, grâce à un analyse des donnés. Pour le projet, il s’agit d’une boite contenant plusieurs capteurs, un GPS et un module Bluetooth HC-05, tous connectés à un Arduino Uno. Le module Bluetooth sert à pouvoir communiquer avec un portable Android, sur lequel une application que nous allons aussi développer sera installée. Cette application donne la possibilité de se connecter pour avoir différents profils pour chaque utilisateur. Ce projet a été développé par Joan Capell, Daniel Del Pozo, David Fernández et Nick Schrader</string>
     <string name="title_activity_main">Ambience Sensor</string>
     <string name="title">Description du projet</string>
 
