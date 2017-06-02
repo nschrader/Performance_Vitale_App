@@ -73,14 +73,14 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
     }
     public double getPerformance(double CO2, double temp, double humidity, double lightIntensity, double Color){
 
-        double perf = 100 - this.ecHumidite(temp, humidity) - this.ecCo2(CO2) - this.ecTemp(temp, humidity) - this.ecLuminosite(lightIntensity) - this.ecColor(Color,lightIntensity);
-    if(perf>100){
-        return 100;
-            }else if(perf<0){
-                return 0;
-            }else{
-                    return perf;
-                }
+        double perf = 100 - this.ecHumidite(temp, humidity) - this.ecCo2(CO2) - this.ecTemp(temp, humidity) - this.ecColor(Color,lightIntensity);
+        if(perf>100){
+            return 100;
+        }else if(perf<0){
+            return 0;
+        }else{
+            return perf;
+        }
     }
     public double ecColor(double color, double lightIntensity){
         double colorMin = 1313.06* Math.exp(-248.36/lightIntensity) + 2338.54;
@@ -88,10 +88,10 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
 
 
         if(color>colorMax){
-            return (color - colorMax) * (color - colorMax)*2/10000;
+            return (color - colorMax) * (color - colorMax)*2/50000;
         }
         else if(color<colorMin){
-            return (color - colorMin) * (color - colorMin)*2/10000;
+            return (color - colorMin) * (color - colorMin)*2/50000;
         }
         else return 0;
     }
@@ -139,9 +139,6 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
         }else{
             return 0;
         }
-    }
-    public double ecLuminosite(double lightIntensity){
-        return (lightIntensity - 500)*(lightIntensity - 500)*6/10000;
     }
     public boolean checkIfUserExists(String User) {
         SQLiteDatabase bd = this.getWritableDatabase();
