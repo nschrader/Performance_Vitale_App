@@ -53,19 +53,19 @@ public class liveCharts extends AppCompatActivity {
         SQLiteDatabase bd = admin.getWritableDatabase();
         Cursor fila = null;
         if (TypeCapteur == 1) {
-            fila = bd.rawQuery("select CO2mesure from Mesure where idUser = '" + user + "' Limit 1 ", null);
+            fila = bd.rawQuery("select CO2mesure from Mesure where idUser = '" + user + "' ORDER BY idMesure DESC LIMIT 1 ", null);
         } else if (TypeCapteur == 2) {
-            fila = bd.rawQuery("select Temperature from Mesure where idUser = '" + user + "'Limit 1 ", null);
+            fila = bd.rawQuery("select Temperature from Mesure where idUser = '" + user + "' ORDER BY idMesure DESC LIMIT 1", null);
         } else if (TypeCapteur == 3) {
-            fila = bd.rawQuery("select Luminosite from Mesure where idUser = '" + user + "'Limit 1 ", null);
+            fila = bd.rawQuery("select Luminosite from Mesure where idUser = '" + user + "' ORDER BY idMesure DESC LIMIT 1 ", null);
         } else if (TypeCapteur == 4) {
-            fila = bd.rawQuery("select Humidite from Mesure where idUser = '" + user + "' Limit 1 ", null);
+            fila = bd.rawQuery("select Humidite from Mesure where idUser = '" + user + "' ORDER BY idMesure DESC LIMIT 1 ", null);
         } else if (TypeCapteur == 0) {
-            fila = bd.rawQuery("select Performance from Mesure where idUser = '" + user + "' Limit 1 ", null);
+            fila = bd.rawQuery("select Performance from Mesure where idUser = '" + user + "' ORDER BY idMesure DESC LIMIT 1 ", null);
         }
 
         if (fila.moveToFirst()) {
-            return Integer.parseInt(fila.getString(0));
+            return fila.getDouble(0);
         }
         return 10;
     }
