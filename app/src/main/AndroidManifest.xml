@@ -17,6 +17,7 @@
         <activity android:name=".SignIn">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -24,29 +25,31 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".liveCharts"
-                  android:label="@string/LiveCharts"
-            />
-        <activity android:name=".Charts"
-                  android:label="@string/Charts"
-            />
-        <activity android:name=".Heatmap"
-                  android:label="@string/Heatmaps"
-            />
-        <activity android:name=".Settings"
-                  android:label="@string/Settings"
-            />
-        <activity android:name=".AboutUs"
-                  android:label="@string/aboutUsActivity"
-            />
-        <activity android:name=".SelectLineChart"
-                  android:label="@string/Charts"
-            />
-        <activity android:name=".ShowLineChart"
-                  android:label="@string/Charts"
-            />
+        <activity
+            android:name=".liveCharts"
+            android:label="@string/LiveCharts" />
+        <activity
+            android:name=".Charts"
+            android:label="@string/Charts" />
+        <activity
+            android:name=".Heatmap"
+            android:label="@string/Heatmaps" />
+        <activity
+            android:name=".Settings"
+            android:label="@string/Settings" />
+        <activity
+            android:name=".AboutUs"
+            android:label="@string/aboutUsActivity" />
+        <activity
+            android:name=".SelectLineChart"
+            android:label="@string/Charts" />
+        <activity
+            android:name=".ShowLineChart"
+            android:label="@string/Charts" />
 
         <service android:name=".BluetoothService" />
+
+        <activity android:name=".Clustering"></activity>
     </application>
 
 </manifest>

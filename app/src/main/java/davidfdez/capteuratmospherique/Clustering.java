@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Heatmap extends AppCompatActivity {
+public class Clustering extends AppCompatActivity {
     private WebView webView;
     private List<Double> comfortLatitudes = new ArrayList<>();
     private List<Double> comfortLongitudes = new ArrayList<>();
@@ -22,17 +22,17 @@ public class Heatmap extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_heatmap);
+        setContentView(R.layout.activity_clustering);
 
         getOver50();
         getUnder50();
 
-        webView = (WebView) findViewById(R.id.heatmap);
+        webView = (WebView) findViewById(R.id.clustering);
         webView.addJavascriptInterface(new WebAppInterface(), "Android");
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
-        webView.loadUrl("file:///android_asset/heatmap.html");
+        webView.loadUrl("file:///android_asset/clustering.html");
 
     }
 

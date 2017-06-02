@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Heatmaps</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+      #floating-panel {
+        background-color: #fff;
+        border: 1px solid #999;
+        left: 25%;
+        padding: 5px;
+        position: absolute;
+        top: 10px;
+        z-index: 5;
+      }
+    </style>
+</head>
+
+<body>
+<div id="floating-panel">
+    <button onclick="comfort()" style="width:190px;height:60px;font-size : 25px;">Comfort</button>
+    <button onclick="discomfort()" style="width:190px;height:60px;font-size : 25px;">Discomfort</button>
+</div>
+<div id="map"></div>
+<script>
+
+		var locations = [
+       	{lat: -31.563910, lng: 147.154312},
+
+      ];
+      function comfort(){
+      	locations = [
+       	{lat: -31.563910, lng: 147.154312}
+        ];
+        for(i=0;i<Android.getSize();i++){
+        	locations.push({lat: Android.getLatitude(i), lng: Android.getLongitude(i)});
+        }
+
+        initMap();
+      }
+      function discomfort(){
+      	locations = [
+       	{lat: -28.563910, lng: 147.154312}
+        ];
+        for(i=0;i<Android.getSizeDis();i++){
+        locations.push({lat: Android.getLatitudeDis(i), lng: Android.getLongitudeDis(i)});
+        }
+        initMap();
+      }
+
+      function initMap() {
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 15,
+          center: {lat: 45.7850308, lng:  4.8772527}
+        });
+
+        // Create an array of alphabetical characters used to label the markers.
+        var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        // Add some markers to the map.
+        // Note: The code uses the JavaScript Array.prototype.map() method to
+        // create an array of markers based on a given "locations" array.
+        // The map() method here has nothing to do with the Google Maps API.
+        var markers = locations.map(function(location, i) {
+          return new google.maps.Marker({
+            position: location
+          });
+        });
+
+        // Add a marker clusterer to manage the markers.
+        var markerCluster = new MarkerClusterer(map, markers,
+            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+      }
+
+
+    </script>
+<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCioIb495nMf1arJcAO-gUVEG3lHGVrHO8&callback=initMap">
+</script>
+</body>
+</html>

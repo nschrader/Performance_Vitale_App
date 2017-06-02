@@ -32,7 +32,7 @@ public class Charts extends AppCompatActivity {
     }
 
     public void openClustering(View view) {
-        Intent intent = new Intent(Charts.this, SelectLineChart.class);
+        Intent intent = new Intent(Charts.this, Clustering.class);
         startActivity(intent);
     }
 

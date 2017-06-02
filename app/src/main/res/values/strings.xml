@@ -22,13 +22,13 @@
     <string name="home">Home</string>
     <string name="title_activity_main">Ambience Sensor</string>
     <string name="title">Proyect\'s description</string>
-    <string name="lineChartsButton" >LineCharts</string>
-    <string name="calendarButton" >Calendar</string>
+    <string name="lineChartsButton">LineCharts</string>
+    <string name="calendarButton">Calendar</string>
     <string name="histogramButton">Histogram</string>
     <string name="clusteringButton">Clustering</string>
     <string name="Temperature">Temperature</string>
     <string name="Humidity">Humidity</string>
-    <string name="CO2" >CO2</string>
+    <string name="CO2">CO2</string>
     <string name="lightIntensity">Light Intensity</string>
     <string name="LightColor">Light Color</string>
     <string name="Performance">Performance</string>
