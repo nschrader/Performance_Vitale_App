@@ -14,7 +14,7 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SignIn">
+        <activity android:name=".SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,33 +26,33 @@
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".liveCharts"
+            android:name=".LiveCharts"
             android:label="@string/LiveCharts" />
         <activity
-            android:name=".Charts"
+            android:name=".ChartsActivity"
             android:label="@string/Charts" />
         <activity
-            android:name=".Heatmap"
+            android:name=".HeatmapActivity"
             android:label="@string/Heatmaps" />
         <activity
-            android:name=".Settings"
+            android:name=".SettingsActivity"
             android:label="@string/Settings" />
         <activity
             android:name=".AboutUsActivity"
             android:label="@string/aboutUsActivity" />
         <activity
-            android:name=".SelectLineChart"
+            android:name=".SelectLineChartActivity"
             android:label="@string/Charts" />
         <activity
-            android:name=".ShowLineChart"
+            android:name=".ShowLineChartActivity"
             android:label="@string/Charts" />
 
         <service android:name=".BluetoothService" />
 
-        <activity android:name=".Clustering" />
-        <activity android:name=".Calendar" />
-        <activity android:name=".SelectHistogram" />
-        <activity android:name=".ShowHistogram" />
+        <activity android:name=".ClusteringActivity" />
+        <activity android:name=".CalendarActivity" />
+        <activity android:name=".SelectHistogramActivity" />
+        <activity android:name=".ShowHistogramActivity" />
         <activity android:name=".SignUpActivity"></activity>
     </application>
 

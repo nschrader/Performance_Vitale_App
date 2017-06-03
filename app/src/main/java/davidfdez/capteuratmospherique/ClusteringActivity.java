@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Clustering extends AppCompatActivity {
+public class ClusteringActivity extends AppCompatActivity {
     private WebView webView;
     private List<Double> comfortLatitudes = new ArrayList<>();
     private List<Double> comfortLongitudes = new ArrayList<>();
@@ -54,13 +54,11 @@ public class Clustering extends AppCompatActivity {
             comfortLatitudes.add(convertLatLong(Double.parseDouble(splittedLat[0])));
             comfortLongitudes.add(convertLatLong(Double.parseDouble(splittedLong[0])));
 
-
             while (fila.moveToNext()) {
                 splittedLat = fila.getString(0).split(",");
                 splittedLong = fila.getString(1).split(",");
                 comfortLatitudes.add(convertLatLong(Double.parseDouble(splittedLat[0])));
                 comfortLongitudes.add(convertLatLong(Double.parseDouble(splittedLong[0])));
-
             }
         }
     }
@@ -77,13 +75,11 @@ public class Clustering extends AppCompatActivity {
             discomfortLatitudes.add(convertLatLong(Double.parseDouble(splittedLat[0])));
             discomforLongitudes.add(convertLatLong(Double.parseDouble(splittedLong[0])));
 
-
             while (fila.moveToNext()) {
                 splittedLat = fila.getString(0).split(",");
                 splittedLong = fila.getString(1).split(",");
                 discomfortLatitudes.add(convertLatLong(Double.parseDouble(splittedLat[0])));
                 discomforLongitudes.add(convertLatLong(Double.parseDouble(splittedLong[0])));
-
             }
         }
     }

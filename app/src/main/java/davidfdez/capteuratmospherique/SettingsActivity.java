@@ -26,7 +26,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class Settings extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
     public static String EXTRA_ADDRESS = "device_address";
 
     private Button btnPaired;
@@ -45,7 +45,7 @@ public class Settings extends AppCompatActivity {
             String address = info.substring(info.length() - 17);
 
             // Make an intent to start next activity.
-            Intent serviceIntent = new Intent(Settings.this, BluetoothService.class);
+            Intent serviceIntent = new Intent(SettingsActivity.this, BluetoothService.class);
             serviceIntent.putExtra(EXTRA_ADDRESS, address);
             serviceIntent.putExtra("user", user);
 

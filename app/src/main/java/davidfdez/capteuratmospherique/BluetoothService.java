@@ -34,7 +34,7 @@ public class BluetoothService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        address = intent.getStringExtra(Settings.EXTRA_ADDRESS); //receive the address of the bluetooth device
+        address = intent.getStringExtra(SettingsActivity.EXTRA_ADDRESS); //receive the address of the bluetooth device
         user = intent.getStringExtra("user");
         new ConnectBT().execute();
         handler = new Handler();

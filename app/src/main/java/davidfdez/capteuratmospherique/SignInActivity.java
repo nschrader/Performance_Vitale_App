@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SignIn extends AppCompatActivity {
+public class SignInActivity extends AppCompatActivity {
 
     private EditText et1, et2;
     private TextView t1;
@@ -87,7 +87,7 @@ public class SignIn extends AppCompatActivity {
             if (fila.getString(0).equals(user) && fila.getString(1).equals(pass)) {
                 Toast.makeText(this, "Password matchs the user",
                         Toast.LENGTH_SHORT).show();
-                final ProgressDialog progressDialog = new ProgressDialog(SignIn.this,
+                final ProgressDialog progressDialog = new ProgressDialog(SignInActivity.this,
                         R.style.Theme_AppCompat_DayNight_Dialog);
                 progressDialog.setMessage("Loging in...");
                 progressDialog.setIndeterminate(false);
@@ -131,7 +131,7 @@ public class SignIn extends AppCompatActivity {
     }
 
     public void onBackPressed() {
-        // Disable going back to the SignIn
+        // Disable going back to the SignInActivity
         moveTaskToBack(true);
     }
 }

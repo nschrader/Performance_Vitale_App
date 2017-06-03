@@ -82,22 +82,22 @@ public class MainActivity extends AppCompatActivity {
                 mDrawerLayout.closeDrawers();
                 break;
             case 1:
-                Intent iALC = new Intent(MainActivity.this, liveCharts.class);
+                Intent iALC = new Intent(MainActivity.this, LiveCharts.class);
                 startActivity(iALC);
                 mDrawerLayout.closeDrawers();
                 break;
             case 2:
-                Intent iAC = new Intent(MainActivity.this, Charts.class);
+                Intent iAC = new Intent(MainActivity.this, ChartsActivity.class);
                 startActivity(iAC);
                 mDrawerLayout.closeDrawers();
                 break;
             case 3:
-                Intent iAH = new Intent(MainActivity.this, Heatmap.class);
+                Intent iAH = new Intent(MainActivity.this, HeatmapActivity.class);
                 startActivity(iAH);
                 mDrawerLayout.closeDrawers();
                 break;
             case 4:
-                Intent iAS = new Intent(MainActivity.this, Settings.class);
+                Intent iAS = new Intent(MainActivity.this, SettingsActivity.class);
                 iAS.putExtra("user", user);
                 startActivity(iAS);
                 mDrawerLayout.closeDrawers();

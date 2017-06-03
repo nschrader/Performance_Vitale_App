@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.LinkedList;
 
 @SuppressLint("SetJavaScriptEnabled")
-public class Calendar extends ActionBarActivity {
+public class CalendarActivity extends AppCompatActivity {
     public String user = "";
 
     private WebView webView;
@@ -25,7 +25,6 @@ public class Calendar extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
-
 
         getDataSql();
         average();
@@ -91,7 +90,6 @@ public class Calendar extends ActionBarActivity {
 
     public class WebAppInterface {
 
-
         @JavascriptInterface
         public int getSize() {
             return dates.size();
@@ -116,7 +114,6 @@ public class Calendar extends ActionBarActivity {
         public int getDay(int a) {
             return dates.get(a).getDate();
         }
-
 
     }
 

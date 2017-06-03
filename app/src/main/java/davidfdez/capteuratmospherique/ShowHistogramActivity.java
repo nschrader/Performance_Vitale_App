@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
@@ -12,7 +13,7 @@ import java.util.Date;
 import java.util.LinkedList;
 
 @SuppressLint("SetJavaScriptEnabled")
-public class ShowHistogram extends ActionBarActivity {
+public class ShowHistogramActivity extends AppCompatActivity {
     public String user = "";
     private WebView webView;
     private LinkedList<Date> dates;

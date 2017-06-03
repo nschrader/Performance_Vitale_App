@@ -11,8 +11,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.Toast;
 
-
-public class liveCharts extends AppCompatActivity {
+public class LiveCharts extends AppCompatActivity {
     private WebView webView;
     private String user = "";
 

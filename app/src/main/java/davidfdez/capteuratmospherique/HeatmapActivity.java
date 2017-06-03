@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Heatmap extends AppCompatActivity {
+public class HeatmapActivity extends AppCompatActivity {
     private WebView webView;
     private List<Double> comfortLatitudes = new ArrayList<>();
     private List<Double> comfortLongitudes = new ArrayList<>();
@@ -33,7 +33,6 @@ public class Heatmap extends AppCompatActivity {
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
         webView.loadUrl("file:///android_asset/heatmap.html");
-
     }
 
     public double convertLatLong(double value) {
@@ -52,7 +51,6 @@ public class Heatmap extends AppCompatActivity {
             String[] splittedLong = fila.getString(1).split(",");
             comfortLatitudes.add(convertLatLong(Double.parseDouble(splittedLat[0])));
             comfortLongitudes.add(convertLatLong(Double.parseDouble(splittedLong[0])));
-
 
             while (fila.moveToNext()) {
                 splittedLat = fila.getString(0).split(",");
@@ -74,7 +72,6 @@ public class Heatmap extends AppCompatActivity {
             String[] splittedLong = fila.getString(1).split(",");
             discomfortLatitudes.add(convertLatLong(Double.parseDouble(splittedLat[0])));
             discomforLongitudes.add(convertLatLong(Double.parseDouble(splittedLong[0])));
-
 
             while (fila.moveToNext()) {
                 splittedLat = fila.getString(0).split(",");

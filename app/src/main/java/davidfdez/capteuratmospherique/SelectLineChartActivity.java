@@ -14,7 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class SelectHistogram extends AppCompatActivity {
+public class SelectLineChartActivity extends AppCompatActivity {
     private int year, month, day;
     private Button buttonDateFrom;
     private Button buttonDateTo;
@@ -53,7 +53,7 @@ public class SelectHistogram extends AppCompatActivity {
         dateTo = new Date(2020, 11, 11);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_histogram);
+        setContentView(R.layout.activity_select_line_chart);
 
         buttonDateFrom = (Button) findViewById(R.id.date1);
         buttonDateTo = (Button) findViewById(R.id.date2);
@@ -110,7 +110,7 @@ public class SelectHistogram extends AppCompatActivity {
             capteur = "Humidite";
         }
 
-        Intent i = new Intent(this, ShowHistogram.class);
+        Intent i = new Intent(this, ShowLineChartActivity.class);
         i.putExtra("capteur", capteur);
         i.putExtra("yearFrom", dateFrom.getYear() - 1900);
         i.putExtra("monthFrom", dateFrom.getMonth());
