@@ -1,5 +1,6 @@
 package davidfdez.capteuratmospherique;
 
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -8,20 +9,22 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SignIn extends AppCompatActivity {
 
     private EditText et1, et2;
+    private TextView t1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in);
+        setContentView(R.layout.activity_log_in);
 
-        et1 = (EditText) findViewById(R.id.etUser);
-        et2 = (EditText) findViewById(R.id.etPass);
-
+        et1 = (EditText) findViewById(R.id.input_email);
+        et2 = (EditText) findViewById(R.id.input_password);
+        t1 = (TextView) findViewById(R.id.link_signup);
     }
 
     public void signIn(View v) {  //hacer que no se repita comprobando si ya existe
@@ -78,9 +81,23 @@ public class SignIn extends AppCompatActivity {
             if (fila.getString(0).equals(user) && fila.getString(1).equals(pass)) {
                 Toast.makeText(this, "Password matchs the user",
                         Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(this, MainActivity.class);
-                i.putExtra("user", et1.getText().toString());
-                startActivity(i);
+                final ProgressDialog progressDialog = new ProgressDialog(SignIn.this,
+                        R.style.Theme_AppCompat_DayNight_Dialog);
+                progressDialog.setMessage("Loging in...");
+                progressDialog.setIndeterminate(false);
+
+                progressDialog.show();
+
+                new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                // On complete call either onLoginSuccess or onLoginFailed
+                                onLoginSuccess();
+                                // onLoginFailed();
+                                progressDialog.dismiss();
+                            }
+                        }, 3000);
+
 
             } else
                 Toast.makeText(this, "Error",
@@ -91,6 +108,12 @@ public class SignIn extends AppCompatActivity {
 
         bd.close();
     }
+    public void onLoginSuccess() {
+        Intent i = new Intent(this, MainActivity.class);
+        i.putExtra("user", et1.getText().toString());
+        startActivity(i);
+        finish();
+    }
 
     public void reset(View v) {
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,
@@ -99,5 +122,9 @@ public class SignIn extends AppCompatActivity {
         bd.execSQL("delete from User");
         bd.close();
 
+    }
+    public void onBackPressed() {
+        // Disable going back to the SignIn
+        moveTaskToBack(true);
     }
 }

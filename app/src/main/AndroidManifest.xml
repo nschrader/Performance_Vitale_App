@@ -52,7 +52,8 @@
         <activity android:name=".Clustering" />
         <activity android:name=".Calendar" />
         <activity android:name=".SelectHistogram" />
-        <activity android:name=".ShowHistogram"></activity>
+        <activity android:name=".ShowHistogram" />
+        <activity android:name=".signUpActivity"></activity>
     </application>
 
 </manifest>
