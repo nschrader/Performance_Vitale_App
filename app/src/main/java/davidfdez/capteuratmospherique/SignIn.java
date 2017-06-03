@@ -22,9 +22,18 @@ public class SignIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
-        et1 = (EditText) findViewById(R.id.input_email);
+        et1 = (EditText) findViewById(R.id.input_name);
         et2 = (EditText) findViewById(R.id.input_password);
         t1 = (TextView) findViewById(R.id.link_signup);
+        t1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Finish the registration screen and return to the Login activity
+                Intent intent = new Intent(getApplicationContext(), signUpActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     public void signIn(View v) {  //hacer que no se repita comprobando si ya existe
