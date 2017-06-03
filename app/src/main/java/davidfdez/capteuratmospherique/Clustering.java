@@ -71,7 +71,7 @@ public class Clustering extends AppCompatActivity {
                 "administracion", null, 1);
         SQLiteDatabase bd = admin.getWritableDatabase();
         Cursor fila = bd.rawQuery(
-                "select Latitude, Longitude from Mesure where Performance <= 50", null);
+                "select Latitude, Longitude from Mesure where Performance <= 50 and latitude != '0'", null);
 
         if (fila.moveToFirst()) {
             String[] splittedLat = fila.getString(0).split(",");
