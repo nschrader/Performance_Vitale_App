@@ -67,7 +67,7 @@ public class BluetoothService extends Service {
                                 handler.removeCallbacks(this);
                             }
                         }
-                    } catch (IOException e) {
+                    } catch (IOException | NumberFormatException | ArrayIndexOutOfBoundsException e) {
                         msg("Error");
                     }
                 }

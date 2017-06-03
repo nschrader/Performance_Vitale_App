@@ -58,27 +58,27 @@ public class ShowHistogram extends ActionBarActivity {
                 "administracion", null, 1);
         SQLiteDatabase bd = admin.getWritableDatabase();
         Cursor raw = bd.rawQuery(
-                "select idMesure," + capteur + " from Mesure where idUser ='" + user + "'", null);
+                "select idMesure," + capteur + " from Mesure where idUser ='" + user + "' and idMesure > "+ dateFrom.getTime() + " and idMesure < "+ dateTo.getTime(), null);
 
         if (raw.moveToFirst()) {
             long stringDateSql = raw.getLong(0);
             Date dateSql = new Date(stringDateSql);
             double aux = raw.getDouble(1);
-            if (dateSql.before(dateTo) && dateSql.after(dateFrom)) {
-                valeurs.add(aux);
-                dates.add(dateSql);
 
-            }
+            valeurs.add(aux);
+            dates.add(dateSql);
+
+
 
             while (raw.moveToNext()) {
                 stringDateSql = raw.getLong(0);
                 dateSql = new Date(stringDateSql);
                 aux = raw.getDouble(1);
-                if (dateSql.before(dateTo) && dateSql.after(dateFrom)) {
-                    valeurs.add(aux);
-                    dates.add(dateSql);
 
-                }
+                valeurs.add(aux);
+                dates.add(dateSql);
+
+
 
 
             }
