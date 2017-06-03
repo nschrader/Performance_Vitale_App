@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     tools:context="davidfdez.capteuratmospherique.AboutUs">
 
-
-
     <Button
         android:id="@+id/date1"
         android:layout_width="263dp"
