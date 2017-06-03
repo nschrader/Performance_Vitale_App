@@ -149,6 +149,7 @@ public class Settings extends AppCompatActivity {
         }
     }
 
+    //TODO: Make more verbose
     public void importData(View v) {
         String nomarchivo = "db.csv";
         File path = getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);

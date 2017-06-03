@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,19 +60,17 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         setupDrawerToggle();
+
+        insertSQLDefaultData();
     }
 
-    private void insertSQLTestData() {
+    private void insertSQLDefaultData() {
+        //TODO: Put this in seperate method
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administracion", null, 1);
-        admin.introduireDesMesures(1, user, 1, 2.0, 2.0, 1, 1, "holo", "hey");
-        admin.introduireDesMesures(2, user, 2, 2.0, 2.0, 1, 1, "holo", "hey");
-        admin.introduireDesMesures(3, user, 3, 2.0, 2.0, 1, 1, "holo", "hey");
         SQLiteDatabase bd = admin.getWritableDatabase();
         Cursor raw = bd.rawQuery("select * from Mesure", null);
-        Toast.makeText(getApplicationContext(), "Ahora también! :D", Toast.LENGTH_LONG).show();
-        if (raw.moveToFirst()) {
-            String contenido = raw.getString(0) + ";" + raw.getString(1) + ";" + raw.getInt(2) + ";" + raw.getInt(3) + ";" + raw.getString(4) + ";" + raw.getString(5) + ";" + raw.getDouble(6) + ";" + raw.getDouble(7) + ";" + raw.getInt(8) + "\n";
-            Toast.makeText(this, contenido, Toast.LENGTH_SHORT).show();
+        if (!raw.moveToFirst()) { //Database empty
+            admin.introduireDesMesures(1496421270283L, "", 968.0, 35.1, 25.6, 229.0, 4716.0, "4546.7948", "00452.3943");
         }
     }
 

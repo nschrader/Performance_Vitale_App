@@ -5,8 +5,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.webkit.ConsoleMessage;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 
 public class liveCharts extends AppCompatActivity {
@@ -19,14 +22,22 @@ public class liveCharts extends AppCompatActivity {
         setContentView(R.layout.activity_live_charts);
 
         webView = (WebView) findViewById(R.id.web);
-        //setContentView(webView);
         webView.addJavascriptInterface(new WebAppInterface(), "Android");
-
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
-        webView.loadUrl("file:///android_asset/liveChart.html");
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+                Toast.makeText(getApplicationContext(), consoleMessage.message() + " -- From line "
+                                + consoleMessage.lineNumber() + " of "
+                                + consoleMessage.sourceId(),
+                        Toast.LENGTH_LONG).show();
+                return super.onConsoleMessage(consoleMessage);
+            }
+        });
 
+        webView.loadUrl("file:///android_asset/liveChart.html");
     }
 
     @Override
@@ -48,6 +59,7 @@ public class liveCharts extends AppCompatActivity {
 
     //Methode pour selectionner les mesures d'un capteur qui sont dehors l'interval optimale (Co2 dans ce cas)
     public double lastMesure(String user, SensorType sensorType) {
+        //TODO: Move to another class
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administracion", null, 1);
         SQLiteDatabase bd = admin.getWritableDatabase();
         Cursor fila = null;
@@ -82,25 +94,25 @@ public class liveCharts extends AppCompatActivity {
 
         @JavascriptInterface
         public double getPerformance() {
-            return lastMesure(user, SensorType.PERFORMANCE); //A completar
+            return lastMesure(user, SensorType.PERFORMANCE);
         }
 
         @JavascriptInterface
         public double getMinTemperature() {
             double h = lastMesure(user, SensorType.HUMIDITY);
-            return -0.05 * h + 21.5;
+            return MeasureUtil.calculateMinTemperature(h);
         }
 
         @JavascriptInterface
         public double getOptimalTemperature() {
             double h = lastMesure(user, SensorType.HUMIDITY);
-            return -0.05 * h + 27.5;
+            return MeasureUtil.calculateOptimalTemperature(h);
         }
 
         @JavascriptInterface
         public double getMaxTemperature() {
             double h = lastMesure(user, SensorType.HUMIDITY);
-            return -0.075 * h + 25.25;
+            return MeasureUtil.calculateMaxTemperature(h);
         }
 
         @JavascriptInterface
@@ -111,15 +123,13 @@ public class liveCharts extends AppCompatActivity {
         @JavascriptInterface
         public double getMinHumidity() {
             double t = lastMesure(user, SensorType.HUMIDITY);
-            double h = -20 * t + 430;
-            return h < 0.3 ? 0.3 : h;
+            return MeasureUtil.calculateMinHumidity(t);
         }
 
         @JavascriptInterface
         public double getMaxHumidity() {
             double t = lastMesure(user, SensorType.HUMIDITY);
-            double h = -10 * t + 330;
-            return h < 0.7 ? 0.7 : h;
+            return MeasureUtil.calculateMaxHumidity(t);
         }
 
         @JavascriptInterface
@@ -128,8 +138,28 @@ public class liveCharts extends AppCompatActivity {
         }
 
         @JavascriptInterface
+        public double getMinCO2() {
+            return MeasureUtil.optimalCO2;
+        }
+
+        @JavascriptInterface
+        public double getAcceptableCO2() {
+            return MeasureUtil.maxCO2;
+        }
+
+        @JavascriptInterface
         public double getCurrentCO2() {
             return lastMesure(user, SensorType.CO2);
+        }
+
+        @JavascriptInterface
+        public double getMinLuminosity() {
+            return MeasureUtil.minLuminosity;
+        }
+
+        @JavascriptInterface
+        public double geComfortLuminosity() {
+            return MeasureUtil.comfortableLuminosity;
         }
 
         @JavascriptInterface
@@ -140,13 +170,13 @@ public class liveCharts extends AppCompatActivity {
         @JavascriptInterface
         public double getMinColorTemperature() {
             double l = lastMesure(user, SensorType.LUMINOSITY);
-            return 1313.06 * Math.exp(2338.54 / l) - 248.36;
+            return MeasureUtil.calculateMinColorTemperature(l);
         }
 
         @JavascriptInterface
         public double getMaxColorTemperature() {
             double l = lastMesure(user, SensorType.LUMINOSITY);
-            return 5.71 * l + 2448.42;
+            return MeasureUtil.calculateMaxColorTemperature(l);
         }
 
         @JavascriptInterface

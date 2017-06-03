@@ -55,6 +55,7 @@ public class BluetoothService extends Service {
                                 Date date = new Date();
                                 long dateLong = date.getTime();
                                 String[] splitted = line.split(",");
+                                //TODO: calculate lat and long correctly
                                 if (admin.introduireDesMesures(dateLong, user, Integer.parseInt(splitted[0]), Double.parseDouble(splitted[1]), Double.parseDouble(splitted[2]), Integer.parseInt(splitted[3]), Integer.parseInt(splitted[4]), splitted[5], splitted[7])) {
                                     // msg("Succeed");
                                 } else {

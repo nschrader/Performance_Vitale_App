@@ -2,174 +2,205 @@
 <head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-      google.charts.load('current', {'packages':['gauge']});
-      google.charts.setOnLoadCallback(drawChart);
-      google.charts.setOnLoadCallback(drawChart1);
-      google.charts.setOnLoadCallback(drawChart2);
-      google.charts.setOnLoadCallback(drawChart3);
-      google.charts.setOnLoadCallback(drawChart4);
+          google.charts.load('current', {'packages':['gauge']});
+          google.charts.setOnLoadCallback(drawPerformance);
+          google.charts.setOnLoadCallback(drawHumidity);
+          google.charts.setOnLoadCallback(drawCO2);
+          google.charts.setOnLoadCallback(drawLuminosity);
+          google.charts.setOnLoadCallback(drawTemperature);
+          google.charts.setOnLoadCallback(drawColor);
 
-      function drawChart() {
+          function drawPerformance() {
 
-        var data = google.visualization.arrayToDataTable([
-          ['Label', 'Value'],
-          ['Performance', Android.getPerformance()],
+            var data = google.visualization.arrayToDataTable([
+              ['Label', 'Value'],
+              ['Performance', Android.getPerformance()],
 
-        ]);
+            ]);
 
-        var options = {
-          width: 2000, height: 600,
-          greenFrom: 75, greenTo:100,
-          minorTicks: 5
-        };
+            var options = {
+              width: 2000, height: 600,
+              greenFrom: 75, greenTo:100,
+              yellowFrom: 50, yellowTo: 75,
+              redFrom: 25, redTo:50,
+              minorTicks: 5
+            };
 
-        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+            var chart = new google.visualization.Gauge(document.getElementById('performance'));
 
-        chart.draw(data, options);
+            chart.draw(data, options);
+
+            setInterval(function() {
+              data.setValue(0, 1, Android.getPerformance());
+              chart.draw(data, options);
+            }, 10000);
+
+          }
+
+          function drawTemperature() {
+
+            var data = google.visualization.arrayToDataTable([
+              ['Label', 'Value'],
+              ['Temperature',Android.getCurrentTemperature()],
+
+            ]);
+
+            var options = {
+              width: 1000, height: 370,
+              yellowFrom: 15, yellowTo: Android.getMinTemperature(),
+              greenFrom: Android.getMinTemperature(), greenTo:Android.getMaxTemperature(),
+              redFrom: Android.getMaxTemperature(), redTo: 35, redColor: '#FF9900',
+              max: 40, min: 10,
+              minorTicks: 5
+            };
+
+            var chart = new google.visualization.Gauge(document.getElementById('temperature'));
+
+            chart.draw(data, options);
 
 
-        setInterval(function() {
-          data.setValue(0, 1, Android.getPerformance());
-          chart.draw(data, options);
-        }, 10000);
+            setInterval(function() {
+              data.setValue(0, 1, Android.getCurrentTemperature());
+              chart.draw(data, options);
+            }, 10000);
 
+          }
 
+          function drawHumidity() {
+
+            var data = google.visualization.arrayToDataTable([
+              ['Label', 'Value'],
+              ['Humidity', Android.getCurrentHumidity()],
+
+            ]);
+
+            var options = {
+              width: 1000, height: 370,
+              yellowFrom: 20, yellowTo: Android.getMinHumidity(),
+              greenFrom: Android.getMinHumidity(), greenTo: Android.getMaxHumidity(),
+              redFrom: Android.getMaxHumidity(), redTo: 80, redColor: '#FF9900',
+              max: 100, min: 0,
+              minorTicks: 5
+            };
+
+            var chart = new google.visualization.Gauge(document.getElementById('humidity'));
+
+            chart.draw(data, options);
+
+            setInterval(function() {
+              data.setValue(0, 1, Android.getCurrentHumidity());
+              chart.draw(data, options);
+            }, 10000);
+
+          }
+
+          function drawCO2() {
+
+            var data = google.visualization.arrayToDataTable([
+              ['Label', 'Value'],
+              ['CO2', Android.getCurrentCO2()],
+
+            ]);
+
+            var options = {
+              width: 1000, height: 370,
+              greenFrom: Android.getMinCO2(), greenTo: Android.getAcceptableCO2(),
+              yellowFrom: Android.getAcceptableCO2(), yellowTo: 1000,
+              redFrom:1000, redTo:2000,
+              max: 2000, min: Android.getMinCO2(),
+              minorTicks: 5
+            };
+
+            var chart = new google.visualization.Gauge(document.getElementById('co2'));
+
+            chart.draw(data, options);
+
+            setInterval(function() {
+              data.setValue(0, 1, Android.getCurrentCO2() );
+              chart.draw(data, options);
+            }, 10000);
+
+          }
+
+          function drawLuminosity() {
+
+            var data = google.visualization.arrayToDataTable([
+              ['Label', 'Value'],
+              ['Luminosity', Android.getCurrentLuminosity()],
+
+            ]);
+
+            var options = {
+              width: 1000, height: 370,
+              redFrom:0, redTo: Android.getMinLuminosity(),
+              yellowFrom: Android.getMinLuminosity(), yellowTo: Android.geComfortLuminosity(),
+              greenFrom: Android.geComfortLuminosity(), greenTo:2500,
+              max: 2500, min: 0,
+              minorTicks: 5
+            };
+
+            var chart = new google.visualization.Gauge(document.getElementById('luminosity'));
+
+            chart.draw(data, options);
+
+            setInterval(function() {
+              data.setValue(0, 1, Android.getCurrentLuminosity());
+              chart.draw(data, options);
+            }, 10000);
+
+          }
+
+          function drawColor() {
+
+            var data = google.visualization.arrayToDataTable([
+              ['Label', 'Value'],
+              ['Color', Android.getCurrentColorTemperature()],
+
+            ]);
+
+            var options = {
+              width: 1000, height: 370,
+              yellowFrom: 2000, yellowTo: Android.getMinColorTemperature(),
+              greenFrom: Android.getMinColorTemperature(), greenTo: Android.getMaxColorTemperature(),
+              redFrom: Android.getMaxColorTemperature(), redTo: 7000, redColor: '#FF9900',
+              max: 7000, min: 2000,
+              minorTicks: 5
+            };
+
+            var chart = new google.visualization.Gauge(document.getElementById('color'));
+
+            chart.draw(data, options);
+
+            setInterval(function() {
+              data.setValue(0, 1, Android.getCurrentColorTemperature());
+              chart.draw(data, options);
+            }, 10000);
 
       }
 
-      function drawChart1() {
-
-        var data = google.visualization.arrayToDataTable([
-          ['Label', 'Value'],
-          ['Temperature',Android.getCurrentTemperature()],
-
-        ]);
-
-        var options = {
-          width: 1000, height: 370,
-          greenFrom: Android.getMinTemperature(), greenTo:Android.getMaxTemperature(),
-          max: Android.getOptimalTemperature() + 40, min: Android.getOptimalTemperature() - 40,
-          minorTicks: 5
-        };
-
-        var chart = new google.visualization.Gauge(document.getElementById('chart_div1'));
-
-        chart.draw(data, options);
-
-
-        setInterval(function() {
-          data.setValue(0, 1, Android.getCurrentTemperature());
-          chart.draw(data, options);
-        }, 10000);
-
-
-
-      }
-      function drawChart2() {
-
-        var data = google.visualization.arrayToDataTable([
-          ['Label', 'Value'],
-          ['Humidité', Android.getCurrentHumidity()],
-
-        ]);
-
-        var options = {
-          width: 1000, height: 370,
-          greenFrom: Android.getMinHumidity(), greenTo:Android.getMaxHumidity(),
-          max: Android.getOptimalHumidity() + 20, Android.getOptimalHumidity() - 20;
-          minorTicks: 5
-        };
-
-        var chart = new google.visualization.Gauge(document.getElementById('chart_div2'));
-
-        chart.draw(data, options);
-
-
-        setInterval(function() {
-          data.setValue(0, 1, Android.getCurrentHumidity());
-          chart.draw(data, options);
-        }, 10000);
-
-
-
-      }
-      function drawChart3() {
-
-        var data = google.visualization.arrayToDataTable([
-          ['Label', 'Value'],
-          ['CO2', Android.getCurrentCO2()],
-
-        ]);
-
-        var options = {
-          width: 1000, height: 370,
-          greenFrom: 400, greenTo: 850,
-          yellowFrom: 850, yellowTo 1000,
-          redFrom:1000, redTo:10000,
-          max: 10000, min: 300,
-          minorTicks: 5
-        };
-
-        var chart = new google.visualization.Gauge(document.getElementById('chart_div3'));
-
-        chart.draw(data, options);
-
-
-        setInterval(function() {
-          data.setValue(0, 1, Android.getCurrentCO2() );
-          chart.draw(data, options);
-        }, 10000);
-
-
-
-      }
-      function drawChart4() {
-
-        var data = google.visualization.arrayToDataTable([
-          ['Label', 'Value'],
-          ['Luminosité', Android.getCurrentLuminosity()],
-
-        ]);
-
-        var options = {
-          width: 1000, height: 370,
-          redFrom:100, redTo: 300,
-          yellowFrom, 300, yellowTo: 500
-          greenFrom: 500, greenTo:2500,
-          max: 2500, min: 0,
-          minorTicks: 5
-        };
-
-        var chart = new google.visualization.Gauge(document.getElementById('chart_div4'));
-
-        chart.draw(data, options);
-
-
-        setInterval(function() {
-          data.setValue(0, 1, Android.getCurrentLuminosity() );
-          chart.draw(data, options);
-        }, 10000);
-
-
-
-      }
 
     </script>
 </head>
 <body>
-<center id="chart_div"></center>
+<center style="height: 550;" id="performance"></center>
 
 <center>
-    <div style="display: inline-block" id="chart_div1"></div>
-    <span style="display:inline-block; width: 50;"></span>
-    <div style="display: inline-block" id="chart_div2"></div>
-</center>
-<center>
-    <div style="display: inline-block" id="chart_div3"></div>
-    <span style="display:inline-block; width: 50;"></span>
-    <div style="display: inline-block" id="chart_div4"></div>
+    <div style="display: inline-block; height: 250;" id="temperature"></div>
+    <div style="display: inline-block; width: 150;"></div>
+    <div style="display: inline-block; height: 250;" id="humidity"></div>
 </center>
 
+<center>
+    <div style="display: inline-block;"></div>
+    <div style="display: inline-block; height: 250;" id="color"></div>
+    <div style="display: inline-block;"></div>
+</center>
+
+<center>
+    <div style="display: inline-block; height: 250;" id="co2"></div>
+    <div style="display: inline-block; width: 150;"></div>
+    <div style="display: inline-block; height: 250;" id="luminosity"></div>
+</center>
 
 </body>
 </html>

@@ -71,6 +71,8 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
             return false;
         }
     }
+
+    //TODO: Move to another class
     public double getPerformance(double CO2, double temp, double humidity, double lightIntensity, double Color){
 
         double perf = 100 - this.ecHumidite(temp, humidity) - this.ecCo2(CO2) - this.ecTemp(temp, humidity) - this.ecColor(Color,lightIntensity);
