@@ -41,14 +41,14 @@
 
         var data = google.visualization.arrayToDataTable([
           ['Label', 'Value'],
-          ['Temperature',Android.getTemperature()],
+          ['Temperature',Android.getCurrentTemperature()],
 
         ]);
 
         var options = {
           width: 1000, height: 370,
-          greenFrom: 20, greenTo:26,
-          max: 40, min: 0,
+          greenFrom: Android.getMinTemperature(), greenTo:Android.getMaxTemperature(),
+          max: Android.getOptimalTemperature() + 40, min: Android.getOptimalTemperature() - 40,
           minorTicks: 5
         };
 
@@ -58,7 +58,7 @@
 
 
         setInterval(function() {
-          data.setValue(0, 1, Android.getTemperature());
+          data.setValue(0, 1, Android.getCurrentTemperature());
           chart.draw(data, options);
         }, 10000);
 
@@ -69,13 +69,14 @@
 
         var data = google.visualization.arrayToDataTable([
           ['Label', 'Value'],
-          ['Humidité', Android.getHumidite()],
+          ['Humidité', Android.getCurrentHumidity()],
 
         ]);
 
         var options = {
           width: 1000, height: 370,
-          greenFrom: 30, greenTo:70,
+          greenFrom: Android.getMinHumidity(), greenTo:Android.getMaxHumidity(),
+          max: Android.getOptimalHumidity() + 20, Android.getOptimalHumidity() - 20;
           minorTicks: 5
         };
 
@@ -85,7 +86,7 @@
 
 
         setInterval(function() {
-          data.setValue(0, 1, Android.getHumidite() );
+          data.setValue(0, 1, Android.getCurrentHumidity());
           chart.draw(data, options);
         }, 10000);
 
@@ -96,14 +97,16 @@
 
         var data = google.visualization.arrayToDataTable([
           ['Label', 'Value'],
-          ['CO2', Android.getCO2()],
+          ['CO2', Android.getCurrentCO2()],
 
         ]);
 
         var options = {
           width: 1000, height: 370,
-          greenFrom: 400, greenTo:1500,
-          max: 5000, min: 0,
+          greenFrom: 400, greenTo: 850,
+          yellowFrom: 850, yellowTo 1000,
+          redFrom:1000, redTo:10000,
+          max: 10000, min: 300,
           minorTicks: 5
         };
 
@@ -113,7 +116,7 @@
 
 
         setInterval(function() {
-          data.setValue(0, 1, Android.getCO2() );
+          data.setValue(0, 1, Android.getCurrentCO2() );
           chart.draw(data, options);
         }, 10000);
 
@@ -124,13 +127,15 @@
 
         var data = google.visualization.arrayToDataTable([
           ['Label', 'Value'],
-          ['Luminosité', Android.getLuminosite()],
+          ['Luminosité', Android.getCurrentLuminosity()],
 
         ]);
 
         var options = {
           width: 1000, height: 370,
-          greenFrom: 300, greenTo:800,
+          redFrom:100, redTo: 300,
+          yellowFrom, 300, yellowTo: 500
+          greenFrom: 500, greenTo:2500,
           max: 2500, min: 0,
           minorTicks: 5
         };
@@ -141,7 +146,7 @@
 
 
         setInterval(function() {
-          data.setValue(0, 1, Android.getLuminosite() );
+          data.setValue(0, 1, Android.getCurrentLuminosity() );
           chart.draw(data, options);
         }, 10000);
 

@@ -47,54 +47,111 @@ public class liveCharts extends AppCompatActivity {
     }
 
     //Methode pour selectionner les mesures d'un capteur qui sont dehors l'interval optimale (Co2 dans ce cas)
-    public double lastMesure(String user, int TypeCapteur) {  //TypeCapteur-->0 (Performance) TypeCapteur-->1 (CO2) TypeCapteur-->2 (Temp) TypeCapteur-->3 (Luminositée) TypeCapteur-->4 (Humiditée)
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,
-                "administracion", null, 1);
+    public double lastMesure(String user, SensorType sensorType) {
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administracion", null, 1);
         SQLiteDatabase bd = admin.getWritableDatabase();
         Cursor fila = null;
-        if (TypeCapteur == 1) {
-            fila = bd.rawQuery("select CO2mesure from Mesure where idUser = '" + user + "' ORDER BY idMesure DESC LIMIT 1 ", null);
-        } else if (TypeCapteur == 2) {
-            fila = bd.rawQuery("select Temperature from Mesure where idUser = '" + user + "' ORDER BY idMesure DESC LIMIT 1", null);
-        } else if (TypeCapteur == 3) {
-            fila = bd.rawQuery("select Luminosite from Mesure where idUser = '" + user + "' ORDER BY idMesure DESC LIMIT 1 ", null);
-        } else if (TypeCapteur == 4) {
-            fila = bd.rawQuery("select Humidite from Mesure where idUser = '" + user + "' ORDER BY idMesure DESC LIMIT 1 ", null);
-        } else if (TypeCapteur == 0) {
-            fila = bd.rawQuery("select Performance from Mesure where idUser = '" + user + "' ORDER BY idMesure DESC LIMIT 1 ", null);
+        switch (sensorType) {
+            case PERFORMANCE:
+                fila = bd.rawQuery("select Performance from Mesure where idUser = '" + user + "' ORDER BY idMesure DESC LIMIT 1 ", null);
+                break;
+            case CO2:
+                fila = bd.rawQuery("select CO2mesure from Mesure where idUser = '" + user + "' ORDER BY idMesure DESC LIMIT 1 ", null);
+                break;
+            case TEMPERATURE:
+                fila = bd.rawQuery("select Temperature from Mesure where idUser = '" + user + "' ORDER BY idMesure DESC LIMIT 1", null);
+                break;
+            case LUMINOSITY:
+                fila = bd.rawQuery("select Luminosite from Mesure where idUser = '" + user + "' ORDER BY idMesure DESC LIMIT 1 ", null);
+                break;
+            case HUMIDITY:
+                fila = bd.rawQuery("select Humidite from Mesure where idUser = '" + user + "' ORDER BY idMesure DESC LIMIT 1 ", null);
+                break;
+            case COLOR_TEMPERATURE:
+                fila = bd.rawQuery("select TempLum from Mesure where idUser = '" + user + "' ORDER BY idMesure DESC LIMIT 1 ", null);
         }
-
-        if (fila.moveToFirst()) {
+        if (fila == null)
+            return -1;
+        else if (!fila.moveToFirst())
+            return -1;
+        else
             return fila.getDouble(0);
-        }
-        return 10;
     }
 
     public class WebAppInterface {
 
         @JavascriptInterface
         public double getPerformance() {
-            return lastMesure(user, 0); //A completar
+            return lastMesure(user, SensorType.PERFORMANCE); //A completar
         }
 
         @JavascriptInterface
-        public double getTemperature() {
-            return lastMesure(user, 2);
+        public double getMinTemperature() {
+            double h = lastMesure(user, SensorType.HUMIDITY);
+            return -0.05 * h + 21.5;
         }
 
         @JavascriptInterface
-        public double getHumidite() {
-            return lastMesure(user, 4);
+        public double getOptimalTemperature() {
+            double h = lastMesure(user, SensorType.HUMIDITY);
+            return -0.05 * h + 27.5;
         }
 
         @JavascriptInterface
-        public double getCO2() {
-            return lastMesure(user, 1);
+        public double getMaxTemperature() {
+            double h = lastMesure(user, SensorType.HUMIDITY);
+            return -0.075 * h + 25.25;
         }
 
         @JavascriptInterface
-        public double getLuminosite() {
-            return lastMesure(user, 3);
+        public double getCurrentTemperature() {
+            return lastMesure(user, SensorType.TEMPERATURE);
+        }
+
+        @JavascriptInterface
+        public double getMinHumidity() {
+            double t = lastMesure(user, SensorType.HUMIDITY);
+            double h = -20 * t + 430;
+            return h < 0.3 ? 0.3 : h;
+        }
+
+        @JavascriptInterface
+        public double getMaxHumidity() {
+            double t = lastMesure(user, SensorType.HUMIDITY);
+            double h = -10 * t + 330;
+            return h < 0.7 ? 0.7 : h;
+        }
+
+        @JavascriptInterface
+        public double getCurrentHumidity() {
+            return lastMesure(user, SensorType.HUMIDITY);
+        }
+
+        @JavascriptInterface
+        public double getCurrentCO2() {
+            return lastMesure(user, SensorType.CO2);
+        }
+
+        @JavascriptInterface
+        public double getCurrentLuminosity() {
+            return lastMesure(user, SensorType.LUMINOSITY);
+        }
+
+        @JavascriptInterface
+        public double getMinColorTemperature() {
+            double l = lastMesure(user, SensorType.LUMINOSITY);
+            return 1313.06 * Math.exp(2338.54 / l) - 248.36;
+        }
+
+        @JavascriptInterface
+        public double getMaxColorTemperature() {
+            double l = lastMesure(user, SensorType.LUMINOSITY);
+            return 5.71 * l + 2448.42;
+        }
+
+        @JavascriptInterface
+        public double getCurrentColorTemperature() {
+            return lastMesure(user, SensorType.COLOR_TEMPERATURE);
         }
     }
 
