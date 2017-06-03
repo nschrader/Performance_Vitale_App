@@ -114,6 +114,7 @@ public class Settings extends AppCompatActivity {
         SQLiteDatabase bd = admin.getWritableDatabase();
         Cursor fila = bd.rawQuery("select * from Mesure", null);
         if (fila.moveToFirst()) {
+            printWriter.format("#time, user, performance, CO2, luminosity, latitude, longitude, temperature, humidity, color\n");
             do {
                 printWriter.format("%s, %s, %s, %s, %s, %s, %s, %s, %s, %s\n",
                         fila.getString(0),
@@ -139,7 +140,7 @@ public class Settings extends AppCompatActivity {
         File file = new File(path, nomarchivo);
         Toast.makeText(this, "Saved to" + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
         if (!file.canWrite())
-            Toast.makeText(this, "File not writable", Toast.LENGTH_SHORT).show();
+            file = new File(path, nomarchivo);
         try {
             PrintWriter printWriter = new PrintWriter(file);
             writeDBToFile(printWriter);
@@ -149,7 +150,6 @@ public class Settings extends AppCompatActivity {
         }
     }
 
-    //TODO: Make more verbose
     public void importData(View v) {
         String nomarchivo = "db.csv";
         File path = getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
@@ -157,17 +157,29 @@ public class Settings extends AppCompatActivity {
         try {
             BufferedReader stream = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
             String line;
+            int i = 0;
             while ((line = stream.readLine()) != null) {
+                if (line.startsWith("#"))
+                    continue;
                 String[] splitted = line.split(",");
-                if (admin.introduireDesMesures(Long.parseLong(splitted[0]), splitted[1], Double.parseDouble(splitted[3]), Double.parseDouble(splitted[4]), Double.parseDouble(splitted[5]), Double.parseDouble(splitted[6]), Double.parseDouble(splitted[7]), splitted[8], splitted[9])) {
-                    //Toast.makeText(this, "succeed", Toast.LENGTH_SHORT).show();
 
-                } else {
-                    //Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
-                }
+                long time = Long.parseLong(splitted[0]);
+                String user = splitted[1];
+                double performance = Double.parseDouble(splitted[2]);
+                double CO2 = Double.parseDouble(splitted[3]);
+                double luminosity = Double.parseDouble(splitted[4]);
+                String latitude = splitted[5];
+                String longitude = splitted[6];
+                double temperature = Double.parseDouble(splitted[7]);
+                double humidity = Double.parseDouble(splitted[8]);
+                double color = Double.parseDouble(splitted[9]);
+
+                if (admin.introduireDesMesures(time, user, CO2, humidity, temperature, luminosity, color, latitude, longitude))
+                    i++;
             }
-        } catch (IOException e) {
-            Toast.makeText(this, "File not found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Imported " + i + " data sets", Toast.LENGTH_LONG).show();
+        } catch (IOException | NumberFormatException | ArrayIndexOutOfBoundsException e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
