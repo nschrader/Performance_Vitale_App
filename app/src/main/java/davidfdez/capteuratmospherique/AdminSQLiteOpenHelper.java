@@ -97,8 +97,8 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
     }
 
     public double ecTemp(double temp, double humid){
-        double tMax = -0.075*humid + 25.25;
-        double tMin = -0.05*humid +27.5;
+        double tMin = -0.075*humid + 25.25;
+        double tMax = -0.05*humid +27.5;
         if(temp<tMin){
             return (temp-tMin)*(temp - tMin)/2;
         }
