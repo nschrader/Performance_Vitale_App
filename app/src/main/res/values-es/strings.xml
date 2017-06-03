@@ -20,6 +20,5 @@
     <string name="selectDateFrom">Seleccionar desde</string>
     <string name="selectDateTo">Seleccionar hasta</string>
     <string name="showChart">Mostrar Grafico</string>
-    <string name="title">Descripcion del Proyecto+</string>
     <string name="title_activity_main">Sensor Ambiental</string>
 </resources>

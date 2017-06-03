@@ -30,7 +30,7 @@ public class BluetoothService extends Service {
     private BluetoothSocket btSocket = null;
     private boolean isBtConnected = false;
     private BufferedReader reader;
-    private AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administracion", null, 1);
+    private AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this);
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -43,32 +43,32 @@ public class BluetoothService extends Service {
             public void run() {
                 if (isBtConnected) {
                     try {
-
                         InputStream in = btSocket.getInputStream();
                         reader = new BufferedReader(new InputStreamReader(in));
                         String line;
                         line = reader.readLine();
                         if (line != null) {
-                            // msg(line);
                             if (!line.equals("Heating")) {
                                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                                 Date date = new Date();
                                 long dateLong = date.getTime();
                                 String[] splitted = line.split(",");
-                                //TODO: calculate lat and long correctly
-                                if (admin.introduireDesMesures(dateLong, user, Integer.parseInt(splitted[0]), Double.parseDouble(splitted[1]), Double.parseDouble(splitted[2]), Integer.parseInt(splitted[3]), Integer.parseInt(splitted[4]), splitted[5], splitted[7])) {
-                                    // msg("Succeed");
-                                } else {
-                                    // msg("Error");
-                                }
+                                double CO2 = Integer.parseInt(splitted[0]);
+                                double humidity = Double.parseDouble(splitted[1]);
+                                double temperature = Double.parseDouble(splitted[2]);
+                                double luminosity = Double.parseDouble(splitted[3]);
+                                double color = Double.parseDouble(splitted[4]);
+                                String latitude = (splitted[6].equals("N") ? "" : "-") + splitted[5];
+                                String longitude = (splitted[8].equals("E") ? "" : "-") + splitted[7];
+                                admin.setMeasures(dateLong, user, CO2, humidity, temperature, luminosity, color, latitude, longitude);
                             } else {
-                                msg(line);
+                                Toast.makeText(getApplicationContext(), line, Toast.LENGTH_SHORT).show();
                                 Disconnect();
                                 handler.removeCallbacks(this);
                             }
                         }
                     } catch (IOException | NumberFormatException | ArrayIndexOutOfBoundsException e) {
-                        msg("Error");
+                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
                     }
                 }
                 handler.postDelayed(this, 30000);
@@ -80,12 +80,8 @@ public class BluetoothService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        //TODO for communication return IBinder implementation
+        //Actually this should be a correct IBinder implementation
         return null;
-    }
-
-    private void msg(String s) {
-        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
     }
 
     private void Disconnect() {
@@ -94,7 +90,7 @@ public class BluetoothService extends Service {
                 btSocket.close(); //close connection
                 isBtConnected = false;
             } catch (IOException e) {
-                msg("Error");
+                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -123,15 +119,10 @@ public class BluetoothService extends Service {
         protected void onPostExecute(Void result) { //after the doInBackground, it checks if everything went fine
             super.onPostExecute(result);
 
-            if (!ConnectSuccess) {
-                Toast.makeText(getApplicationContext(),
-                        "Error.",
-                        Toast.LENGTH_SHORT).show();
-
-            } else {
-                Toast.makeText(getApplicationContext(),
-                        "Connected.",
-                        Toast.LENGTH_SHORT).show();
+            if (!ConnectSuccess)
+                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+            else {
+                Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
                 isBtConnected = true;
             }
         }

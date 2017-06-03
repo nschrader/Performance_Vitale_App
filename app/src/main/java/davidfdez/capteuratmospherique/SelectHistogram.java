@@ -28,7 +28,7 @@ public class SelectHistogram extends AppCompatActivity {
                 @Override
                 public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
                     dateFrom = new Date(arg1, arg2, arg3);
-                    buttonDateFrom.setText("From: " + String.valueOf(dateFrom.getDate()) + "/" + String.valueOf(dateFrom.getMonth()+1) + "/" + String.valueOf(dateFrom.getYear()));
+                    buttonDateFrom.setText("From: " + String.valueOf(dateFrom.getDate()) + "/" + String.valueOf(dateFrom.getMonth() + 1) + "/" + String.valueOf(dateFrom.getYear()));
                 }
             };
 
@@ -38,7 +38,7 @@ public class SelectHistogram extends AppCompatActivity {
                 @Override
                 public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
                     dateTo = new Date(arg1, arg2, arg3);
-                    buttonDateTo.setText("To: " + String.valueOf(dateTo.getDate()) + "/" + String.valueOf(dateTo.getMonth()+1) + "/" + String.valueOf(dateTo.getYear()));
+                    buttonDateTo.setText("To: " + String.valueOf(dateTo.getDate()) + "/" + String.valueOf(dateTo.getMonth() + 1) + "/" + String.valueOf(dateTo.getYear()));
                 }
             };
 

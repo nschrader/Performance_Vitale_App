@@ -29,10 +29,7 @@ public class liveCharts extends AppCompatActivity {
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
-                Toast.makeText(getApplicationContext(), consoleMessage.message() + " -- From line "
-                                + consoleMessage.lineNumber() + " of "
-                                + consoleMessage.sourceId(),
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), consoleMessage.message() + " At line " + consoleMessage.lineNumber(), Toast.LENGTH_LONG).show();
                 return super.onConsoleMessage(consoleMessage);
             }
         });
@@ -42,9 +39,10 @@ public class liveCharts extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        /* Handle action bar item clicks here. The action bar will
+         * automatically handle clicks on the Home/Up button, so long
+         * as you specify a parent activity in AndroidManifest.xml.
+         */
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -57,10 +55,8 @@ public class liveCharts extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //Methode pour selectionner les mesures d'un capteur qui sont dehors l'interval optimale (Co2 dans ce cas)
     public double lastMesure(String user, SensorType sensorType) {
-        //TODO: Move to another class
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administracion", null, 1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this);
         SQLiteDatabase bd = admin.getWritableDatabase();
         Cursor fila = null;
         switch (sensorType) {

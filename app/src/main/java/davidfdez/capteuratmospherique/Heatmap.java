@@ -36,18 +36,16 @@ public class Heatmap extends AppCompatActivity {
 
     }
 
-    public double convertLatLong(double value){
-        double r=(int)(value/100);
-        r+=(value-r*100)/60.0;
+    public double convertLatLong(double value) {
+        double r = (int) (value / 100);
+        r += (value - r * 100) / 60.0;
         return r;
     }
 
     public void getOver50() {
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,
-                "administracion", null, 1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this);
         SQLiteDatabase bd = admin.getWritableDatabase();
-        Cursor fila = bd.rawQuery(
-                "select Latitude, Longitude from Mesure where Performance > 50", null);
+        Cursor fila = bd.rawQuery("select Latitude, Longitude from Mesure where Performance > 50", null);
 
         if (fila.moveToFirst()) {
             String[] splittedLat = fila.getString(0).split(",");
@@ -67,11 +65,9 @@ public class Heatmap extends AppCompatActivity {
     }
 
     public void getUnder50() {
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,
-                "administracion", null, 1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this);
         SQLiteDatabase bd = admin.getWritableDatabase();
-        Cursor fila = bd.rawQuery(
-                "select Latitude, Longitude from Mesure where Performance <= 50", null);
+        Cursor fila = bd.rawQuery("select Latitude, Longitude from Mesure where Performance <= 50", null);
 
         if (fila.moveToFirst()) {
             String[] splittedLat = fila.getString(0).split(",");

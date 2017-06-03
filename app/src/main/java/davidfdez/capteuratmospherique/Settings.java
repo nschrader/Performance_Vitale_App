@@ -37,7 +37,7 @@ public class Settings extends AppCompatActivity {
     //Bluetooth
     private BluetoothAdapter myBluetooth = null;
     private Set<BluetoothDevice> pairedDevices;
-    private AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administracion", null, 1);
+    private AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this);
     private AdapterView.OnItemClickListener myListClickListener = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3) {
             // Get the device MAC address, the last 17 chars in the View
@@ -110,7 +110,7 @@ public class Settings extends AppCompatActivity {
     }
 
     private void writeDBToFile(PrintWriter printWriter) {
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administracion", null, 1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this);
         SQLiteDatabase bd = admin.getWritableDatabase();
         Cursor fila = bd.rawQuery("select * from Mesure", null);
         if (fila.moveToFirst()) {
@@ -174,7 +174,7 @@ public class Settings extends AppCompatActivity {
                 double humidity = Double.parseDouble(splitted[8]);
                 double color = Double.parseDouble(splitted[9]);
 
-                if (admin.introduireDesMesures(time, user, CO2, humidity, temperature, luminosity, color, latitude, longitude))
+                if (admin.setMeasures(time, user, CO2, humidity, temperature, luminosity, color, latitude, longitude))
                     i++;
             }
             Toast.makeText(this, "Imported " + i + " data sets", Toast.LENGTH_LONG).show();

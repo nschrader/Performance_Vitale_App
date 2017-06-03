@@ -38,7 +38,7 @@
             android:name=".Settings"
             android:label="@string/Settings" />
         <activity
-            android:name=".AboutUs"
+            android:name=".AboutUsActivity"
             android:label="@string/aboutUsActivity" />
         <activity
             android:name=".SelectLineChart"
@@ -53,7 +53,7 @@
         <activity android:name=".Calendar" />
         <activity android:name=".SelectHistogram" />
         <activity android:name=".ShowHistogram" />
-        <activity android:name=".signUpActivity"></activity>
+        <activity android:name=".SignUpActivity"></activity>
     </application>
 
 </manifest>

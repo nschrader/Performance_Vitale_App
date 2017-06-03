@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
-import android.widget.Toast;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -17,8 +16,8 @@ public class Calendar extends ActionBarActivity {
     public String user = "";
 
     private WebView webView;
-    private LinkedList<Date> dates=new LinkedList();
-    private LinkedList<Double> valeurs=new LinkedList();
+    private LinkedList<Date> dates = new LinkedList();
+    private LinkedList<Double> valeurs = new LinkedList();
 
 
     @SuppressWarnings("deprecation")
@@ -37,30 +36,28 @@ public class Calendar extends ActionBarActivity {
         webView.loadUrl("file:///android_asset/calendar.html");
     }
 
-    public void average(){
-        LinkedList<Double> v=new LinkedList();
-        LinkedList<Date> d=new LinkedList();
-        double cont=1;
-        for(int i=0;i<valeurs.size();i++){
-            if(i+1!= valeurs.size() && sameDay(dates.get(i),dates.get(i+1))) {
+    public void average() {
+        LinkedList<Double> v = new LinkedList();
+        LinkedList<Date> d = new LinkedList();
+        double cont = 1;
+        for (int i = 0; i < valeurs.size(); i++) {
+            if (i + 1 != valeurs.size() && sameDay(dates.get(i), dates.get(i + 1))) {
                 valeurs.set(i + 1, valeurs.get(i) + valeurs.get(i + 1));
                 cont++;
 
-            }
-            else{
+            } else {
 
-                v.add(valeurs.get(i)/cont);
+                v.add(valeurs.get(i) / cont);
                 d.add(dates.get(i));
-                cont=1;
+                cont = 1;
             }
         }
-        valeurs=v;
-        dates=d;
+        valeurs = v;
+        dates = d;
     }
 
     public void getDataSql() {
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,
-                "administracion", null, 1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this);
         SQLiteDatabase bd = admin.getWritableDatabase();
         Cursor raw = bd.rawQuery(
                 "select idMesure, Performance from Mesure where idUser ='" + user + "' ORDER BY idMesure DESC", null);
@@ -70,9 +67,8 @@ public class Calendar extends ActionBarActivity {
             Date dateSql = new Date(stringDateSql);
             double aux = raw.getDouble(1);
 
-            valeurs.add(aux-50);
+            valeurs.add(aux - 50);
             dates.add(dateSql);
-
 
 
             while (raw.moveToNext()) {
@@ -80,23 +76,20 @@ public class Calendar extends ActionBarActivity {
                 dateSql = new Date(stringDateSql);
                 aux = raw.getDouble(1);
 
-                valeurs.add(aux-50);
+                valeurs.add(aux - 50);
                 dates.add(dateSql);
-
-
 
 
             }
         }
     }
 
-    public boolean sameDay(Date a,Date b){
-        return a.getDate()==b.getDate() && a.getMonth()==b.getMonth() && a.getYear()==b.getYear();
+    public boolean sameDay(Date a, Date b) {
+        return a.getDate() == b.getDate() && a.getMonth() == b.getMonth() && a.getYear() == b.getYear();
 
     }
 
     public class WebAppInterface {
-
 
 
         @JavascriptInterface
@@ -123,7 +116,6 @@ public class Calendar extends ActionBarActivity {
         public int getDay(int a) {
             return dates.get(a).getDate();
         }
-
 
 
     }

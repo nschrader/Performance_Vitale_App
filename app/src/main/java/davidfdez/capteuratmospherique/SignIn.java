@@ -29,7 +29,7 @@ public class SignIn extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Finish the registration screen and return to the Login activity
-                Intent intent = new Intent(getApplicationContext(), signUpActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -37,8 +37,7 @@ public class SignIn extends AppCompatActivity {
     }
 
     public void signIn(View v) {  //hacer que no se repita comprobando si ya existe
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,
-                "administracion", null, 1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this);
         SQLiteDatabase bd = admin.getWritableDatabase();
         String cod = et1.getText().toString();
         String pass = et2.getText().toString();
@@ -62,8 +61,7 @@ public class SignIn extends AppCompatActivity {
     }
 
     public boolean checkIfUserExists(String User) {
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,
-                "administracion", null, 1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this);
         SQLiteDatabase bd = admin.getWritableDatabase();
         boolean exists = false;
         Cursor fila = bd.rawQuery(
@@ -79,8 +77,7 @@ public class SignIn extends AppCompatActivity {
     }
 
     public void logIn(View v) {
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,
-                "administracion", null, 1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this);
         SQLiteDatabase bd = admin.getWritableDatabase();
         String user = et1.getText().toString();
         String pass = et2.getText().toString();
@@ -117,6 +114,7 @@ public class SignIn extends AppCompatActivity {
 
         bd.close();
     }
+
     public void onLoginSuccess() {
         Intent i = new Intent(this, MainActivity.class);
         i.putExtra("user", et1.getText().toString());
@@ -125,13 +123,13 @@ public class SignIn extends AppCompatActivity {
     }
 
     public void reset(View v) {
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,
-                "administracion", null, 1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this);
         SQLiteDatabase bd = admin.getWritableDatabase();
         bd.execSQL("delete from User");
         bd.close();
 
     }
+
     public void onBackPressed() {
         // Disable going back to the SignIn
         moveTaskToBack(true);

@@ -21,7 +21,6 @@
     </string-array>
     <string name="home">Home</string>
     <string name="title_activity_main">Ambience Sensor</string>
-    <string name="title">Proyect\'s description</string>
     <string name="lineChartsButton">LineCharts</string>
     <string name="calendarButton">Calendar</string>
     <string name="histogramButton">Histogram</string>
@@ -40,8 +39,6 @@
     <string name="SignUp">Not account yet? Sign Up!</string>
     <string name="User">User</string>
     <string name="Password">Password</string>
-    <string name="Auntent">Autenticating...</string>
-    <string name="LogInTitle">Please Log In</string>
     <string name="CreateAcc">Create Account</string>
     <string name="membSI">Already a member? Sign In!</string>
 

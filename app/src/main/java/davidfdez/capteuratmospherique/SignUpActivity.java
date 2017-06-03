@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class signUpActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
     private TextView et1, et2, et3;
 
 
@@ -39,8 +39,7 @@ public class signUpActivity extends AppCompatActivity {
     }
 
     public void signIn(View v) {  //hacer que no se repita comprobando si ya existe
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,
-                "administracion", null, 1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this);
         SQLiteDatabase bd = admin.getWritableDatabase();
         String cod = et1.getText().toString();
         String pass = et2.getText().toString();
@@ -54,7 +53,7 @@ public class signUpActivity extends AppCompatActivity {
             bd.close();
             et1.setText("");
             et2.setText("");
-            final ProgressDialog progressDialog = new ProgressDialog(signUpActivity.this,
+            final ProgressDialog progressDialog = new ProgressDialog(SignUpActivity.this,
                     R.style.Theme_AppCompat_DayNight_Dialog);
             progressDialog.setMessage("Signing in...");
             progressDialog.setIndeterminate(false);
@@ -81,8 +80,7 @@ public class signUpActivity extends AppCompatActivity {
     }
 
     public boolean checkIfUserExists(String User) {
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,
-                "administracion", null, 1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this);
         SQLiteDatabase bd = admin.getWritableDatabase();
         boolean exists = false;
         Cursor fila = bd.rawQuery(

@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         drawerItem[2] = new DataModel(R.drawable.charts_icon, R.string.Charts);
         drawerItem[3] = new DataModel(R.drawable.heatmap_icon, R.string.Heatmaps);
         drawerItem[4] = new DataModel(R.drawable.settings_icon, R.string.Settings);
-        drawerItem[5] = new DataModel(R.drawable.aboutus_icon,R.string.aboutUsActivity);
+        drawerItem[5] = new DataModel(R.drawable.aboutus_icon, R.string.aboutUsActivity);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -65,12 +65,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void insertSQLDefaultData() {
-        //TODO: Put this in seperate method
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administracion", null, 1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this);
         SQLiteDatabase bd = admin.getWritableDatabase();
         Cursor raw = bd.rawQuery("select * from Mesure", null);
         if (!raw.moveToFirst()) { //Database empty
-            admin.introduireDesMesures(1496421270283L, "", 968.0, 35.1, 25.6, 229.0, 4716.0, "4546.7948", "00452.3943");
+            admin.setMeasures(1496421270283L, "", 968.0, 35.1, 25.6, 229.0, 4716.0, "4546.7948", "00452.3943");
         }
     }
 
@@ -104,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 mDrawerLayout.closeDrawers();
                 break;
             case 5:
-                Intent iAA = new Intent(MainActivity.this, AboutUs.class);
+                Intent iAA = new Intent(MainActivity.this, AboutUsActivity.class);
                 startActivity(iAA);
                 mDrawerLayout.closeDrawers();
                 break;

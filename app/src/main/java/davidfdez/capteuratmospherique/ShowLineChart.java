@@ -84,11 +84,10 @@ public class ShowLineChart extends ActionBarActivity {
     }
 
     public void getDataSql() {
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,
-                "administracion", null, 1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this);
         SQLiteDatabase bd = admin.getWritableDatabase();
         Cursor raw = bd.rawQuery(
-                "select idMesure," + capteur + " from Mesure where idUser ='" + user + "' and idMesure > "+ dateFrom.getTime() + " and idMesure < "+ dateTo.getTime(), null);
+                "select idMesure," + capteur + " from Mesure where idUser ='" + user + "' and idMesure > " + dateFrom.getTime() + " and idMesure < " + dateTo.getTime(), null);
 
         if (raw.moveToFirst()) {
             long stringDateSql = raw.getLong(0);
@@ -99,7 +98,6 @@ public class ShowLineChart extends ActionBarActivity {
             dates.add(dateSql);
 
 
-
             while (raw.moveToNext()) {
                 stringDateSql = raw.getLong(0);
                 dateSql = new Date(stringDateSql);
@@ -107,8 +105,6 @@ public class ShowLineChart extends ActionBarActivity {
 
                 valeurs.add(aux);
                 dates.add(dateSql);
-
-
 
 
             }
