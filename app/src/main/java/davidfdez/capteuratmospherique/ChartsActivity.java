@@ -15,22 +15,24 @@ public class ChartsActivity extends AppCompatActivity {
     }
 
     public void openLineChart(View view) {
-        Intent intent = new Intent(ChartsActivity.this, SelectLineChartActivity.class);
-        startActivity(intent);
+        createIntentAndStartActivity(SelectLineChartActivity.class);
     }
 
     public void openCalendar(View view) {
-        Intent intent = new Intent(ChartsActivity.this, CalendarActivity.class);
-        startActivity(intent);
+        createIntentAndStartActivity(CalendarActivity.class);
     }
 
     public void openHistogram(View view) {
-        Intent intent = new Intent(ChartsActivity.this, SelectHistogramActivity.class);
-        startActivity(intent);
+        createIntentAndStartActivity(SelectHistogramActivity.class);
     }
 
     public void openClustering(View view) {
-        Intent intent = new Intent(ChartsActivity.this, ClusteringActivity.class);
+        createIntentAndStartActivity(ClusteringActivity.class);
+    }
+
+    private void createIntentAndStartActivity(Class<?> clazz) {
+        Intent intent = new Intent(ChartsActivity.this, clazz);
+        intent.putExtras(getIntent());
         startActivity(intent);
     }
 

@@ -3,17 +3,12 @@ package davidfdez.capteuratmospherique;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.webkit.ConsoleMessage;
 import android.webkit.JavascriptInterface;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.widget.Toast;
 
-public class LiveCharts extends AppCompatActivity {
+public class LiveChartsActivity extends AbstractChartsActivity {
     private WebView webView;
-    private String user = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,17 +17,7 @@ public class LiveCharts extends AppCompatActivity {
 
         webView = (WebView) findViewById(R.id.web);
         webView.addJavascriptInterface(new WebAppInterface(), "Android");
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setLoadWithOverviewMode(true);
-        webView.getSettings().setUseWideViewPort(true);
-        webView.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
-                Toast.makeText(getApplicationContext(), consoleMessage.message() + " At line " + consoleMessage.lineNumber(), Toast.LENGTH_LONG).show();
-                return super.onConsoleMessage(consoleMessage);
-            }
-        });
-
+        configureWebView(webView);
         webView.loadUrl("file:///android_asset/liveChart.html");
     }
 

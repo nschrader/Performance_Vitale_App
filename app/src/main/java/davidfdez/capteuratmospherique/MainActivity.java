@@ -74,42 +74,30 @@ public class MainActivity extends AppCompatActivity {
 
     private void selectItem(int position) {
         Fragment fragment = null;
+        Intent intent = null;
 
         switch (position) {
-            case 0:
-                fragment = null;
-                mDrawerLayout.closeDrawers();
-                break;
             case 1:
-                Intent iALC = new Intent(MainActivity.this, LiveCharts.class);
-                startActivity(iALC);
-                mDrawerLayout.closeDrawers();
+                intent = new Intent(MainActivity.this, LiveChartsActivity.class);
                 break;
             case 2:
-                Intent iAC = new Intent(MainActivity.this, ChartsActivity.class);
-                startActivity(iAC);
-                mDrawerLayout.closeDrawers();
+                intent = new Intent(MainActivity.this, ChartsActivity.class);
                 break;
             case 3:
-                Intent iAH = new Intent(MainActivity.this, HeatmapActivity.class);
-                startActivity(iAH);
-                mDrawerLayout.closeDrawers();
+                intent = new Intent(MainActivity.this, HeatmapActivity.class);
                 break;
             case 4:
-                Intent iAS = new Intent(MainActivity.this, SettingsActivity.class);
-                iAS.putExtra("user", user);
-                startActivity(iAS);
-                mDrawerLayout.closeDrawers();
+                intent = new Intent(MainActivity.this, SettingsActivity.class);
                 break;
             case 5:
-                Intent iAA = new Intent(MainActivity.this, AboutUsActivity.class);
-                startActivity(iAA);
-                mDrawerLayout.closeDrawers();
+                intent = new Intent(MainActivity.this, AboutUsActivity.class);
                 break;
-            default:
-                fragment = null;
-                mDrawerLayout.closeDrawers();
-                break;
+        }
+        mDrawerLayout.closeDrawers();
+
+        if (intent != null) {
+            intent.putExtras(getIntent());
+            startActivity(intent);
         }
 
         if (fragment != null) {

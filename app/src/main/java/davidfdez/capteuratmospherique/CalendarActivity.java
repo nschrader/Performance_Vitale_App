@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
@@ -12,9 +11,7 @@ import java.util.Date;
 import java.util.LinkedList;
 
 @SuppressLint("SetJavaScriptEnabled")
-public class CalendarActivity extends AppCompatActivity {
-    public String user = "";
-
+public class CalendarActivity extends AbstractChartsActivity {
     private WebView webView;
     private LinkedList<Date> dates = new LinkedList();
     private LinkedList<Double> valeurs = new LinkedList();
@@ -28,10 +25,9 @@ public class CalendarActivity extends AppCompatActivity {
 
         getDataSql();
         average();
+
         webView = (WebView) findViewById(R.id.calendar);
-        webView.addJavascriptInterface(new WebAppInterface(), "Android");
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setBuiltInZoomControls(true);
+        configureWebView(webView);
         webView.loadUrl("file:///android_asset/calendar.html");
     }
 
