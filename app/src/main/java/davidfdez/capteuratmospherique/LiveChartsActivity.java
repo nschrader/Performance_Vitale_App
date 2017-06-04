@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 public class LiveChartsActivity extends AbstractChartsActivity {
     private WebView webView;
@@ -19,6 +20,7 @@ public class LiveChartsActivity extends AbstractChartsActivity {
         webView.addJavascriptInterface(new WebAppInterface(), "Android");
         configureWebView(webView);
         webView.loadUrl("file:///android_asset/liveChart.html");
+
     }
 
     @Override
@@ -102,14 +104,16 @@ public class LiveChartsActivity extends AbstractChartsActivity {
 
         @JavascriptInterface
         public double getMinHumidity() {
-            double t = lastMesure(user, SensorType.HUMIDITY);
+            double t = lastMesure(user, SensorType.TEMPERATURE);
+
             double r = MeasureUtil.calculateMinHumidity(t);
+
             return r;
         }
 
         @JavascriptInterface
         public double getMaxHumidity() {
-            double t = lastMesure(user, SensorType.HUMIDITY);
+            double t = lastMesure(user, SensorType.TEMPERATURE);
             double r = MeasureUtil.calculateMaxHumidity(t);
             return r;
         }

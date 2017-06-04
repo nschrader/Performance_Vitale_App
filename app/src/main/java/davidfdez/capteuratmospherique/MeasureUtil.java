@@ -1,5 +1,7 @@
 package davidfdez.capteuratmospherique;
 
+import android.widget.Toast;
+
 public class MeasureUtil {
 
     public static final int optimalCO2 = 400;
@@ -22,23 +24,24 @@ public class MeasureUtil {
     }
 
     public static double calculateMinHumidity(double temperature) {
-        double h = -20 * temperature + 430;
-        if (h > 0.7)
+        double h = -20.0 * temperature + 430.0;
+
+        if (h > 70)
             return 70;
-        else if (h < 0.3)
+        else if (h < 30)
             return 30;
         else
-            return h * 100;
+            return h;
     }
 
     public static double calculateMaxHumidity(double temperature) {
-        double h = -10 * temperature + 330;
-        if (h > 0.7)
+        double h = -10.0 * temperature + 330.0;
+        if (h > 70)
             return 70;
-        else if (h < 0.3)
+        else if (h < 30)
             return 30;
         else
-            return h * 100;
+            return h ;
     }
 
     public static double calculateMinColorTemperature(double lux) {
@@ -65,9 +68,9 @@ public class MeasureUtil {
         double colorMax = calculateMaxColorTemperature(luminosity);
 
         if (color > colorMax)
-            return (color - colorMax) * (color - colorMax) * weighting;
+            return Math.min((color - colorMax) * (color - colorMax) * weighting,30);
         else if (color < colorMin)
-            return (color - colorMin) * (color - colorMin) * weighting;
+            return Math.min((color - colorMin) * (color - colorMin) * weighting,30);
         else
             return 0;
     }
@@ -89,6 +92,8 @@ public class MeasureUtil {
         final double weighting = 1.0 / 300000;
 
         if (CO2 == -1)
+            return 0;
+        if(CO2<maxCO2)
             return 0;
         else
             return (CO2 - maxCO2) * (CO2 - maxCO2) * weighting;

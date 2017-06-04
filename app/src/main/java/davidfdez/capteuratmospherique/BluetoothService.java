@@ -53,14 +53,16 @@ public class BluetoothService extends Service {
                                 Date date = new Date();
                                 long dateLong = date.getTime();
                                 String[] splitted = line.split(",");
-                                double CO2 = Integer.parseInt(splitted[0]);
-                                double humidity = Double.parseDouble(splitted[1]);
-                                double temperature = Double.parseDouble(splitted[2]);
-                                double luminosity = Double.parseDouble(splitted[3]);
-                                double color = Double.parseDouble(splitted[4]);
-                                String latitude = (splitted[6].equals("N") ? "" : "-") + splitted[5];
-                                String longitude = (splitted[8].equals("E") ? "" : "-") + splitted[7];
-                                admin.setMeasures(dateLong, user, CO2, humidity, temperature, luminosity, color, latitude, longitude);
+                                if(splitted.length>8) {
+                                    double CO2 = Integer.parseInt(splitted[0]);
+                                    double humidity = Double.parseDouble(splitted[1]);
+                                    double temperature = Double.parseDouble(splitted[2]);
+                                    double luminosity = Double.parseDouble(splitted[3]);
+                                    double color = Double.parseDouble(splitted[4]);
+                                    String latitude = (splitted[6].equals("N") ? "" : "-") + splitted[5];
+                                    String longitude = (splitted[8].equals("E") ? "" : "-") + splitted[7];
+                                    admin.setMeasures(dateLong, user, CO2, humidity, temperature, luminosity, color, latitude, longitude);
+                                }
                             } else {
                                 Toast.makeText(getApplicationContext(), line, Toast.LENGTH_SHORT).show();
                                 Disconnect();
