@@ -41,6 +41,7 @@ public class ShowHistogramActivity extends AbstractChartsActivity {
         getDataSql();
 
         webView = (WebView) findViewById(R.id.webLines);
+        webView.addJavascriptInterface(new ShowHistogramActivity.WebAppInterface(), "Android");
         configureWebView(webView);
         webView.loadUrl("file:///android_asset/histogram.html");
     }

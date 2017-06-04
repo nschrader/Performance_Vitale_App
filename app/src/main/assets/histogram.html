@@ -2,30 +2,29 @@
 <head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-      google.charts.load("current", {packages:["corechart"]});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-      var data = new google.visualization.DataTable();
-      data.addColumn('string', 'moment');
-      data.addColumn('number', 'temperature');
+            google.charts.load("current", {packages:["corechart"]});
+            google.charts.setOnLoadCallback(drawChart);
 
+            function drawChart() {
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'moment');
+                data.addColumn('number', 'temperature');
 
+                for(i=0;i<Android.getSize();i++){
+                    data.addRows([[Android.getTimeMesure(i),Android.getValeur(i)]])
+                }
 
+                var options = {
+                    title: Android.getNom(),
+                    legend: { position: 'none' },
+                    colors: ['red','green'],
+                    interpolateNulls: false,
+                };
 
-      for(i=0;i<Android.getSize();i++){
-    	data.addRows([[Android.getTimeMesure(i),Android.getValeur(i)]])
-    }
+                var chart = new google.visualization.Histogram(document.getElementById('chart_div'));
+                chart.draw(data, options);
+            }
 
-        var options = {
-          title: Android.getNom(),
-          legend: { position: 'none' },
-          colors: ['red','green'],
-          interpolateNulls: false,
-        };
-
-        var chart = new google.visualization.Histogram(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      }
     </script>
 </head>
 <body>

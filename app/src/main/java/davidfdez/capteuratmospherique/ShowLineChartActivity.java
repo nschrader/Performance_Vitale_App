@@ -76,6 +76,7 @@ public class ShowLineChartActivity extends AbstractChartsActivity {
         }
 
         webView = (WebView) findViewById(R.id.webLines);
+        webView.addJavascriptInterface(new ShowLineChartActivity.WebAppInterface(), "Android");
         configureWebView(webView);
         webView.loadUrl("file:///android_asset/lineChart.html");
     }

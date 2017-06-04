@@ -27,6 +27,7 @@ public class CalendarActivity extends AbstractChartsActivity {
         average();
 
         webView = (WebView) findViewById(R.id.calendar);
+        webView.addJavascriptInterface(new CalendarActivity.WebAppInterface(), "Android");
         configureWebView(webView);
         webView.loadUrl("file:///android_asset/calendar.html");
     }
