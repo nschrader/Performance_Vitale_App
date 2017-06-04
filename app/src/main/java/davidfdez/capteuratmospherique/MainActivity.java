@@ -43,13 +43,12 @@ public class MainActivity extends AppCompatActivity {
         setupToolbar();
 
         DataModel[] drawerItem = new DataModel[6];
-
-        drawerItem[0] = new DataModel(R.drawable.home_icon, R.string.home);
-        drawerItem[1] = new DataModel(R.drawable.livecharts_icon, R.string.LiveCharts);
-        drawerItem[2] = new DataModel(R.drawable.charts_icon, R.string.Charts);
-        drawerItem[3] = new DataModel(R.drawable.heatmap_icon, R.string.Heatmaps);
-        drawerItem[4] = new DataModel(R.drawable.settings_icon, R.string.Settings);
-        drawerItem[5] = new DataModel(R.drawable.aboutus_icon, R.string.aboutUsActivity);
+        drawerItem[0] = new DataModel(R.drawable.home, R.string.home);
+        drawerItem[1] = new DataModel(R.drawable.gauges, R.string.LiveCharts);
+        drawerItem[2] = new DataModel(R.drawable.charts, R.string.Charts);
+        drawerItem[3] = new DataModel(R.drawable.heatmap, R.string.Heatmaps);
+        drawerItem[4] = new DataModel(R.drawable.settings, R.string.Settings);
+        drawerItem[5] = new DataModel(R.drawable.aboutus, R.string.aboutUsActivity);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
