@@ -17,7 +17,7 @@
         <item name="colorButtonNormal">@color/colorPrimaryDark</item>
         <item name="android:colorButtonNormal">@color/colorPrimaryDark</item>
         <item name="android:textColorPrimaryInverse">@android:color/background_light</item>
-        <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
+       <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
 
     </style>
     <style name="MyDatePickerDialogTheme" parent="android:Theme.Material.Light.Dialog">
