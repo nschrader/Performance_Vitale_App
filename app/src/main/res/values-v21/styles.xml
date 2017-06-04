@@ -10,11 +10,20 @@
         <item name="android:colorForeground">@color/colorPrimaryDark</item>
         <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
         <item name="android:textColorPrimary">@android:color/background_light</item>
-        <item name="android:textColorSecondaryInverse">@android:color/background_light</item>
+        <item name="android:textColorSecondaryInverse">@color/colorPrimaryDark</item>
         <item name="android:textColorSecondary">@android:color/background_light</item>
-        <item name="android:statusBarColor">@android:color/background_light</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="android:windowBackground">@color/colorPrimary</item>
         <item name="colorButtonNormal">@color/colorPrimaryDark</item>
         <item name="android:colorButtonNormal">@color/colorPrimaryDark</item>
+        <item name="android:textColorPrimaryInverse">@android:color/background_light</item>
+        <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
+
+    </style>
+    <style name="MyDatePickerDialogTheme" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:datePickerStyle">@style/MyDatePickerStyle</item>
+    </style>
+    <style name="MyDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
+        <item name="android:headerBackground">@color/colorPrimaryDark</item>
     </style>
 </resources>
