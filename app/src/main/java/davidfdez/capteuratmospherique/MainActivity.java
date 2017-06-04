@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase bd = admin.getWritableDatabase();
         Cursor raw = bd.rawQuery("select * from Mesure", null);
         if (!raw.moveToFirst()) { //Database empty
-            admin.setMeasures(1496421270283L, "", 968.0, 35.1, 25.6, 229.0, 4716.0, "4546.7948", "00452.3943");
+            admin.setMeasures(1496421270283L, user, 968.0, 35.1, 25.6, 229.0, 4716.0, "4546.7948", "00452.3943");
         }
     }
 

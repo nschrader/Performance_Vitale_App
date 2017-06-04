@@ -28,6 +28,8 @@ public class CalendarActivity extends AbstractChartsActivity {
 
         webView = (WebView) findViewById(R.id.calendar);
         webView.addJavascriptInterface(new CalendarActivity.WebAppInterface(), "Android");
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setDisplayZoomControls(true);
         configureWebView(webView);
         webView.loadUrl("file:///android_asset/calendar.html");
     }

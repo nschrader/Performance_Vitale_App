@@ -1,83 +1,30 @@
 package davidfdez.capteuratmospherique;
 
-import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 import java.util.Date;
 import java.util.LinkedList;
 
-@SuppressLint("SetJavaScriptEnabled")
-public class ShowLineChartActivity extends AbstractChartsActivity {
-    public double max;
-    public double min;
-
+public class ShowLineChartActivity extends AbstractGraphsActivity {
     private WebView webView;
-    private LinkedList<Date> dates;
-    private LinkedList<Double> valeurs;
-    private Date dateTo;
-    private Date dateFrom;
-    private String capteur;
+    private LinkedList<Double> min = new LinkedList<>();
+    private LinkedList<Double> max = new LinkedList<>();
 
-    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_line_chart);
 
-        Bundle bundle = getIntent().getExtras();
-        capteur = bundle.getString("capteur");
-        int yearTo = bundle.getInt("yearTo");
-        int monthTo = bundle.getInt("monthTo");
-        int dayTo = bundle.getInt("dayTo");
-        dateTo = new Date(yearTo, monthTo, dayTo);
-        int yearFrom = bundle.getInt("yearFrom");
-        int monthFrom = bundle.getInt("monthFrom");
-        int dayFrom = bundle.getInt("dayFrom");
-        dateFrom = new Date(yearFrom, monthFrom, dayFrom);
-
-        dates = new LinkedList();
-        valeurs = new LinkedList();
-
         getDataSql();
-
-        /*
-         * introducir sql
-         * datos de tipo capteur(string)
-         * entre dateFrom y dateTo
-         */
-        for (int i = 0; i < 0; i++) {
-            valeurs.add(0.0);
-            dates.add(dateTo);
-        }
-        max = 0;
-        min = 0;
-        if (capteur.equals("Temperature")) {
-            max = 26;
-            min = 20;
-        } else if (capteur.equals("Luminosite")) {
-            max = 800;
-            min = 300;
-        } else if (capteur.equals("CO2Mesure")) {
-            max = 1500;
-            min = 400;
-        } else if (capteur.equals("TempLum")) {
-            max = 7016;
-            min = 2919;
-        } else if (capteur.equals("Humidite")) {
-            max = 70;
-            min = 30;
-        } else if (capteur.equals("Performance")) {
-            max = 100;
-            min = 0;
-        }
-
         webView = (WebView) findViewById(R.id.webLines);
         webView.addJavascriptInterface(new ShowLineChartActivity.WebAppInterface(), "Android");
         configureWebView(webView);
+        enableZoom(webView);
         webView.loadUrl("file:///android_asset/lineChart.html");
     }
 
@@ -85,27 +32,51 @@ public class ShowLineChartActivity extends AbstractChartsActivity {
         AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this);
         SQLiteDatabase bd = admin.getWritableDatabase();
         Cursor raw = bd.rawQuery(
-                "select idMesure," + capteur + " from Mesure where idUser ='" + user + "' and idMesure > " + dateFrom.getTime() + " and idMesure < " + dateTo.getTime(), null);
+                "select * from Mesure where idUser ='" + user + "' and idMesure > " + dateFrom.getTime() + " and idMesure < " + dateTo.getTime(), null);
 
-        if (raw.moveToFirst()) {
-            long stringDateSql = raw.getLong(0);
-            Date dateSql = new Date(stringDateSql);
-            double aux = raw.getDouble(1);
+        if (!raw.moveToFirst()) {
+            this.finish();
+            Toast.makeText(getApplicationContext(), "No data!", Toast.LENGTH_SHORT).show();
+        } else {
+            do {
+                long stringDateSql = raw.getLong(raw.getColumnIndex("idMesure"));
+                Date dateSql = new Date(stringDateSql);
+                double val = raw.getDouble(raw.getColumnIndex(capteur));
+                double _min = 0, _max = 0;
+                switch (capteur) {
+                    case "Temperature":
+                        double h = raw.getLong(raw.getColumnIndex("Humidite"));
+                        _min = MeasureUtil.calculateMinTemperature(h);
+                        _max = MeasureUtil.calculateMaxTemperature(h);
+                        break;
+                    case "Luminosite":
+                        _min = MeasureUtil.minLuminosity;
+                        _max = MeasureUtil.comfortableLuminosity;
+                        break;
+                    case "CO2Mesure":
+                        _min = MeasureUtil.optimalCO2;
+                        _max = MeasureUtil.maxCO2;
+                        break;
+                    case "TempLum":
+                        double l = raw.getLong(raw.getColumnIndex("Luminosite"));
+                        _min = MeasureUtil.calculateMinColorTemperature(l);
+                        _max = MeasureUtil.calculateMaxColorTemperature(l);
+                        break;
+                    case "Humidite":
+                        double t = raw.getLong(raw.getColumnIndex("Temperature"));
+                        _min = MeasureUtil.calculateMinHumidity(t);
+                        _max = MeasureUtil.calculateMinHumidity(t);
+                        break;
+                    case "Performance":
+                        _min = 75;
+                        _max = 100;
+                }
 
-            valeurs.add(aux);
-            dates.add(dateSql);
-
-
-            while (raw.moveToNext()) {
-                stringDateSql = raw.getLong(0);
-                dateSql = new Date(stringDateSql);
-                aux = raw.getDouble(1);
-
-                valeurs.add(aux);
+                valeurs.add(val);
                 dates.add(dateSql);
-
-
-            }
+                min.add(_min);
+                max.add(_max);
+            } while (raw.moveToNext());
         }
     }
 
@@ -113,17 +84,17 @@ public class ShowLineChartActivity extends AbstractChartsActivity {
 
         @JavascriptInterface
         public String getNom() {
-            return capteur;
+            return getIntent().getExtras().getString("nom");
         }
 
         @JavascriptInterface
-        public double getMax() {
-            return max;
+        public double getMax(int a) {
+            return max.get(a);
         }
 
         @JavascriptInterface
-        public double getMin() {
-            return min;
+        public double getMin(int a) {
+            return min.get(a);
         }
 
         @JavascriptInterface

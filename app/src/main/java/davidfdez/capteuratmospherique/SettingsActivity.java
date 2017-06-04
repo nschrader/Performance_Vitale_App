@@ -116,7 +116,7 @@ public class SettingsActivity extends AppCompatActivity {
         if (fila.moveToFirst()) {
             printWriter.format("#time, user, performance, CO2, luminosity, latitude, longitude, temperature, humidity, color\n");
             do {
-                printWriter.format("%s, %s, %s, %s, %s, %s, %s, %s, %s, %s\n",
+                printWriter.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n",
                         fila.getString(0),
                         fila.getString(1),
                         String.valueOf(fila.getDouble(2)),

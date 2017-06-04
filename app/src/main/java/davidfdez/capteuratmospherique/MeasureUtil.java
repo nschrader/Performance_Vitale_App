@@ -23,12 +23,22 @@ public class MeasureUtil {
 
     public static double calculateMinHumidity(double temperature) {
         double h = -20 * temperature + 430;
-        return h < 0.3 ? 30 : h * 100;
+        if (h > 0.7)
+            return 70;
+        else if (h < 0.3)
+            return 30;
+        else
+            return h * 100;
     }
 
     public static double calculateMaxHumidity(double temperature) {
         double h = -10 * temperature + 330;
-        return h < 0.7 ? 70 : h * 100;
+        if (h > 0.7)
+            return 70;
+        else if (h < 0.3)
+            return 30;
+        else
+            return h * 100;
     }
 
     public static double calculateMinColorTemperature(double lux) {
@@ -50,7 +60,7 @@ public class MeasureUtil {
     }
 
     private static double ecColor(double color, double luminosity) {
-        final double weighting = 2 / 50000;
+        final double weighting = 2.0 / 50000;
         double colorMin = calculateMinColorTemperature(luminosity);
         double colorMax = calculateMaxColorTemperature(luminosity);
 
@@ -63,7 +73,7 @@ public class MeasureUtil {
     }
 
     private static double ecTemperature(double temperature, double humidity) {
-        final double weighting = 1 / 2;
+        final double weighting = 1.0 / 2;
         double tMin = calculateMinTemperature(humidity);
         double tMax = calculateMaxTemperature(humidity);
 
@@ -76,7 +86,7 @@ public class MeasureUtil {
     }
 
     private static double ecCO2(double CO2) {
-        final double weighting = 1 / 300000;
+        final double weighting = 1.0 / 300000;
 
         if (CO2 == -1)
             return 0;
@@ -85,9 +95,9 @@ public class MeasureUtil {
     }
 
     private static double ecHumidity(double temperature, double humidity) {
-        final double weighting = 1 / 100;
-        double hMin = calculateMaxHumidity(temperature);
-        double hMax = calculateMinHumidity(temperature);
+        final double weighting = 1.0 / 100;
+        double hMin = calculateMinHumidity(temperature);
+        double hMax = calculateMaxHumidity(temperature);
 
         if (humidity < hMin)
             return (humidity - hMax) * (humidity - hMax) * weighting;

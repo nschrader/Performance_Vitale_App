@@ -6,7 +6,7 @@
     <string name="Charts">Graphiques</string>
     <string name="Heatmaps">Heatmaps</string>
     <string name="Humidity">Humidité</string>
-    <string name="LightColor">Luminosité</string>
+    <string name="LightColor">Température de Couleur</string>
     <string name="LiveCharts">Graphes en direct</string>
     <string name="Performance">Performance</string>
     <string name="Settings">Réglages</string>

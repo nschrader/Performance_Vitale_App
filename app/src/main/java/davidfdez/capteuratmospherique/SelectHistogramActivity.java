@@ -96,21 +96,31 @@ public class SelectHistogramActivity extends AppCompatActivity {
     @SuppressWarnings("deprecation")
     public void showChart(View view) {
         String capteur = null;
+        CharSequence nom = null;
         if (temperature.isChecked() == true) {
             capteur = "Temperature";
+            nom = temperature.getText();
         } else if (co2.isChecked() == true) {
             capteur = "CO2Mesure";
+            nom = co2.getText();
         } else if (eclairage.isChecked() == true) {
             capteur = "Luminosite";
+            nom = eclairage.getText();
         } else if (chaleur.isChecked() == true) {
             capteur = "TempLum";
+            nom = chaleur.getText();
         } else if (performance.isChecked() == true) {
             capteur = "Performance";
-        } else {
+            nom = performance.getText();
+        } else if (humidite.isChecked() == true) {
             capteur = "Humidite";
-        }
+            nom = humidite.getText();
+        } else
+            return;
 
         Intent i = new Intent(this, ShowHistogramActivity.class);
+        i.putExtras(getIntent());
+        i.putExtra("nom", nom.toString());
         i.putExtra("capteur", capteur);
         i.putExtra("yearFrom", dateFrom.getYear() - 1900);
         i.putExtra("monthFrom", dateFrom.getMonth());

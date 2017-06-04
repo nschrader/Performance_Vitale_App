@@ -103,13 +103,15 @@ public class LiveChartsActivity extends AbstractChartsActivity {
         @JavascriptInterface
         public double getMinHumidity() {
             double t = lastMesure(user, SensorType.HUMIDITY);
-            return MeasureUtil.calculateMinHumidity(t);
+            double r = MeasureUtil.calculateMinHumidity(t);
+            return r;
         }
 
         @JavascriptInterface
         public double getMaxHumidity() {
             double t = lastMesure(user, SensorType.HUMIDITY);
-            return MeasureUtil.calculateMaxHumidity(t);
+            double r = MeasureUtil.calculateMaxHumidity(t);
+            return r;
         }
 
         @JavascriptInterface
