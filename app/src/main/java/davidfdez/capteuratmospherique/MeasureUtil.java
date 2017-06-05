@@ -1,5 +1,7 @@
 package davidfdez.capteuratmospherique;
 
+import android.widget.Toast;
+
 public class MeasureUtil {
 
     public static final int optimalCO2 = 400;
@@ -22,13 +24,24 @@ public class MeasureUtil {
     }
 
     public static double calculateMinHumidity(double temperature) {
-        double h = -20 * temperature + 430;
-        return h < 0.3 ? 30 : h * 100;
+        double h = -20.0 * temperature + 430.0;
+
+        if (h > 70)
+            return 70;
+        else if (h < 30)
+            return 30;
+        else
+            return h;
     }
 
     public static double calculateMaxHumidity(double temperature) {
-        double h = -10 * temperature + 330;
-        return h < 0.7 ? 70 : h * 100;
+        double h = -10.0 * temperature + 330.0;
+        if (h > 70)
+            return 70;
+        else if (h < 30)
+            return 30;
+        else
+            return h ;
     }
 
     public static double calculateMinColorTemperature(double lux) {
@@ -50,20 +63,20 @@ public class MeasureUtil {
     }
 
     private static double ecColor(double color, double luminosity) {
-        final double weighting = 2 / 50000;
+        final double weighting = 2.0 / 50000;
         double colorMin = calculateMinColorTemperature(luminosity);
         double colorMax = calculateMaxColorTemperature(luminosity);
 
         if (color > colorMax)
-            return (color - colorMax) * (color - colorMax) * weighting;
+            return Math.min((color - colorMax) * (color - colorMax) * weighting,30);
         else if (color < colorMin)
-            return (color - colorMin) * (color - colorMin) * weighting;
+            return Math.min((color - colorMin) * (color - colorMin) * weighting,30);
         else
             return 0;
     }
 
     private static double ecTemperature(double temperature, double humidity) {
-        final double weighting = 1 / 2;
+        final double weighting = 1.0 / 2;
         double tMin = calculateMinTemperature(humidity);
         double tMax = calculateMaxTemperature(humidity);
 
@@ -76,18 +89,20 @@ public class MeasureUtil {
     }
 
     private static double ecCO2(double CO2) {
-        final double weighting = 1 / 300000;
+        final double weighting = 1.0 / 300000;
 
         if (CO2 == -1)
+            return 0;
+        if(CO2<maxCO2)
             return 0;
         else
             return (CO2 - maxCO2) * (CO2 - maxCO2) * weighting;
     }
 
     private static double ecHumidity(double temperature, double humidity) {
-        final double weighting = 1 / 100;
-        double hMin = calculateMaxHumidity(temperature);
-        double hMax = calculateMinHumidity(temperature);
+        final double weighting = 1.0 / 100;
+        double hMin = calculateMinHumidity(temperature);
+        double hMax = calculateMaxHumidity(temperature);
 
         if (humidity < hMin)
             return (humidity - hMax) * (humidity - hMax) * weighting;

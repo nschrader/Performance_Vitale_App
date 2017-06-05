@@ -34,7 +34,7 @@
     <string name="showChart">Show Charts</string>
     <string name="selectDateFrom">Select Date From</string>
     <string name="selectDateTo">Select Date To</string>
-    <string name="descrip">Our goal is to measure the surrounding environment in order to improve the general performance in activities such as working or sport, thanks to a data collection and analysis. Regarding the project, it consists of a box containing several sensors, a GPS and a HC-05 Bluetooth module, all of them connected to an Arduino Uno.The Bluetooth communicates with an Android smartphone with our app installed. Each user has their own account on this app.This project has been developed by:Joan Capell, Daniel del Pozo, David Fernández, Nick Schrader.</string>
+    <string name="descrip">Our goal is to measure the surrounding environment in order to improve the general performance in activities such as working or sports, thanks to data collection and analysis. Regarding the project, it consists of a box containing several sensors, a GPS and a HC-05 Bluetooth module, all of them connected to an Arduino Uno. The Bluetooth sends to an Android smartphone with our app installed. Each user may have his own account. This project has been developed by: Joan Capell, Daniel del Pozo, David Fernández, Nick Schrader.</string>
     <string name="LogIn">Log In</string>
     <string name="SignUp">Not account yet? Sign Up!</string>
     <string name="User">User</string>

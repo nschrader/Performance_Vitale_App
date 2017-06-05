@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Performance Vitale</string>
-    <string name="descrip">Nous avons comme objectif mesurer l\'atmosphère ambiante afin d’améliorer la performance vitale pour travailler, faire du sport etc, grâce à un analyse des donnés. Pour le projet, il s’agit d’une boite contenant plusieurs capteurs, un GPS et un module Bluetooth HC-05, tous connectés à un Arduino Uno. Le module Bluetooth sert à pouvoir communiquer avec un portable Android, sur lequel une application que nous allons aussi développer sera installée. Cette application donne la possibilité de se connecter pour avoir différents profils pour chaque utilisateur. Ce projet a été développé par Joan Capell, Daniel Del Pozo, David Fernández et Nick Schrader</string>
+    <string name="descrip">Nous avons comme objectif de mesurer l\'atmosphère ambiante afin d’améliorer la performance vitale (pour travailler, faire du sport etc), grâce à une analyse des donnés. Pour le projet, on s\'est servi d\'une boite contenant plusieurs capteurs, un GPS et un module Bluetooth HC-05, tous connectés à un Arduino Uno. Le module Bluetooth sert à pouvoir communiquer avec un portable Android, sur lequel cette application est installée. Elle donne la possibilité de se connecter afind d\'avoir différents profils pour chaque utilisateur. Ce projet a été développé par Joan Capell, Daniel Del Pozo, David Fernández et Nick Schrader.</string>
     <string name="CO2">CO2</string>
     <string name="Charts">Graphiques</string>
     <string name="Heatmaps">Heatmaps</string>
     <string name="Humidity">Humidité</string>
-    <string name="LightColor">Luminosité</string>
+    <string name="LightColor">Température de Couleur</string>
     <string name="LiveCharts">Graphes en direct</string>
     <string name="Performance">Performance</string>
     <string name="Settings">Réglages</string>

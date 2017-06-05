@@ -3,7 +3,6 @@ package davidfdez.capteuratmospherique;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
@@ -11,13 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ClusteringActivity extends AppCompatActivity {
+public class ClusteringActivity extends AbstractChartsActivity {
     private WebView webView;
     private List<Double> comfortLatitudes = new ArrayList<>();
     private List<Double> comfortLongitudes = new ArrayList<>();
     private List<Double> discomfortLatitudes = new ArrayList<>();
     private List<Double> discomforLongitudes = new ArrayList<>();
-    private String user = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +27,7 @@ public class ClusteringActivity extends AppCompatActivity {
 
         webView = (WebView) findViewById(R.id.clustering);
         webView.addJavascriptInterface(new WebAppInterface(), "Android");
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setLoadWithOverviewMode(true);
-        webView.getSettings().setUseWideViewPort(true);
+        configureWebView(webView);
         webView.loadUrl("file:///android_asset/clustering.html");
 
     }

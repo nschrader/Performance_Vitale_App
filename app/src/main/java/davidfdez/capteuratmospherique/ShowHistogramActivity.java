@@ -1,53 +1,28 @@
 package davidfdez.capteuratmospherique;
 
-import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 import java.util.Date;
-import java.util.LinkedList;
 
-@SuppressLint("SetJavaScriptEnabled")
-public class ShowHistogramActivity extends AppCompatActivity {
-    public String user = "";
+public class ShowHistogramActivity extends AbstractGraphsActivity {
     private WebView webView;
-    private LinkedList<Date> dates;
-    private LinkedList<Double> valeurs;
-    private Date dateTo;
-    private Date dateFrom;
-    private String capteur;
 
-    @SuppressWarnings("deprecation")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_histogram);
-        Bundle bundle = getIntent().getExtras();
-        capteur = bundle.getString("capteur");
-        int yearTo = bundle.getInt("yearTo");
-        int monthTo = bundle.getInt("monthTo");
-        int dayTo = bundle.getInt("dayTo");
-        dateTo = new Date(yearTo, monthTo, dayTo);
-        int yearFrom = bundle.getInt("yearFrom");
-        int monthFrom = bundle.getInt("monthFrom");
-        int dayFrom = bundle.getInt("dayFrom");
-        dateFrom = new Date(yearFrom, monthFrom, dayFrom);
-
-        dates = new LinkedList();
-        valeurs = new LinkedList();
 
         getDataSql();
-
-
         webView = (WebView) findViewById(R.id.webLines);
-        webView.addJavascriptInterface(new WebAppInterface(), "Android");
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setBuiltInZoomControls(true);
+        webView.addJavascriptInterface(new ShowHistogramActivity.WebAppInterface(), "Android");
+        configureWebView(webView);
+        enableZoom(webView);
         webView.loadUrl("file:///android_asset/histogram.html");
     }
 
@@ -57,25 +32,18 @@ public class ShowHistogramActivity extends AppCompatActivity {
         Cursor raw = bd.rawQuery(
                 "select idMesure," + capteur + " from Mesure where idUser ='" + user + "' and idMesure > " + dateFrom.getTime() + " and idMesure < " + dateTo.getTime(), null);
 
-        if (raw.moveToFirst()) {
-            long stringDateSql = raw.getLong(0);
-            Date dateSql = new Date(stringDateSql);
-            double aux = raw.getDouble(1);
-
-            valeurs.add(aux);
-            dates.add(dateSql);
-
-
-            while (raw.moveToNext()) {
-                stringDateSql = raw.getLong(0);
-                dateSql = new Date(stringDateSql);
-                aux = raw.getDouble(1);
+        if (!raw.moveToFirst()) {
+            this.finish();
+            Toast.makeText(getApplicationContext(), "No data!", Toast.LENGTH_SHORT).show();
+        } else {
+            do {
+                long stringDateSql = raw.getLong(0);
+                Date dateSql = new Date(stringDateSql);
+                double aux = raw.getDouble(1);
 
                 valeurs.add(aux);
                 dates.add(dateSql);
-
-
-            }
+            } while (raw.moveToNext());
         }
     }
 
@@ -83,9 +51,8 @@ public class ShowHistogramActivity extends AppCompatActivity {
 
         @JavascriptInterface
         public String getNom() {
-            return capteur;
+            return getIntent().getExtras().getString("nom");
         }
-
 
         @JavascriptInterface
         public int getSize() {
