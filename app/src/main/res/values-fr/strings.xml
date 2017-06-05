@@ -22,4 +22,11 @@
     <string name="selectDateTo">Date fin</string>
     <string name="showChart">Montrer graphe</string>
     <string name="title_activity_main">Performance Vitale</string>
+    <string name="CreateAcc">créer un compte</string>
+    <string name="LogIn">Se connecter</string>
+    <string name="Password">Mot de passe</string>
+    <string name="SignUp">Pas encore Inscrit? Par ici!</string>
+    <string name="User">Utilisateur</string>
+    <string name="ast">Description du projet</string>
+    <string name="membSI">Déjà membre? Connectez-vous!</string>
 </resources>

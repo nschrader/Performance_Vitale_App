@@ -21,4 +21,12 @@
     <string name="selectDateTo">Seleccionar hasta</string>
     <string name="showChart">Mostrar Grafico</string>
     <string name="title_activity_main">Sensor Ambiental</string>
+    <string name="CreateAcc">Crear cuenta</string>
+    <string name="LogIn">Iniciar sesión</string>
+    <string name="Password">Contraseña</string>
+    <string name="SignUp">¿Aun no estas registrado? Registrate ahora!</string>
+    <string name="User">Usuario</string>
+    <string name="ast">Descripcion del Proyecto</string>
+    <string name="descrip">Our goal is to measure the surrounding environment in order to improve the general performance in activities such as working or sport, thanks to a data collection and analysis. Regarding the project, it consists of a box containing several sensors, a GPS and a HC-05 Bluetooth module, all of them connected to an Arduino Uno.The Bluetooth communicates with an Android smartphone with our app installed. Each user has their own account on this app.This project has been developed by:Joan Capell, Daniel del Pozo, David Fernández, Nick Schrader.</string>
+    <string name="membSI">Ya estás registrado? Inicia sesion!</string>
 </resources>
