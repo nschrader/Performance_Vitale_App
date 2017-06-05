@@ -13,6 +13,7 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
     LocationManager locationManager;
     public AdminSQLiteOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
+        locationManager =  (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
     }
 
     public AdminSQLiteOpenHelper(Context context) {

@@ -73,10 +73,10 @@ public class BluetoothService extends Service {
                         Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
                     }
                 }
-                handler.postDelayed(this, 30000);
+                handler.postDelayed(this, 3000);
             }
         };
-        handler.postDelayed(r, 30000);
+        handler.postDelayed(r, 3000);
         return Service.START_STICKY;
     }
 
