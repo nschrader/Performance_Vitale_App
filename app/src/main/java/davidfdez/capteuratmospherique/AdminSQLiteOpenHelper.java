@@ -5,17 +5,20 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.location.LocationManager;
 import android.view.View;
 
 
 public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
-
+    LocationManager locationManager;
     public AdminSQLiteOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
     public AdminSQLiteOpenHelper(Context context) {
+
         super(context, "administracion", null, 1);
+        locationManager =  (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
     }
 
     @Override
