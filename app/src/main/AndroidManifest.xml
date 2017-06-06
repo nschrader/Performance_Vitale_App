@@ -54,7 +54,8 @@
         <activity android:name=".CalendarActivity" />
         <activity android:name=".SelectHistogramActivity" />
         <activity android:name=".ShowHistogramActivity" />
-        <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".SignUpActivity" />
+
     </application>
 
 </manifest>
