@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
-import android.widget.Toast;
 
 public class LiveChartsActivity extends AbstractChartsActivity {
     private WebView webView;
@@ -162,7 +161,8 @@ public class LiveChartsActivity extends AbstractChartsActivity {
         @JavascriptInterface
         public double getMaxColorTemperature() {
             double l = lastMesure(user, SensorType.LUMINOSITY);
-            return MeasureUtil.calculateMaxColorTemperature(l);
+            double c = MeasureUtil.calculateMaxColorTemperature(l);
+            return c > 8000 ? 8000 : c;
         }
 
         @JavascriptInterface

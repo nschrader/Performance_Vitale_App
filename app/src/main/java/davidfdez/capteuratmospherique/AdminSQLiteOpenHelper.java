@@ -5,17 +5,17 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.location.Location;
+import android.location.LocationManager;
 import android.view.View;
 
 
 public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
-
-    public AdminSQLiteOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
-    }
+    private Context context;
 
     public AdminSQLiteOpenHelper(Context context) {
         super(context, "administracion", null, 1);
+        this.context = context;
     }
 
     @Override
@@ -27,10 +27,33 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
+    public double unitLatLng(double cord){
+        double aux= (int)cord;
+        return aux*100+ (cord-aux)*60;
+    }
+
+    public String choseLongitudeGPS(double lng){
+        if(lng!=0) return ""+lng;
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        Location locationGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if(locationGPS== null) return "0";
+        return ""+unitLatLng(locationGPS.getLongitude());
+
+    }
+    public String choseLatitudeGPS(double lat){
+        if(lat!=0) return ""+lat;
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        Location locationGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if(locationGPS== null) return "0";
+        return ""+unitLatLng(locationGPS.getLatitude());
+    }
+
 
     public boolean setMeasures(long timestamp, String user, double CO2, double humidity, double temperature, double luminosity, double color, String latitude, String longitude) {
         SQLiteDatabase bd = this.getWritableDatabase();
         ContentValues valuesToAdd = new ContentValues();
+        longitude = choseLongitudeGPS(Double.parseDouble(longitude));
+        latitude = choseLatitudeGPS(Double.parseDouble(latitude));
         valuesToAdd.put("idMesure", timestamp);
         valuesToAdd.put("idUser", user);
         valuesToAdd.put("Performance", MeasureUtil.calculatePerformance(CO2, temperature, humidity, luminosity, color));

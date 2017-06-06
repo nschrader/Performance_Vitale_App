@@ -73,10 +73,10 @@ public class BluetoothService extends Service {
                         Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
                     }
                 }
-                handler.postDelayed(this, 30000);
+                handler.postDelayed(this, 5000);
             }
         };
-        handler.postDelayed(r, 30000);
+        handler.postDelayed(r, 5000);
         return Service.START_STICKY;
     }
 
@@ -96,6 +96,12 @@ public class BluetoothService extends Service {
             }
         }
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Disconnect();
     }
 
     private class ConnectBT extends AsyncTask<Void, Void, Void> {

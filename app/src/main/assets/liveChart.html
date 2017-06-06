@@ -33,7 +33,7 @@
                 setInterval(function() {
                   data.setValue(0, 1, Android.getPerformance());
                   chart.draw(data, options);
-                }, 10000);
+                }, 3000);
 
               }
 
@@ -62,7 +62,7 @@
                 setInterval(function() {
                   data.setValue(0, 1, Android.getCurrentTemperature());
                   chart.draw(data, options);
-                }, 10000);
+                }, 3000);
 
               }
 
@@ -90,7 +90,7 @@
                 setInterval(function() {
                   data.setValue(0, 1, Android.getCurrentHumidity());
                   chart.draw(data, options);
-                }, 10000);
+                }, 3000);
 
               }
 
@@ -118,7 +118,7 @@
                 setInterval(function() {
                   data.setValue(0, 1, Android.getCurrentCO2() );
                   chart.draw(data, options);
-                }, 10000);
+                }, 3000);
 
               }
 
@@ -146,7 +146,7 @@
                 setInterval(function() {
                   data.setValue(0, 1, Android.getCurrentLuminosity());
                   chart.draw(data, options);
-                }, 10000);
+                }, 3000);
 
               }
 
@@ -162,8 +162,8 @@
                   width: 1000, height: 370,
                   yellowFrom: 2000, yellowTo: Android.getMinColorTemperature(),
                   greenFrom: Android.getMinColorTemperature(), greenTo: Android.getMaxColorTemperature(),
-                  redFrom: Android.getMaxColorTemperature(), redTo: 7000, redColor: '#FF9900',
-                  max: 7000, min: 2000,
+                  redFrom: Android.getMaxColorTemperature(), redTo: 8000, redColor: '#FF9900',
+                  max: 8000, min: 2000,
                   minorTicks: 5
                 };
 
@@ -174,7 +174,7 @@
                 setInterval(function() {
                   data.setValue(0, 1, Android.getCurrentColorTemperature());
                   chart.draw(data, options);
-                }, 10000);
+                }, 3000);
 
           }
 

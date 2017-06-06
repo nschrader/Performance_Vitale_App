@@ -47,7 +47,7 @@ public class SettingsActivity extends AppCompatActivity {
             // Make an intent to start next activity.
             Intent serviceIntent = new Intent(SettingsActivity.this, BluetoothService.class);
             serviceIntent.putExtra(EXTRA_ADDRESS, address);
-            serviceIntent.putExtra("user", user);
+            serviceIntent.putExtras(getIntent());
 
             startService(serviceIntent);
 
@@ -102,6 +102,12 @@ public class SettingsActivity extends AppCompatActivity {
         devicelist.setAdapter(adapter);
         devicelist.setOnItemClickListener(myListClickListener); //Method called when the device from the list is clicked
 
+    }
+
+    public void disconnect(View v) {
+        Intent serviceIntent = new Intent(SettingsActivity.this, BluetoothService.class);
+        serviceIntent.putExtras(getIntent());
+        stopService(serviceIntent);
     }
 
     private boolean isExternalStorageWritable() {
