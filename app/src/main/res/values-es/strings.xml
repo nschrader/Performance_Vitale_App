@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Sensor Ambiental</string>
+    <string name="app_name">Ambience Sensor</string>
     <string name="CO2">CO2</string>
     <string name="Charts">Graficos</string>
     <string name="Heatmaps">Heatmaps</string>
