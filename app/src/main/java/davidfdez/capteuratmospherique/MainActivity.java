@@ -68,7 +68,12 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase bd = admin.getWritableDatabase();
         Cursor raw = bd.rawQuery("select * from Mesure", null);
         if (!raw.moveToFirst()) { //Database empty
-            admin.setMeasures(1496421270283L, user, 968.0, 35.1, 25.6, 229.0, 4716.0, "4546.7948", "00452.3943");
+            admin.setMeasures(1496421270283L, user, 968.0, 35.1, 25.6, 223.0, 4716.0, "0", "0");
+            admin.setMeasures(1496421270280L, user, 932.0, 35.1, 24.6, 222.0, 4731.0, "0", "0");
+            admin.setMeasures(1496421270281L, user, 924.0, 35.1, 23.6, 229.0, 4718.0, "0", "0");
+            admin.setMeasures(1496421270285L, user, 918.0, 35.1, 25.6, 230.0, 4725.0, "0", "0");
+            admin.setMeasures(1496421270286L, user, 768.0, 35.1, 31.6, 229.0, 4732.0, "0", "0");
+            admin.setMeasures(1496421270287L, user, 868.0, 35.1, 24.6, 240.0, 4737.0, "0", "0");
         }
     }
 

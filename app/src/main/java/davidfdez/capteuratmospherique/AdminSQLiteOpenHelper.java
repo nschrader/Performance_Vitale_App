@@ -6,7 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.view.View;
 
 
@@ -17,12 +19,14 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
     public AdminSQLiteOpenHelper(Context context) {
         super(context, "administracion", null, 1);
         this.context = context;
+
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table User (id Varchar(15) Primary Key, password Varchar(15))");
         db.execSQL("create table Mesure ( idMesure INTEGER Primary Key,idUser Varchar(15),Performance double, CO2Mesure double,Luminosite double, Latitude varchar(15), Longitude varchar(15), Temperature double, Humidite double, TempLum double)");
+
     }
 
     @Override
@@ -35,18 +39,60 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
 
     public String choseLongitudeGPS(double lng){
         if(lng!=0) return ""+lng;
-        if (locationManager == null)
-            locationManager =  (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        Location l;
+        locationManager =  (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        LocationListener locationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+
+
+            }
+
+            public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+            public void onProviderEnabled(String provider) {}
+
+            public void onProviderDisabled(String provider) {}
+        };
+
+
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10*1000, 5, locationListener);
         Location locationGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+
+
+
+
         if(locationGPS== null) return "0";
         return ""+unitLatLng(locationGPS.getLongitude());
 
     }
     public String choseLatitudeGPS(double lat){
         if(lat!=0) return ""+lat;
-        if (locationManager == null)
-            locationManager =  (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+
+
+
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+
+
+        LocationListener locationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+
+
+            }
+
+            public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+            public void onProviderEnabled(String provider) {}
+
+            public void onProviderDisabled(String provider) {}
+        };
+
+
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10*1000, 10, locationListener);
         Location locationGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+
+
         if(locationGPS== null) return "0";
         return ""+unitLatLng(locationGPS.getLatitude());
     }
@@ -138,4 +184,7 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
             return false;
         }
     }
+
+
+
 }
