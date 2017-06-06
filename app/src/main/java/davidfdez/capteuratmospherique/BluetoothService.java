@@ -98,6 +98,12 @@ public class BluetoothService extends Service {
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Disconnect();
+    }
+
     private class ConnectBT extends AsyncTask<Void, Void, Void> {
         private boolean ConnectSuccess = true; //if it's here, it's almost connected
 
