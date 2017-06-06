@@ -61,7 +61,7 @@
 
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 13,
+          zoom: 16,
           center: {lat: 45.7850308, lng: 4.8772527},
           mapTypeId: 'roadmap'
         });
@@ -70,6 +70,7 @@
           data: getPoints(),
           map: map
         });
+         heatmap.set('radius',40);
       }
 
       function toggleHeatmap() {
@@ -108,7 +109,12 @@
       }
 
       function changeRadius() {
-        heatmap.set('radius', heatmap.get('radius') ? null : 20);
+        if(heatmap.get('radius')==40){
+            heatmap.set('radius', 20);
+        }
+        else{
+            heatmap.set('radius', 40);
+        }
       }
 
       function changeOpacity() {

@@ -76,7 +76,7 @@ public class MeasureUtil {
     }
 
     private static double ecTemperature(double temperature, double humidity) {
-        final double weighting = 1.0 / 2;
+        final double weighting = 1.0 / 1.2;
         double tMin = calculateMinTemperature(humidity);
         double tMax = calculateMaxTemperature(humidity);
 
@@ -96,7 +96,7 @@ public class MeasureUtil {
         if(CO2<maxCO2)
             return 0;
         else
-            return (CO2 - maxCO2) * (CO2 - maxCO2) * weighting;
+            return Math.min(30,(CO2 - maxCO2) * (CO2 - maxCO2) * weighting);
     }
 
     private static double ecHumidity(double temperature, double humidity) {
