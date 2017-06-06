@@ -11,7 +11,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 
-
 public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
     private LocationManager locationManager;
     private Context context;
@@ -36,55 +35,51 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
     }
 
     public String choseLongitudeGPS(double lng){
-        if(lng!=0) return ""+lng;
+        if (lng != 0)
+            return "" + lng;
         Location l;
         locationManager =  (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
-
-
             }
 
-            public void onStatusChanged(String provider, int status, Bundle extras) {}
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+            }
 
-            public void onProviderEnabled(String provider) {}
+            public void onProviderEnabled(String provider) {
+            }
 
-            public void onProviderDisabled(String provider) {}
+            public void onProviderDisabled(String provider) {
+            }
         };
-
-
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10*1000, 5, locationListener);
         Location locationGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if(locationGPS== null) return "0";
-        return ""+unitLatLng(locationGPS.getLongitude());
+        if (locationGPS == null)
+            return "0";
+        return "" + unitLatLng(locationGPS.getLongitude());
 
     }
     public String choseLatitudeGPS(double lat){
         if(lat!=0) return ""+lat;
-
-
-
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-
-
         LocationListener locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
-
-
             }
 
-            public void onStatusChanged(String provider, int status, Bundle extras) {}
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+            }
 
-            public void onProviderEnabled(String provider) {}
+            public void onProviderEnabled(String provider) {
+            }
 
-            public void onProviderDisabled(String provider) {}
+            public void onProviderDisabled(String provider) {
+            }
         };
-
-
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10*1000, 10, locationListener);
         Location locationGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if(locationGPS== null) return "0";
-        return ""+unitLatLng(locationGPS.getLatitude());
+        if (locationGPS == null)
+            return "0";
+        return "" + unitLatLng(locationGPS.getLatitude());
     }
 
 
