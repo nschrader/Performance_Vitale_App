@@ -11,7 +11,6 @@ import android.view.View;
 
 
 public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
-    private LocationManager locationManager;
     private Context context;
 
     public AdminSQLiteOpenHelper(Context context) {
@@ -35,8 +34,7 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
 
     public String choseLongitudeGPS(double lng){
         if(lng!=0) return ""+lng;
-        if (locationManager == null)
-            locationManager =  (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         Location locationGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if(locationGPS== null) return "0";
         return ""+unitLatLng(locationGPS.getLongitude());
@@ -44,8 +42,7 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
     }
     public String choseLatitudeGPS(double lat){
         if(lat!=0) return ""+lat;
-        if (locationManager == null)
-            locationManager =  (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         Location locationGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if(locationGPS== null) return "0";
         return ""+unitLatLng(locationGPS.getLatitude());
